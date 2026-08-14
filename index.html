@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="刘冠辰 - 数字媒体艺术硕士 · VR/AR沉浸式交互 · 3D视觉设计 · 游戏设计">
+    <title>刘冠辰 | 数字媒体艺术 · VR/3D设计作品集</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- 加载画面 -->
+    <div class="loader" id="loader">
+        <div class="loader-text">
+            <span class="loader-bracket">{</span>
+            <span class="loader-name">Liu Guanchen</span>
+            <span class="loader-bracket">}</span>
+        </div>
+        <div class="loader-bar"><div class="loader-progress"></div></div>
+    </div>
+
+    <!-- 自定义光标 -->
+    <div class="cursor-dot" id="cursorDot"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
+
+    <!-- 滚动进度条 -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <!-- 导航栏 -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#hero" class="nav-logo">
+                <span class="logo-mark">L</span>
+                <span class="logo-text" data-zh="刘冠辰 · 数字媒体艺术" data-en="Guanchen Liu · Digital Media Art">刘冠辰 · 数字媒体艺术</span>
+            </a>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#hero" class="nav-link" data-zh="首页" data-en="Home">首页</a></li>
+                <li><a href="#about" class="nav-link" data-zh="关于" data-en="About">关于</a></li>
+                <li><a href="#iphi" class="nav-link" data-zh="IPHI" data-en="IPHI">IPHI</a></li>
+                <li><a href="#works" class="nav-link" data-zh="作品" data-en="Works">作品</a></li>
+                <li><a href="#skills" class="nav-link" data-zh="技能" data-en="Skills">技能</a></li>
+                <li><a href="#journey" class="nav-link" data-zh="经历" data-en="Journey">经历</a></li>
+                <li><a href="#contact" class="nav-link nav-cta" data-zh="联系我" data-en="Contact">联系我</a></li>
+            </ul>
+            <div class="nav-right">
+                <button class="lang-toggle" id="langToggle">
+                    <span class="lang-active">中</span>
+                    <span class="lang-separator">/</span>
+                    <span class="lang-inactive">EN</span>
+                </button>
+                <button class="hamburger" id="hamburger" aria-label="Menu">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 英雄区 -->
+    <section class="hero" id="hero">
+        <div class="hero-bg">
+            <div class="hero-grid"></div>
+            <div class="hero-glow"></div>
+        </div>
+        <div class="hero-content">
+            <div class="hero-tag reveal">
+                <span class="tag-dot"></span>
+                <span data-zh="求职中 · 期望游戏/VR/数字文旅领域" data-en="Open to Game / VR / Digital Tourism roles">求职中 · 期望游戏/VR/数字文旅领域</span>
+            </div>
+            <h1 class="hero-title">
+                <span class="hero-line reveal" data-delay="100">
+                    <span data-zh="VR/AR 沉浸交互" data-en="VR/AR Immersion">VR/AR 沉浸交互</span>
+                </span>
+                <span class="hero-line reveal" data-delay="250">
+                    <span class="hero-amp">&</span>
+                    <span data-zh="3D 视觉创作" data-en="3D Visual Creation">3D 视觉创作</span>
+                </span>
+            </h1>
+            <p class="hero-subtitle reveal" data-delay="400" data-zh="英国南安普顿大学数字媒体艺术硕士 · VR/AR沉浸式交互 × 3D建模 × AI辅助设计 · 从概念到技术落地的全流程创作者" data-en="MA Digital Media Arts, University of Southampton · VR/AR Immersive Interaction × 3D Modeling × AI-Assisted Design · End-to-end creator from concept to execution">
+                英国南安普顿大学数字媒体艺术硕士 · VR/AR沉浸式交互 × 3D建模 × AI辅助设计 · 从概念到技术落地的全流程创作者
+            </p>
+            <div class="hero-actions reveal" data-delay="550">
+                <a href="#works" class="btn btn-primary">
+                    <span data-zh="查看作品" data-en="View Works">查看作品</span>
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </a>
+                <a href="#contact" class="btn btn-ghost" data-zh="取得联系" data-en="Get in Touch">取得联系</a>
+            </div>
+        </div>
+        <div class="hero-scroll reveal" data-delay="700">
+            <span data-zh="向下滚动" data-en="Scroll down">向下滚动</span>
+            <div class="scroll-line"></div>
+        </div>
+        <div class="hero-stats">
+            <div class="stat-item reveal" data-delay="800">
+                <span class="stat-num">10+</span>
+                <span class="stat-label" data-zh="项目作品" data-en="Projects">项目作品</span>
+            </div>
+            <div class="stat-item reveal" data-delay="900">
+                <span class="stat-num">1</span>
+                <span class="stat-label" data-zh="主导游戏项目" data-en="Lead Game Project">主导游戏项目</span>
+            </div>
+            <div class="stat-item reveal" data-delay="1000">
+                <span class="stat-num">2</span>
+                <span class="stat-label" data-zh="设计大奖" data-en="Design Awards">设计大奖</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- 关于 -->
+    <section class="about section" id="about">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-num">01</span>
+                <h2 class="section-title" data-zh="关于我" data-en="About Me">关于我</h2>
+            </div>
+            <div class="about-grid">
+                <div class="about-photo-wrap">
+                    <div class="about-photo">
+                        <img src="assets/profile.jpg" alt="刘冠辰 / Guanchen Liu" class="profile-img"
+                             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                        <div class="photo-placeholder" style="display:none">
+                            <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+                                <circle cx="32" cy="24" r="12" stroke="currentColor" stroke-width="2"/>
+                                <path d="M12 56c0-11 9-20 20-20s20 9 20 20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                            <p data-zh="放置你的照片" data-en="Place your photo here">放置你的照片</p>
+                            <p class="photo-hint" data-zh="建议尺寸 600×800" data-en="Recommended: 600×800">建议尺寸 600×800</p>
+                        </div>
+                    </div>
+                    <div class="about-photo-deco"></div>
+                </div>
+                <div class="about-text">
+                    <h3 class="about-name">
+                        <span class="about-name-zh">刘冠辰</span>
+                        <span class="about-name-en">GUANCHEN LIU</span>
+                    </h3>
+                    <p class="about-role" data-zh="数字媒体艺术硕士 · 3D视觉 / VR交互 / 游戏设计" data-en="MA Digital Media Arts · 3D Visual / VR Interaction / Game Design">
+                        数字媒体艺术硕士 · 3D视觉 / VR交互 / 游戏设计
+                    </p>
+                    <div class="about-bio">
+                        <p data-zh="英国南安普顿大学数字媒体艺术硕士研究生，研究方向聚焦VR/AR沉浸式交互体验设计与智能交互艺术装置。本科毕业于大连工业大学视觉传达设计专业（中外联合办学），系统学习视觉设计、三维建模与动态视觉，具备国际化设计视野与扎实的实操能力。" data-en="Pursuing MA in Digital Media Arts at the University of Southampton (UK), with research focused on VR/AR immersive interactive experience design and intelligent interactive art installations. Earned BA in Visual Communication Design from Dalian Polytechnic University (Sino-foreign joint program), building a solid foundation in visual design, 3D modeling, and motion graphics with a global perspective.">
+                            英国南安普顿大学数字媒体艺术硕士研究生，研究方向聚焦VR/AR沉浸式交互体验设计与智能交互艺术装置。本科毕业于大连工业大学视觉传达设计专业（中外联合办学），系统学习视觉设计、三维建模与动态视觉，具备国际化设计视野与扎实的实操能力。
+                        </p>
+                        <p data-zh="熟悉VR/AR沉浸式内容开发与3D建模全流程，熟练掌握Blender、Rhino、Unity等工具，并具备AI辅助设计（Midjourney/Stable Diffusion）实际应用能力。拥有从概念创意到技术落地、从品牌视觉到公共艺术装置的多类型项目实操经验，善于跨团队协作，英语流利，适应国际化工作环境。期望在游戏/VR/数字文旅领域从事3D视觉与沉浸式交互设计工作。" data-en="Proficient in VR/AR immersive content development and the full 3D modeling pipeline, with expertise in Blender, Rhino, Unity, and AI-assisted design tools (Midjourney / Stable Diffusion). Hands-on experience spanning brand visuals, public art installations, and product innovation. Fluent in English, collaborative across teams, and ready to contribute high-quality creative and technical support in game, VR, or digital tourism sectors.">
+                            熟悉VR/AR沉浸式内容开发与3D建模全流程，熟练掌握Blender、Rhino、Unity等工具，并具备AI辅助设计（Midjourney/Stable Diffusion）实际应用能力。拥有从概念创意到技术落地、从品牌视觉到公共艺术装置的多类型项目实操经验，善于跨团队协作，英语流利，适应国际化工作环境。期望在游戏/VR/数字文旅领域从事3D视觉与沉浸式交互设计工作。
+                        </p>
+                    </div>
+                    <div class="about-tags">
+                        <span class="tag" data-zh="VR/AR 交互" data-en="VR/AR Interaction">VR/AR 交互</span>
+                        <span class="tag" data-zh="3D 建模" data-en="3D Modeling">3D 建模</span>
+                        <span class="tag" data-zh="Blender" data-en="Blender">Blender</span>
+                        <span class="tag" data-zh="Unity" data-en="Unity">Unity</span>
+                        <span class="tag" data-zh="AI 辅助设计" data-en="AI-Assisted Design">AI 辅助设计</span>
+                        <span class="tag" data-zh="沉浸式装置" data-en="Immersive Installation">沉浸式装置</span>
+                        <span class="tag" data-zh="游戏设计" data-en="Game Design">游戏设计</span>
+                        <span class="tag" data-zh="跨文化创作" data-en="Cross-cultural Creation">跨文化创作</span>
+                    </div>
+                    <a href="assets/resume.pdf" class="about-resume" id="resumeLink" download target="_blank">
+                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 4h8l4 4v6a1 1 0 01-1 1H3a1 1 0 01-1-1V5a1 1 0 011-1z" stroke="currentColor" stroke-width="1.5"/><path d="M11 4v4h4M6 11h6M6 8h3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                        <span data-zh="下载简历 PDF" data-en="Download CV (PDF)">下载简历 PDF</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- IPHI 特色游戏项目 -->
+    <section class="featured-game section" id="iphi">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-num">02</span>
+                <h2 class="section-title" data-zh="旗舰项目 · IPHI" data-en="Flagship Project · IPHI">旗舰项目 · IPHI</h2>
+                <p class="section-desc" data-zh="数字叙事游戏 · 6人团队 · 项目主导" data-en="Digital Narrative Game · 6-Person Team · Project Lead">
+                    数字叙事游戏 · 6人团队 · 项目主导
+                </p>
+            </div>
+            <div class="iphi-showcase">
+                <div class="iphi-visual">
+                    <img src="assets/iphi/poster.jpg" alt="IPHI poster" class="iphi-visual-img">
+                    <div class="iphi-visual-overlay"></div>
+                    <div class="iphi-visual-content">
+                        <h3 class="iphi-title">IPHI</h3>
+                        <p class="iphi-tagline" data-zh="在大城市活下去的代价，是你自己。" data-en="The cost of surviving in a big city is yourself.">在大城市活下去的代价，是你自己。</p>
+                    <div class="iphi-meta-row">
+                        <span class="iphi-badge">RPGMaker</span>
+                        <span class="iphi-badge">PC</span>
+                        <span class="iphi-badge">Steam</span>
+                        <span class="iphi-badge">itch.io</span>
+                        <span class="iphi-badge" data-zh="数字叙事 / 视觉小说" data-en="Digital Narrative / Visual Novel">数字叙事 / 视觉小说</span>
+                    </div>
+                    </div>
+                </div>
+                <div class="iphi-body">
+                    <div class="iphi-intro">
+                        <h4 data-zh="我在 IPHI 中的核心作用" data-en="My Core Role in IPHI">我在 IPHI 中的核心作用</h4>
+                        <p class="iphi-lead" data-zh="IPHI 是我作为项目主导（Project Lead）独立带队完成的数字叙事游戏：从选题立项、叙事架构到 3D 动画与宣发，全程主导推进。我负责整体制作方向与进度管理，搭建游戏剧情与象征系统；在 3D 场景中制作摄像机运动与物体动画；并亲自绘制 Themis 角色立绘、设计游戏宣传主视觉海报。" data-en="IPHI is a digital narrative game I led end-to-end as Project Lead — from concept and narrative architecture to 3D animation and promotion. I owned the overall direction and production schedule, built the story and its symbolic system, authored camera movement and object animation in 3D scenes, and personally illustrated the Themis character portrait and the game's key art poster.">
+                            IPHI 是我作为项目主导（Project Lead）独立带队完成的数字叙事游戏：从选题立项、叙事架构到 3D 动画与宣发，全程主导推进。我负责整体制作方向与进度管理，搭建游戏剧情与象征系统；在 3D 场景中制作摄像机运动与物体动画；并亲自绘制 Themis 角色立绘、设计游戏宣传主视觉海报。
+                        </p>
+                        <div class="iphi-role-tags">
+                            <span class="iphi-role-tag" data-zh="项目主导" data-en="Project Lead">项目主导</span>
+                            <span class="iphi-role-tag" data-zh="叙事设计" data-en="Narrative Design">叙事设计</span>
+                            <span class="iphi-role-tag" data-zh="3D动画" data-en="3D Animation">3D动画</span>
+                            <span class="iphi-role-tag" data-zh="摄像机运动" data-en="Camera Movement">摄像机运动</span>
+                            <span class="iphi-role-tag" data-zh="海报设计" data-en="Poster Design">海报设计</span>
+                            <span class="iphi-role-tag" data-zh="Themis 立绘" data-en="Themis Portrait">Themis 立绘</span>
+                        </div>
+                        <p class="iphi-meta-line" data-zh="6 人团队 · 约 6 个月开发 · RPGMaker / Blender / Photoshop / After Effects" data-en="6-person team · ~6 months dev · RPGMaker / Blender / Photoshop / After Effects">
+                            6 人团队 · 约 6 个月开发 · RPGMaker / Blender / Photoshop / After Effects
+                        </p>
+                        <div class="iphi-cta-row">
+                            <button class="iphi-detail-btn" data-open-work="5">
+                                <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 3l10 6-10 6V3z" fill="currentColor"/></svg>
+                                <span data-zh="查看完整作品" data-en="View Full Project">查看完整作品</span>
+                            </button>
+                            <a href="https://iphi-project-2026.netlify.app/" target="_blank" class="iphi-official-link">
+                                <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 1C4.58 1 1 4.58 1 9s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8z" stroke="currentColor" stroke-width="1.5"/><path d="M6 9h6M9 6v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                                <span data-zh="访问 IPHI 官方网站" data-en="Visit IPHI Official Website">访问 IPHI 官方网站</span>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- 游戏预告片 -->
+                    <div class="iphi-trailer reveal">
+                        <h4 data-zh="游戏预告片" data-en="Game Trailer">游戏预告片</h4>
+                        <div class="iphi-trailer-frame" id="iphiTrailerFrame"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 作品集 -->
+    <section class="works section" id="works">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-num">03</span>
+                <h2 class="section-title" data-zh="精选作品" data-en="Selected Works">精选作品</h2>
+                <p class="section-desc" data-zh="VR交互装置、3D建模渲染、游戏设计与品牌视觉的精选合集" data-en="A curated collection of VR installations, 3D renders, game designs, and brand visuals">
+                    VR交互装置、3D建模渲染、游戏设计与品牌视觉的精选合集
+                </p>
+            </div>
+            <div class="works-filter">
+                <button class="filter-btn active" data-filter="all" data-zh="全部" data-en="All">全部</button>
+                <button class="filter-btn" data-filter="game" data-zh="游戏设计" data-en="Game Design">游戏设计</button>
+                <button class="filter-btn" data-filter="vr" data-zh="VR/交互装置" data-en="VR / Interaction">VR/交互装置</button>
+                <button class="filter-btn" data-filter="3d" data-zh="3D建模/渲染" data-en="3D / Rendering">3D建模/渲染</button>
+                <button class="filter-btn" data-filter="brand" data-zh="品牌视觉" data-en="Brand Visual">品牌视觉</button>
+                <button class="filter-btn" data-filter="product" data-zh="产品设计" data-en="Product Design">产品设计</button>
+            </div>
+            <div class="works-grid" id="worksGrid">
+                <!-- 作品卡片由 JS 动态生成 -->
+            </div>
+        </div>
+    </section>
+
+    <!-- 作品详情弹窗 -->
+    <div class="work-modal" id="workModal">
+        <div class="modal-overlay" id="modalOverlay"></div>
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose" aria-label="Close">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            </button>
+            <div class="modal-body" id="modalBody">
+                <!-- 内容由 JS 注入 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 技能 -->
+    <section class="skills section" id="skills">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-num">04</span>
+                <h2 class="section-title" data-zh="专业技能" data-en="Skills & Tools">专业技能</h2>
+            </div>
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h3 class="skill-cat-title" data-zh="软件工具" data-en="Software & Tools">软件工具</h3>
+                    <div class="skill-list">
+                        <div class="skill-item">
+                            <div class="skill-info"><span>Blender</span><span class="skill-pct">95%</span></div>
+                            <div class="skill-bar"><div class="skill-fill" data-level="95"></div></div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-info"><span>Rhino</span><span class="skill-pct">88%</span></div>
+                            <div class="skill-bar"><div class="skill-fill" data-level="88"></div></div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-info"><span>Keyshot</span><span class="skill-pct">85%</span></div>
+                            <div class="skill-bar"><div class="skill-fill" data-level="85"></div></div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-info"><span>Photoshop / Illustrator</span><span class="skill-pct">90%</span></div>
+                            <div class="skill-bar"><div class="skill-fill" data-level="90"></div></div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-info"><span>After Effects</span><span class="skill-pct">82%</span></div>
+                            <div class="skill-bar"><div class="skill-fill" data-level="82"></div></div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-info"><span>Unity</span><span class="skill-pct">78%</span></div>
+                            <div class="skill-bar"><div class="skill-fill" data-level="78"></div></div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-info"><span>Midjourney / Stable Diffusion</span><span class="skill-pct">85%</span></div>
+                            <div class="skill-bar"><div class="skill-fill" data-level="85"></div></div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-info"><span>Arduino</span><span class="skill-pct">72%</span></div>
+                            <div class="skill-bar"><div class="skill-fill" data-level="72"></div></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3 class="skill-cat-title" data-zh="专业能力" data-en="Professional Skills">专业能力</h3>
+                    <div class="skill-cards">
+                        <div class="skill-card">
+                            <div class="skill-card-icon">
+                                <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect x="5" y="2" width="18" height="24" rx="3" stroke="currentColor" stroke-width="1.5"/><circle cx="14" cy="22" r="1.5" fill="currentColor"/><path d="M10 6h8M9 10h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                            </div>
+                            <h4 data-zh="VR/AR 沉浸式交互" data-en="VR/AR Immersive Interaction">VR/AR 沉浸式交互</h4>
+                            <p data-zh="沉浸式体验设计、Arduino传感器交互、实时投影映射、人机互动装置开发" data-en="Immersive experience design, Arduino sensor interaction, real-time projection mapping, human-computer interactive installation">沉浸式体验设计、Arduino传感器交互、实时投影映射、人机互动装置开发</p>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-card-icon">
+                                <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M14 2L4 8v12l10 6 10-6V8z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M14 2v24M4 8l10 6 10-6" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+                            </div>
+                            <h4 data-zh="3D 建模与渲染" data-en="3D Modeling & Rendering">3D 建模与渲染</h4>
+                            <p data-zh="产品级建模、角色绑定、写实渲染、灯光材质、三维动态视觉" data-en="Product-grade modeling, character rigging, photorealistic rendering, lighting & materials, 3D motion visuals">产品级建模、角色绑定、写实渲染、灯光材质、三维动态视觉</p>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-card-icon">
+                                <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M14 4l10 6v8l-10 6-10-6v-8z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="14" cy="14" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M14 4v4M14 20v4M4 10l4 2M24 10l-4 2M4 18l4-2M24 18l-4-2" stroke="currentColor" stroke-width="1.5"/></svg>
+                            </div>
+                            <h4 data-zh="AI 辅助设计" data-en="AI-Assisted Design">AI 辅助设计</h4>
+                            <p data-zh="Midjourney/Stable Diffusion 概念图生成、风格探索、快速提案、AI驱动创意工作流" data-en="Midjourney / Stable Diffusion concept generation, style exploration, rapid pitching, AI-driven creative workflow">Midjourney/Stable Diffusion 概念图生成、风格探索、快速提案、AI驱动创意工作流</p>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-card-icon">
+                                <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect x="3" y="6" width="22" height="16" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M3 11h22M8 6V4M20 6V4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                            </div>
+                            <h4 data-zh="品牌视觉升级" data-en="Brand Visual Upgrade">品牌视觉升级</h4>
+                            <p data-zh="门店视觉体系优化、陈列动线设计、品牌辨识度提升、视觉层次规划" data-en="Store visual system optimization, display flow design, brand recognition enhancement, visual hierarchy planning">门店视觉体系优化、陈列动线设计、品牌辨识度提升、视觉层次规划</p>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-card-icon">
+                                <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="10" stroke="currentColor" stroke-width="1.5"/><path d="M14 4v20M4 14h20M7 7l14 14M21 7L7 21" stroke="currentColor" stroke-width="1.5" opacity="0.4"/></svg>
+                            </div>
+                            <h4 data-zh="创意概念开发" data-en="Creative Concept Development">创意概念开发</h4>
+                            <p data-zh="从概念创意到技术落地、分镜脚本、视觉风格开发、跨文化创意翻译" data-en="From concept to execution, storyboarding, visual style development, cross-cultural creative translation">从概念创意到技术落地、分镜脚本、视觉风格开发、跨文化创意翻译</p>
+                        </div>
+                        <div class="skill-card">
+                            <div class="skill-card-icon">
+                                <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect x="2" y="8" width="24" height="16" rx="2" stroke="currentColor" stroke-width="1.5"/><circle cx="14" cy="16" r="4" stroke="currentColor" stroke-width="1.5"/><path d="M8 8L10 4h8l2 4" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+                            </div>
+                            <h4 data-zh="摄影与短视频" data-en="Photography & Video">摄影与短视频</h4>
+                            <p data-zh="摄影构图、短视频剪辑、视觉内容创作、社交媒体视觉传播" data-en="Photography composition, short video editing, visual content creation, social media visual storytelling">摄影构图、短视频剪辑、视觉内容创作、社交媒体视觉传播</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 经历时间线 -->
+    <section class="journey section" id="journey">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-num">05</span>
+                <h2 class="section-title" data-zh="教育与经历" data-en="Education & Experience">教育与经历</h2>
+            </div>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-date">2025 — 2026</div>
+                    <div class="timeline-content">
+                        <span class="timeline-tag" data-zh="教育" data-en="Education">教育</span>
+                        <h4 data-zh="数字媒体艺术 硕士" data-en="MA Digital Media Arts">数字媒体艺术 硕士</h4>
+                        <p class="timeline-org">英国南安普顿大学 · United Kingdom</p>
+                        <p data-zh="主修数字媒体交互设计、沉浸式视觉创作、AI辅助艺术应用等课程，研究方向聚焦于VR/AR沉浸式交互体验设计与智能交互艺术装置，具备从概念构思到技术落地的完整项目实操能力。" data-en="Studying digital media interaction design, immersive visual creation, and AI-assisted art applications. Research focuses on VR/AR immersive interactive experience design and intelligent interactive art installations, with full-cycle project capability from concept to execution.">
+                            主修数字媒体交互设计、沉浸式视觉创作、AI辅助艺术应用等课程，研究方向聚焦于VR/AR沉浸式交互体验设计与智能交互艺术装置，具备从概念构思到技术落地的完整项目实操能力。
+                        </p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-date">2024</div>
+                    <div class="timeline-content">
+                        <span class="timeline-tag" data-zh="获奖" data-en="Award">获奖</span>
+                        <h4 data-zh="第八届中国高校设计优秀作品展 · 全国一等奖" data-en="8th China University Design Exhibition · National First Prize">第八届中国高校设计优秀作品展 · 全国一等奖</h4>
+                        <p class="timeline-org">数字媒体类别 · 全国</p>
+                        <p data-zh="作品在数字媒体类别中获全国一等奖，展现出色的数字艺术创作能力与创新设计思维。" data-en="Won national first prize in the Digital Media category, demonstrating outstanding digital art creation and innovative design thinking.">
+                            作品在数字媒体类别中获全国一等奖，展现出色的数字媒体创作能力与创新设计思维。
+                        </p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-date">2024</div>
+                    <div class="timeline-content">
+                        <span class="timeline-tag" data-zh="获奖" data-en="Award">获奖</span>
+                        <h4 data-zh="大学生创新创业竞赛 · 校级一等奖" data-en="College Innovation & Entrepreneurship Competition · First Prize">大学生创新创业竞赛 · 校级一等奖</h4>
+                        <p class="timeline-org">获奖比例前5%</p>
+                        <p data-zh="在全校创新创业竞赛中获校级一等奖（获奖比例前5%），体现突出的创新实践与项目执行能力。" data-en="Awarded first prize (top 5%) in the university-level innovation and entrepreneurship competition, reflecting strong innovation and project execution capabilities.">
+                            在全校创新创业竞赛中获校级一等奖（获奖比例前5%），体现突出的创新实践与项目执行能力。
+                        </p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-date">2023.12 — 2024.02</div>
+                    <div class="timeline-content">
+                        <span class="timeline-tag" data-zh="实习" data-en="Internship">实习</span>
+                        <h4 data-zh="设计助理" data-en="Design Assistant">设计助理</h4>
+                        <p class="timeline-org">毛戈平化妆品有限公司 · 北京分公司</p>
+                        <p data-zh="协助北京地区12家线下门店完成品牌视觉体系升级，优化陈列视觉层次与产品展示动线。改进后重点产品顾客平均停留时长提升约15%，品牌辨识度调研好评率提高22%，有效支撑门店引流与转化。" data-en="Assisted 12 retail stores in Beijing with brand visual system upgrades, optimizing display visual hierarchy and product flow. Post-improvement: average customer dwell time increased ~15%, brand recognition approval rate rose 22%, effectively supporting store traffic and conversion.">
+                            协助北京地区12家线下门店完成品牌视觉体系升级，优化陈列视觉层次与产品展示动线。改进后重点产品顾客平均停留时长提升约15%，品牌辨识度调研好评率提高22%，有效支撑门店引流与转化。
+                        </p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-date">2023.10</div>
+                    <div class="timeline-content">
+                        <span class="timeline-tag" data-zh="项目" data-en="Project">项目</span>
+                        <h4 data-zh="IF国际新锐设计人才项目 · 产品设计师" data-en="IF Emerging Design Talent Program · Product Designer">IF国际新锐设计人才项目 · 产品设计师</h4>
+                        <p class="timeline-org">大连工业大学</p>
+                        <p data-zh="针对儿童糖尿病患者使用痛点，完成胰岛素笔舒适腕带的创新结构设计，使用Rhino+Keyshot完成三维建模与写实渲染。方案兼顾安全、舒适与美学，获项目导师及行业专家一致好评，并被推荐为校内优秀设计案例展示。" data-en="Addressed pain points for pediatric diabetes patients by designing an innovative insulin pen wristband, completing 3D modeling and photorealistic rendering using Rhino + Keyshot. The design balanced safety, comfort, and aesthetics, earning unanimous praise from mentors and industry experts, and was recommended as an outstanding design showcase.">
+                            针对儿童糖尿病患者使用痛点，完成胰岛素笔舒适腕带的创新结构设计，使用Rhino+Keyshot完成三维建模与写实渲染。方案兼顾安全、舒适与美学，获项目导师及行业专家一致好评，并被推荐为校内优秀设计案例展示。
+                        </p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-date">2022.10</div>
+                    <div class="timeline-content">
+                        <span class="timeline-tag" data-zh="项目" data-en="Project">项目</span>
+                        <h4 data-zh="智能环境交互艺术装置 · 主设计师" data-en="Smart Environmental Interactive Art Installation · Lead Designer">智能环境交互艺术装置 · 主设计师</h4>
+                        <p class="timeline-org">大连工业大学</p>
+                        <p data-zh="独立完成户外智能交互艺术装置的整体设计、技术选型与落地实施，运用Arduino+红外传感器+实时投影技术实现人机互动。装置落地后日均互动人次超过200，被校方列为生态科普示范项目，并作为数字艺术与环保教育融合的创新案例对外展示。" data-en="Independently completed the full design, technology selection, and implementation of an outdoor smart interactive art installation, using Arduino + IR sensors + real-time projection for human-computer interaction. After deployment, the installation averaged 200+ daily interactions, was designated as an ecological science demonstration project, and showcased as an innovative case merging digital art with environmental education.">
+                            独立完成户外智能交互艺术装置的整体设计、技术选型与落地实施，运用Arduino+红外传感器+实时投影技术实现人机互动。装置落地后日均互动人次超过200，被校方列为生态科普示范项目，并作为数字艺术与环保教育融合的创新案例对外展示。
+                        </p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-date">2021 — 2025</div>
+                    <div class="timeline-content">
+                        <span class="timeline-tag" data-zh="教育" data-en="Education">教育</span>
+                        <h4 data-zh="视觉传达设计 学士" data-en="BA Visual Communication Design">视觉传达设计 学士</h4>
+                        <p class="timeline-org">大连工业大学 · 中外联合办学</p>
+                        <p data-zh="系统学习视觉设计、三维建模、动态视觉、产品创新设计等专业课程，全英文授课环境，具备国际化设计视野与扎实的实操能力。" data-en="Systematically studied visual design, 3D modeling, motion graphics, and product innovation design in a fully English-taught Sino-foreign joint program, building a global design perspective and solid practical skills.">
+                            系统学习视觉设计、三维建模、动态视觉、产品创新设计等专业课程，全英文授课环境，具备国际化设计视野与扎实的实操能力。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 联系 -->
+    <section class="contact section" id="contact">
+        <div class="container">
+            <div class="contact-wrap">
+                <div class="contact-left">
+                    <span class="section-num">06</span>
+                    <h2 class="contact-title">
+                        <span data-zh="让我们" data-en="Let's">让我们</span>
+                        <span class="contact-title-accent" data-zh="创造些什么" data-en="create something">创造些什么</span>
+                    </h2>
+                    <p class="contact-desc" data-zh="如果你正在寻找一位兼具国际视野与落地能力的3D视觉与VR/AR交互创作者，欢迎随时联系。期待在游戏、VR或数字文旅领域与优秀的团队共同打造令人难忘的沉浸式体验。" data-en="If you're looking for a 3D visual and VR/AR interaction creator with both international vision and hands-on execution, let's talk. I look forward to crafting unforgettable immersive experiences with great teams in the game, VR, or digital tourism space.">
+                        如果你正在寻找一位兼具国际视野与落地能力的3D视觉与VR/AR交互创作者，欢迎随时联系。期待在游戏、VR或数字文旅领域与优秀的团队共同打造令人难忘的沉浸式体验。
+                    </p>
+                    <div class="contact-methods">
+                        <a href="mailto:liugc367@163.com" class="contact-method">
+                            <div class="contact-icon">
+                                <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="2" y="4" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M2 6l9 7 9-7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                            </div>
+                            <div>
+                                <span class="contact-label">Email</span>
+                                <span class="contact-value">liugc367@163.com</span>
+                            </div>
+                        </a>
+                        <a href="tel:15546459607" class="contact-method">
+                            <div class="contact-icon">
+                                <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M5 3h3l2 5-2 1c1 2 3 4 5 5l1-2 5 2v3c0 1-1 2-2 2-8 0-15-7-15-15 0-1 1-2 2-2z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+                            </div>
+                            <div>
+                                <span class="contact-label" data-zh="电话" data-en="Phone">电话</span>
+                                <span class="contact-value">15546459607</span>
+                            </div>
+                        </a>
+                        <div class="contact-method">
+                            <div class="contact-icon">
+                                <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 2a7 7 0 00-7 7c0 5 7 11 7 11s7-6 7-11a7 7 0 00-7-7z" stroke="currentColor" stroke-width="1.5"/><circle cx="11" cy="9" r="2.5" stroke="currentColor" stroke-width="1.5"/></svg>
+                            </div>
+                            <div>
+                                <span class="contact-label" data-zh="所在地" data-en="Location">所在地</span>
+                                <span class="contact-value" data-zh="英国 · 回国求职中" data-en="UK · Seeking roles in China">英国 · 回国求职中</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-right">
+                    <div class="contact-card">
+                        <div class="contact-card-glow"></div>
+                        <h3 data-zh="快速留言" data-en="Quick Message">快速留言</h3>
+                        <form class="contact-form" id="contactForm">
+                            <div class="form-row">
+                                <input type="text" placeholder="姓名 / Name" required>
+                            </div>
+                            <div class="form-row">
+                                <input type="email" placeholder="邮箱 / Email" required>
+                            </div>
+                            <div class="form-row">
+                                <input type="text" placeholder="公司 / Company (可选)">
+                            </div>
+                            <div class="form-row">
+                                <textarea placeholder="留言内容 / Message" rows="4" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-full">
+                                <span data-zh="发送消息" data-en="Send Message">发送消息</span>
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 8l12-5-5 12-2-5-5-2z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+                            </button>
+                        </form>
+                        <p class="form-note" data-zh="提交后将通过邮件通知我，通常 24 小时内回复" data-en="I'll be notified by email and typically respond within 24 hours">
+                            提交后将通过邮件通知我，通常 24 小时内回复
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <span class="logo-mark">L</span>
+                    <span data-zh="刘冠辰作品集" data-en="Guanchen Liu Portfolio">刘冠辰作品集</span>
+                </div>
+                <div class="footer-links">
+                    <a href="#hero" data-zh="首页" data-en="Home">首页</a>
+                    <a href="#works" data-zh="作品" data-en="Works">作品</a>
+                    <a href="#about" data-zh="关于" data-en="About">关于</a>
+                    <a href="#contact" data-zh="联系" data-en="Contact">联系</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p data-zh="© 2026 刘冠辰 · 保留所有权利" data-en="© 2026 Guanchen Liu · All rights reserved">© 2026 刘冠辰 · 保留所有权利</p>
+                <p data-zh="用热情与代码构建 · Made with passion" data-en="Made with passion">用热情与代码构建 · Made with passion</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 图片灯箱 -->
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close" id="lightboxClose" aria-label="Close">×</button>
+        <img src="" alt="Gallery preview" class="lightbox-img" id="lightboxImg">
+        <div class="lightbox-caption" id="lightboxCaption"></div>
+    </div>
+
+    <!-- 返回顶部 -->
+    <button class="back-to-top" id="backToTop" aria-label="Back to top">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 16V4M4 10l6-6 6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
