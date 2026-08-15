@@ -3079,6 +3079,23 @@ a.contact-method:hover .contact-icon {
     background: var(--text-tertiary);
 }
 
+/* 加载画面在暗黑模式下必须清晰可见 */
+[data-theme="dark"] .loader {
+    background: #08080a;
+}
+
+[data-theme="dark"] .loader-text {
+    color: #f4f4f7 !important;
+}
+
+[data-theme="dark"] .loader-name {
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+[data-theme="dark"] .loader-bar {
+    background: rgba(255, 255, 255, 0.15);
+}
+
 /* 页脚在暗色下更深 */
 [data-theme="dark"] .footer {
     background: var(--bg-dark);
