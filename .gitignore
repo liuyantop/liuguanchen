@@ -1,10 +1,12 @@
-# 临时文件（PPTX 提取缓存与脚本，非站点所需）
-assets/iphi_raw/
+# --- Python ---
+__pycache__/
+*.pyc
 extract_pptx.py
 
-# 编辑器
-.vscode/
+# --- 原始/未处理素材（网站使用的是 assets/iphi/ 下的处理后文件）---
+assets/iphi_raw/
 
-# 系统文件
+# --- 系统/编辑器 ---
 .DS_Store
 Thumbs.db
+*.log
