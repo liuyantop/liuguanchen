@@ -780,17 +780,22 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- 弹窗关闭 ---
     document.getElementById('modalClose').addEventListener('click', closeModal);
     document.getElementById('modalOverlay').addEventListener('click', closeModal);
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closeModal();
-    });
 
     // --- 图片灯箱 ---
     document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
     document.getElementById('lightbox').addEventListener('click', (e) => {
         if (e.target.id === 'lightbox') closeLightbox();
     });
+
+    // --- 统一 Esc 关闭：优先关灯箱，其次关弹窗（避免两个监听互相干扰）---
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closeLightbox();
+        if (e.key !== 'Escape') return;
+        const lightbox = document.getElementById('lightbox');
+        if (lightbox && lightbox.classList.contains('active')) {
+            closeLightbox();
+        } else {
+            closeModal();
+        }
     });
     document.body.addEventListener('click', (e) => {
         const item = e.target.closest('.iphi-gallery-item, .modal-gallery-item');
@@ -866,8 +871,8 @@ document.addEventListener('DOMContentLoaded', () => {
         skillObserver.observe(el);
     });
 
-    // 为 section 添加 reveal
-    document.querySelectorAll('.section-header, .about-grid > *, .timeline-item, .skill-category, .contact-method, .iphi-visual, .iphi-body > *, .iphi-char, .iphi-team-member, .iphi-gallery-item').forEach(el => {
+    // 为 section 添加 reveal（注：IPHI 弹窗内元素由 JS 动态生成，不在此处处理）
+    document.querySelectorAll('.section-header, .about-grid > *, .timeline-item, .skill-category, .contact-method, .iphi-visual, .iphi-body > *').forEach(el => {
         el.classList.add('reveal');
         revealObserver.observe(el);
     });
