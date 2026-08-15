@@ -3034,18 +3034,19 @@ a.contact-method:hover .contact-icon {
 
 /* 暗黑模式下未滚动的导航栏也加一层深色底，避免透明叠加看不清 */
 [data-theme="dark"] .navbar:not(.scrolled) {
-    background: rgba(10, 10, 12, 0.35);
-    backdrop-filter: blur(8px);
+    background: rgba(10, 10, 12, 0.75);
+    backdrop-filter: blur(12px);
 }
 
 /* 导航栏 logo 文字在暗黑模式下必须清晰可见 */
-[data-theme="dark"] .nav-logo {
-    color: #fff !important;
+[data-theme="dark"] .nav-logo,
+[data-theme="dark"] .nav-logo .logo-text {
+    color: #ffffff !important;
 }
 
 [data-theme="dark"] .logo-mark {
-    background: #fff;
-    color: #0a0a0c;
+    background: #ffffff !important;
+    color: #0a0a0c !important;
 }
 
 [data-theme="dark"] .photo-placeholder {
@@ -3184,7 +3185,6 @@ a.contact-method:hover .contact-icon {
 
 /* 暗色模式全局文字兜底：确保落在深色背景上的文字均为浅色 */
 [data-theme="dark"] .navbar,
-[data-theme="dark"] .nav-logo,
 [data-theme="dark"] .nav-link,
 [data-theme="dark"] .about-card,
 [data-theme="dark"] .skill-card,
