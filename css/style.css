@@ -2845,9 +2845,12 @@ a.contact-method:hover .contact-icon {
     background: var(--bg);
 }
 
-/* IPHI 展示区响应式 */
+/* IPHI 展示区响应式
+   说明：不再让 featured 卡片横跨两列（否则比其它卡片宽一倍、不整齐），
+   改为与其它卡片等宽，仅用边框/背景做视觉强调，保持网格统一美观。 */
 .work-card-featured {
-    grid-column: span 2;
+    border: 2px solid var(--accent);
+    box-shadow: 0 8px 30px rgba(255, 107, 53, 0.18);
 }
 
 .work-featured-badge {
@@ -2862,12 +2865,6 @@ a.contact-method:hover .contact-icon {
     border-radius: 100px;
     z-index: 3;
     letter-spacing: 0.02em;
-}
-
-@media (max-width: 768px) {
-    .work-card-featured {
-        grid-column: span 1;
-    }
 }
 
 @media (max-width: 900px) {
