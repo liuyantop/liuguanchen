@@ -10,3 +10,8 @@ assets/iphi_raw/
 .DS_Store
 Thumbs.db
 *.log
+.vscode/
+
+# --- 裁剪临时产物（预览图与备份，非最终资源） ---
+*-crop-preview.jpg
+*.bak

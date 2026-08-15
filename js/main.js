@@ -831,16 +831,27 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // --- 简历下载（文件不存在时提示） ---
-    document.getElementById('resumeLink').addEventListener('click', (e) => {
-        const link = e.currentTarget;
-        // 检测文件是否存在，不存在则提示
-        fetch(link.href, { method: 'HEAD' }).catch(() => {
-            e.preventDefault();
-            alert(currentLang === 'zh'
-                ? '请先将简历 PDF 放到 assets/resume.pdf'
-                : 'Please place your CV PDF at assets/resume.pdf first.');
+    const resumeLink = document.getElementById('resumeLink');
+    if (resumeLink) {
+        resumeLink.addEventListener('click', (e) => {
+            // 仅靠 HTTP HEAD 探测；file:// 协议下 fetch 会直接抛错，
+            // 此时不应拦截下载，否则本地双击打开页面时永远无法下载已存在的简历。
+            fetch(resumeLink.href, { method: 'HEAD' })
+                .then((resp) => {
+                    if (resp.ok === false) {
+                        e.preventDefault();
+                        showResumeMissing();
+                    }
+                })
+                .catch(() => { /* file:// 或网络受限：放行，依赖浏览器原生下载 */ });
         });
-    });
+    }
+
+    function showResumeMissing() {
+        alert(currentLang === 'zh'
+            ? '请先将简历 PDF 放到 assets/resume.pdf'
+            : 'Please place your CV PDF at assets/resume.pdf first.');
+    }
 
     // --- 初始渲染 ---
     renderWorks();
