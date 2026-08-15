@@ -111,8 +111,8 @@ const worksData = [
         playLink: 'https://iphi-project-2026.netlify.app/',
         playLabelZh: '在线试玩 / 下载展示版',
         playLabelEn: 'Play Demo / Download',
-        trailer: 'assets/iphi/trailer.mp4',
-        trailerBvid: '',
+        trailer: '',
+        trailerBvid: 'BV1CUg36vEzf',
         targetUsersZh: '20–35岁大城市青年职场人；喜欢叙事向、隐喻与心理主题的独立游戏玩家',
         targetUsersEn: 'Urban professionals aged 20–35; fans of narrative-driven indie games with metaphor and psychological themes',
         coreLoopZh: '对话 → 调查（读取空间与物件线索）→ 战斗（面对反扑的自我）',
@@ -616,6 +616,27 @@ const skillObserver = new IntersectionObserver((entries) => {
    初始化 / Initialization
    ======================================== */
 document.addEventListener('DOMContentLoaded', () => {
+
+    // --- 暗黑模式：初始化（localStorage 记忆，否则跟随系统） ---
+    const themeToggle = document.getElementById('themeToggle');
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const initialTheme = savedTheme || (prefersDark ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-theme', initialTheme);
+
+    themeToggle.addEventListener('click', () => {
+        const current = document.documentElement.getAttribute('data-theme');
+        const next = current === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+    });
+
+    // 实时跟随系统主题变化（仅当用户未手动设置过时）
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+        if (!localStorage.getItem('theme')) {
+            document.documentElement.setAttribute('data-theme', e.matches ? 'dark' : 'light');
+        }
+    });
 
     // --- 加载画面 ---
     const loader = document.getElementById('loader');

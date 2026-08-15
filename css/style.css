@@ -2947,3 +2947,334 @@ a.contact-method:hover .contact-icon {
         gap: 4px;
     }
 }
+
+/* ========================================
+   暗黑模式 / Dark Mode
+   ======================================== */
+[data-theme="dark"] {
+    --bg: #0a0a0c;
+    --bg-alt: #121216;
+    --bg-dark: #060608;
+    --surface: #16161b;
+    --surface-2: #1c1c22;
+    --text: #f4f4f7;
+    --text-secondary: #c9c9d2;
+    --text-tertiary: #92929c;
+    --text-inverse: #0a0a0c;
+    --accent: #ff4d42;
+    --accent-soft: rgba(255, 77, 66, 0.14);
+    --accent-glow: rgba(255, 77, 66, 0.35);
+    --border: #26262c;
+    --border-dark: #34343c;
+    --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.4);
+    --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.55);
+    --shadow-lg: 0 24px 70px rgba(0, 0, 0, 0.65);
+}
+
+/* 暗黑模式下的整体氛围：深空径向渐变，避免死板纯黑 */
+[data-theme="dark"] body {
+    background:
+        radial-gradient(1200px 800px at 50% -10%, rgba(255, 77, 66, 0.06), transparent 60%),
+        radial-gradient(900px 700px at 85% 20%, rgba(99, 102, 241, 0.05), transparent 55%),
+        var(--bg);
+    color: var(--text);
+}
+
+/* 区块交替背景在暗色下用更柔和的渐变区分层级 */
+[data-theme="dark"] section:nth-of-type(even) {
+    background:
+        radial-gradient(800px 600px at 15% 0%, rgba(99, 102, 241, 0.04), transparent 60%),
+        var(--bg-alt);
+}
+
+/* 卡片 / 表面在暗色下用微渐变 + 内高光，制造立体层次而非平板灰 */
+[data-theme="dark"] .work-card,
+[data-theme="dark"] .about-card,
+[data-theme="dark"] .stat-card,
+[data-theme="dark"] .featured-game,
+[data-theme="dark"] .timeline-content,
+[data-theme="dark"] .modal-body,
+[data-theme="dark"] .version-card {
+    background:
+        linear-gradient(160deg, var(--surface-2) 0%, var(--surface) 100%);
+    border-color: var(--border-dark);
+    box-shadow:
+        var(--shadow-md),
+        inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+/* 英雄区网格在暗色下增强对比与辉光 */
+[data-theme="dark"] .hero-grid {
+    background-image:
+        linear-gradient(var(--border-dark) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border-dark) 1px, transparent 1px);
+    opacity: 0.5;
+}
+
+[data-theme="dark"] .hero-glow {
+    background: radial-gradient(circle, var(--accent-glow) 0%, transparent 65%);
+    opacity: 0.9;
+}
+
+/* 英雄区叠加一层暗色暗角，让内容更聚焦 */
+[data-theme="dark"] .hero-bg::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 70% 60% at 50% 45%, transparent 40%, rgba(6, 6, 8, 0.55) 100%);
+    pointer-events: none;
+}
+
+/* 导航栏毛玻璃在暗色下更深 */
+[data-theme="dark"] .navbar.scrolled {
+    background: rgba(10, 10, 12, 0.82);
+    backdrop-filter: blur(20px) saturate(140%);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+/* 暗黑模式下未滚动的导航栏也加一层深色底，避免透明叠加看不清 */
+[data-theme="dark"] .navbar:not(.scrolled) {
+    background: rgba(10, 10, 12, 0.35);
+    backdrop-filter: blur(8px);
+}
+
+/* 导航栏 logo 文字在暗黑模式下必须清晰可见 */
+[data-theme="dark"] .nav-logo {
+    color: #fff !important;
+}
+
+[data-theme="dark"] .logo-mark {
+    background: #fff;
+    color: #0a0a0c;
+}
+
+[data-theme="dark"] .photo-placeholder {
+    background: linear-gradient(135deg, #1f1f24, #2a2a30);
+    color: var(--text-tertiary);
+}
+
+[data-theme="dark"] .modal-close {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+[data-theme="dark"] .timeline::before {
+    background: linear-gradient(to bottom, var(--accent), var(--border-dark));
+}
+
+[data-theme="dark"] .iphi-char-img {
+    background: linear-gradient(180deg, #1a1a1f 0%, #16161a 100%);
+}
+
+/* 滚动条在暗色下更协调 */
+[data-theme="dark"] ::-webkit-scrollbar-track {
+    background: var(--bg-dark);
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb {
+    background: var(--border-dark);
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+    background: var(--text-tertiary);
+}
+
+/* 页脚在暗色下更深 */
+[data-theme="dark"] .footer {
+    background: var(--bg-dark);
+}
+
+/* 暗色下低对比文字兜底，确保清晰可读 */
+[data-theme="dark"] .work-thumb-icon {
+    color: rgba(255, 255, 255, 0.55);
+}
+
+[data-theme="dark"] .work-desc {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+[data-theme="dark"] .footer-links a {
+    color: rgba(255, 255, 255, 0.72);
+}
+
+[data-theme="dark"] .footer-bottom {
+    color: rgba(255, 255, 255, 0.65);
+}
+
+[data-theme="dark"] .work-year,
+[data-theme="dark"] .platform-badge,
+[data-theme="dark"] .iphi-badge {
+    background: rgba(255, 255, 255, 0.16);
+    border-color: rgba(255, 255, 255, 0.22);
+    color: #fff;
+}
+
+[data-theme="dark"] .tag {
+    color: var(--text-secondary);
+}
+
+[data-theme="dark"] .skill-card p,
+[data-theme="dark"] .timeline-content p,
+[data-theme="dark"] .about-card p {
+    color: var(--text-secondary);
+}
+
+/* 暗色下选中态文字保持可读 */
+[data-theme="dark"] ::selection {
+    color: #fff;
+}
+
+/* ========================================
+   暗黑模式按钮修复
+   ======================================== */
+[data-theme="dark"] .btn-primary {
+    background: #fff;
+    color: #0a0a0c !important;
+}
+
+[data-theme="dark"] .btn-primary:hover {
+    background: var(--accent);
+    color: #fff !important;
+}
+
+[data-theme="dark"] .btn-ghost {
+    color: #fff !important;
+    border-color: rgba(255, 255, 255, 0.35);
+}
+
+[data-theme="dark"] .btn-ghost:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: #fff;
+    color: #fff !important;
+}
+
+/* 英雄区副标题在暗黑下必须清晰 */
+[data-theme="dark"] .hero-subtitle,
+[data-theme="dark"] .hero-desc,
+[data-theme="dark"] .hero-scroll {
+    color: rgba(255, 255, 255, 0.8) !important;
+}
+
+[data-theme="dark"] .scroll-line {
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.5), transparent);
+}
+
+/* ========================================
+   暗黑模式按钮修复（重复块已合并）
+   ======================================== */
+[data-theme="dark"] .btn-primary {
+    background: #fff;
+    color: #0a0a0c !important;
+}
+
+[data-theme="dark"] .btn-primary:hover {
+    background: var(--accent);
+    color: #fff !important;
+}
+
+[data-theme="dark"] .btn-ghost {
+    color: #fff !important;
+    border-color: rgba(255, 255, 255, 0.35);
+}
+
+[data-theme="dark"] .btn-ghost:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: #fff;
+    color: #fff !important;
+}
+
+/* 暗色模式全局文字兜底：确保落在深色背景上的文字均为浅色 */
+[data-theme="dark"] .navbar,
+[data-theme="dark"] .nav-logo,
+[data-theme="dark"] .nav-link,
+[data-theme="dark"] .about-card,
+[data-theme="dark"] .skill-card,
+[data-theme="dark"] .stat-card,
+[data-theme="dark"] .featured-game,
+[data-theme="dark"] .timeline-content,
+[data-theme="dark"] .iphi-character,
+[data-theme="dark"] .version-card,
+[data-theme="dark"] .contact-card,
+[data-theme="dark"] .footer {
+    color: var(--text);
+}
+
+[data-theme="dark"] .nav-link {
+    color: var(--text-secondary);
+}
+
+/* 英雄区文字：避免通配符，精确针对各层级 */
+[data-theme="dark"] .hero-eyebrow,
+[data-theme="dark"] .hero-title,
+[data-theme="dark"] .hero-subtitle,
+[data-theme="dark"] .hero-sub,
+[data-theme="dark"] .hero-desc,
+[data-theme="dark"] .hero-scroll,
+[data-theme="dark"] .section-eyebrow,
+[data-theme="dark"] .about-card p,
+[data-theme="dark"] .skill-card p,
+[data-theme="dark"] .stat-card .stat-label,
+[data-theme="dark"] .timeline-content p,
+[data-theme="dark"] .iphi-body p,
+[data-theme="dark"] .contact-sub {
+    color: var(--text-secondary);
+}
+
+[data-theme="dark"] .hero-title {
+    color: var(--text);
+}
+
+/* 平滑过渡，避免切换时闪烁 */
+body {
+    transition: background-color 0.4s var(--ease), color 0.4s var(--ease);
+}
+
+/* ========================================
+   暗黑模式切换按钮 / Theme Toggle
+   ======================================== */
+.theme-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border: 1.5px solid var(--border-dark);
+    border-radius: 100px;
+    color: var(--text);
+    transition: all 0.3s var(--ease);
+    position: relative;
+    overflow: hidden;
+}
+
+.theme-toggle:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateY(-2px);
+}
+
+.theme-toggle svg {
+    width: 18px;
+    height: 18px;
+    position: absolute;
+    transition: transform 0.4s var(--ease-spring), opacity 0.3s var(--ease);
+}
+
+/* 默认显示太阳（点击切换到暗色），暗色模式显示月亮 */
+.theme-toggle .icon-sun {
+    opacity: 0;
+    transform: rotate(-90deg) scale(0.5);
+}
+
+.theme-toggle .icon-moon {
+    opacity: 1;
+    transform: rotate(0) scale(1);
+}
+
+[data-theme="dark"] .theme-toggle .icon-sun {
+    opacity: 1;
+    transform: rotate(0) scale(1);
+}
+
+[data-theme="dark"] .theme-toggle .icon-moon {
+    opacity: 0;
+    transform: rotate(90deg) scale(0.5);
+}
