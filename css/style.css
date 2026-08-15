@@ -933,6 +933,13 @@ body.lang-en .hero-title {
     display: flex;
 }
 
+/* 移动端：去掉外层固定 padding，让弹窗内容占满更宽（手机不再显得窄） */
+@media (max-width: 768px) {
+    .work-modal {
+        padding: 0;
+    }
+}
+
 .modal-overlay {
     position: absolute;
     inset: 0;
@@ -1692,8 +1699,9 @@ a.contact-method:hover .contact-icon {
     }
 
     .modal-content {
-        margin: 20px;
-        max-height: 90vh;
+        margin: 0;
+        max-height: 92vh;
+        border-radius: 16px;
     }
 
     .modal-info {
