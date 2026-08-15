@@ -780,6 +780,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- 弹窗关闭 ---
     document.getElementById('modalClose').addEventListener('click', closeModal);
     document.getElementById('modalOverlay').addEventListener('click', closeModal);
+    document.getElementById('modalBack').addEventListener('click', closeModal);
 
     // --- 图片灯箱 ---
     document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
