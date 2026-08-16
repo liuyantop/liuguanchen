@@ -15,3 +15,6 @@ Thumbs.db
 # --- 裁剪临时产物（预览图与备份，非最终资源） ---
 *-crop-preview.jpg
 *.bak
+
+# --- 图片优化脚本的原始文件备份目录（转换 WebP 后的原 PNG/JPG 存放处） ---
+assets/_original_backup/

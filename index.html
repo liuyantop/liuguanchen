@@ -5,6 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="刘冠辰 - 数字媒体艺术硕士 · VR/AR沉浸式交互 · 3D视觉设计 · 游戏设计">
     <title>刘冠辰 | 数字媒体艺术 · VR/3D设计作品集</title>
+    <meta name="author" content="刘冠辰 / Guanchen Liu">
+    <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0f0f0f" media="(prefers-color-scheme: dark)">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231a1a1a'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='20' font-weight='700' fill='%23ff3b30' text-anchor='middle'%3EL%3C/text%3E%3C/svg%3E">
+    <!-- Open Graph / 社交分享 -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="刘冠辰 | 数字媒体艺术 · VR/3D设计作品集">
+    <meta property="og:description" content="英国南安普顿大学数字媒体艺术硕士 · VR/AR沉浸式交互 × 3D建模 × AI辅助设计">
+    <meta property="og:image" content="assets/iphi/poster.webp">
+    <meta property="og:locale" content="zh_CN">
+    <meta property="og:locale:alternate" content="en_US">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="刘冠辰 | 数字媒体艺术 · VR/3D设计作品集">
+    <meta name="twitter:description" content="英国南安普顿大学数字媒体艺术硕士 · VR/AR沉浸式交互 × 3D建模 × AI辅助设计">
+    <meta name="twitter:image" content="assets/iphi/poster.webp">
     <script>
         (function () {
             try {
@@ -18,10 +33,38 @@
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Noto+Sans+SC:wght@400;700;900&family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.min.css">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "刘冠辰",
+      "alternateName": "Guanchen Liu",
+      "jobTitle": "数字媒体艺术 / VR·3D 设计师",
+      "email": "mailto:liugc367@163.com",
+      "telephone": "+86-15546459607",
+      "knowsAbout": ["VR/AR", "3D建模", "Blender", "Unity", "游戏设计", "AI辅助设计", "沉浸式交互装置"]
+    }
+    </script>
 </head>
 <body>
+
+    <!-- 跳到主内容（键盘可访问性） -->
+    <a href="#hero" class="skip-link">跳到主内容 / Skip to content</a>
+
+    <!-- 禁用 JS 时的兜底：隐藏全屏 loader、显示所有 reveal 内容 -->
+    <noscript>
+        <style>
+            .loader { display: none !important; }
+            .reveal { opacity: 1 !important; transform: none !important; }
+            .works-grid::before {
+                content: '请启用 JavaScript 以查看完整作品集 / Please enable JavaScript to view works';
+                display: block; grid-column: 1 / -1; padding: 40px;
+                color: #555; text-align: center;
+            }
+        </style>
+    </noscript>
 
     <!-- 加载画面 -->
     <div class="loader" id="loader">
@@ -139,8 +182,12 @@
             <div class="about-grid">
                 <div class="about-photo-wrap">
                     <div class="about-photo">
-                        <img src="assets/profile.jpg" alt="刘冠辰 / Guanchen Liu" class="profile-img"
-                             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                        <picture>
+                            <source srcset="assets/profile.webp" type="image/webp">
+                            <img src="assets/profile.jpg" alt="刘冠辰 / Guanchen Liu" class="profile-img"
+                                 loading="lazy" decoding="async"
+                                 onerror="this.parentElement.style.display='none';this.parentElement.nextElementSibling.style.display='flex'">
+                        </picture>
                         <div class="photo-placeholder" style="display:none">
                             <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
                                 <circle cx="32" cy="24" r="12" stroke="currentColor" stroke-width="2"/>
@@ -178,7 +225,7 @@
                         <span class="tag" data-zh="游戏设计" data-en="Game Design">游戏设计</span>
                         <span class="tag" data-zh="跨文化创作" data-en="Cross-cultural Creation">跨文化创作</span>
                     </div>
-                    <a href="assets/resume.pdf" class="about-resume" id="resumeLink" download target="_blank">
+                    <a href="assets/resume.pdf" class="about-resume" id="resumeLink" download target="_blank" rel="noopener">
                         <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 4h8l4 4v6a1 1 0 01-1 1H3a1 1 0 01-1-1V5a1 1 0 011-1z" stroke="currentColor" stroke-width="1.5"/><path d="M11 4v4h4M6 11h6M6 8h3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
                         <span data-zh="下载简历 PDF" data-en="Download CV (PDF)">下载简历 PDF</span>
                     </a>
@@ -199,7 +246,10 @@
             </div>
             <div class="iphi-showcase">
                 <div class="iphi-visual">
-                    <img src="assets/iphi/poster.jpg" alt="IPHI poster" class="iphi-visual-img">
+                    <picture>
+                        <source srcset="assets/iphi/poster.webp" type="image/webp">
+                        <img src="assets/iphi/poster.jpg" alt="IPHI poster" class="iphi-visual-img" loading="lazy" decoding="async">
+                    </picture>
                     <div class="iphi-visual-overlay"></div>
                     <div class="iphi-visual-content">
                         <h3 class="iphi-title">IPHI</h3>
@@ -235,16 +285,31 @@
                                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 3l10 6-10 6V3z" fill="currentColor"/></svg>
                                 <span data-zh="查看完整作品" data-en="View Full Project">查看完整作品</span>
                             </button>
-                            <a href="https://iphi-project-2026.netlify.app/" target="_blank" class="iphi-official-link">
+                            <a href="https://iphi-project-2026.netlify.app/" target="_blank" rel="noopener noreferrer" class="iphi-official-link">
                                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 1C4.58 1 1 4.58 1 9s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8z" stroke="currentColor" stroke-width="1.5"/><path d="M6 9h6M9 6v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
                                 <span data-zh="访问 IPHI 官方网站" data-en="Visit IPHI Official Website">访问 IPHI 官方网站</span>
                             </a>
                         </div>
                     </div>
-                    <!-- 游戏预告片 -->
+                    <!-- 游戏预告片（占位卡片：用户点击播放按钮后才注入 B 站 iframe，避免进页自动出声） -->
                     <div class="iphi-trailer reveal">
                         <h4 data-zh="游戏预告片" data-en="Game Trailer">游戏预告片</h4>
-                        <div class="iphi-trailer-frame" id="iphiTrailerFrame"></div>
+                        <div class="iphi-trailer-frame" id="iphiTrailerFrame">
+                            <button type="button" class="trailer-placeholder" id="trailerPlayBtn" aria-label="播放 IPHI 预告片">
+                                <picture>
+                                    <source srcset="assets/iphi/poster.webp" type="image/webp">
+                                    <img src="assets/iphi/poster.jpg" alt="IPHI Trailer cover" class="trailer-placeholder-img" loading="lazy" decoding="async">
+                                </picture>
+                                <span class="trailer-placeholder-play">
+                                    <svg width="40" height="40" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+                                        <circle cx="20" cy="20" r="20" fill="currentColor" opacity="0.95"/>
+                                        <path d="M27 20l-12 7V13l12 7z" fill="#0a0a0c"/>
+                                    </svg>
+                                    <span class="trailer-placeholder-text" data-zh="点击播放预告片" data-en="Click to play trailer">点击播放预告片</span>
+                                </span>
+                                <span class="trailer-placeholder-badge" data-zh="B 站 · 高清" data-en="Bilibili · HD">B 站 · 高清</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -276,7 +341,7 @@
     </section>
 
     <!-- 作品详情弹窗 -->
-    <div class="work-modal" id="workModal">
+    <div class="work-modal" id="workModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-hidden="true">
         <div class="modal-overlay" id="modalOverlay"></div>
         <button class="modal-back" id="modalBack" aria-label="返回">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -533,16 +598,16 @@
                         <h3 data-zh="快速留言" data-en="Quick Message">快速留言</h3>
                         <form class="contact-form" id="contactForm">
                             <div class="form-row">
-                                <input type="text" placeholder="姓名 / Name" required>
+                                <input type="text" id="cf-name" name="name" placeholder="姓名 / Name" required aria-label="姓名 / Name" autocomplete="name">
                             </div>
                             <div class="form-row">
-                                <input type="email" placeholder="邮箱 / Email" required>
+                                <input type="email" id="cf-email" name="email" placeholder="邮箱 / Email" required aria-label="邮箱 / Email" autocomplete="email">
                             </div>
                             <div class="form-row">
-                                <input type="text" placeholder="公司 / Company (可选)">
+                                <input type="text" id="cf-company" name="company" placeholder="公司 / Company (可选)" aria-label="公司 / Company (可选)" autocomplete="organization">
                             </div>
                             <div class="form-row">
-                                <textarea placeholder="留言内容 / Message" rows="4" required></textarea>
+                                <textarea id="cf-message" name="message" placeholder="留言内容 / Message" rows="4" required aria-label="留言内容 / Message"></textarea>
                             </div>
                             <button type="submit" class="btn btn-primary btn-full">
                                 <span data-zh="发送消息" data-en="Send Message">发送消息</span>
@@ -581,7 +646,7 @@
     </footer>
 
     <!-- 图片灯箱 -->
-    <div class="lightbox" id="lightbox">
+    <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="图片预览 / Image preview" aria-hidden="true">
         <button class="lightbox-close" id="lightboxClose" aria-label="Close">×</button>
         <img src="" alt="Gallery preview" class="lightbox-img" id="lightboxImg">
         <div class="lightbox-caption" id="lightboxCaption"></div>

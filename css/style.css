@@ -9,7 +9,7 @@
     --surface: #ffffff;
     --text: #1a1a1a;
     --text-secondary: #555;
-    --text-tertiary: #888;
+    --text-tertiary: #6b6b6b;
     --text-inverse: #fafafa;
     --accent: #ff3b30;
     --accent-soft: rgba(255, 59, 48, 0.08);
@@ -3321,4 +3321,159 @@ body {
 [data-theme="dark"] .theme-toggle .icon-moon {
     opacity: 0;
     transform: rotate(90deg) scale(0.5);
+}
+
+/* ========================================
+   可访问性增强 / Accessibility
+   ======================================== */
+
+/* 跳到主内容链接：默认隐藏，键盘聚焦时显示 */
+.skip-link {
+    position: fixed;
+    top: -100px;
+    left: 16px;
+    z-index: 10000;
+    padding: 10px 18px;
+    background: var(--text);
+    color: var(--text-inverse);
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: top 0.25s var(--ease);
+}
+.skip-link:focus {
+    top: 16px;
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+/* 键盘焦点可见（仅键盘 Tab 显示，鼠标点击不显示） */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+.work-card:focus-visible,
+[tabindex]:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 4px;
+}
+
+/* 桌面端启用自定义光标时隐藏系统光标（由 JS 添加 .cursor-ready 触发；
+   JS 失败则保留系统光标，避免出现无光标死角） */
+@media (min-width: 1025px) and (hover: hover) and (pointer: fine) {
+    body.cursor-ready,
+    body.cursor-ready a,
+    body.cursor-ready button,
+    body.cursor-ready .work-card,
+    body.cursor-ready .skill-card {
+        cursor: none;
+    }
+    body.cursor-ready input,
+    body.cursor-ready textarea {
+        cursor: text;
+    }
+}
+
+/* 作品卡描述：按行数截断，替代 JS 硬切 50 字符 */
+.work-desc {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* 表单校验失败高亮 */
+.contact-form .is-invalid {
+    border-color: var(--accent) !important;
+    box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+/* IPHI 预告片占位卡：用户点击后才加载 iframe（防进页自动出声） */
+.trailer-placeholder {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    padding: 0;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    background: #000;
+    cursor: pointer;
+    color: var(--accent);
+    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.28);
+    transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease);
+}
+.trailer-placeholder:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 22px 60px rgba(0, 0, 0, 0.4);
+}
+.trailer-placeholder:focus-visible {
+    outline: 3px solid var(--accent);
+    outline-offset: 3px;
+}
+.trailer-placeholder-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+.trailer-placeholder::after {
+    /* 暗角遮罩，让中心播放按钮更突出 */
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse at center, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.6) 100%);
+    pointer-events: none;
+}
+.trailer-placeholder-play {
+    position: absolute;
+    z-index: 2;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    color: #fff;
+}
+.trailer-placeholder-play svg {
+    filter: drop-shadow(0 6px 16px rgba(0,0,0,0.45));
+    transition: transform 0.3s var(--ease-spring);
+}
+.trailer-placeholder:hover .trailer-placeholder-play svg {
+    transform: scale(1.08);
+}
+.trailer-placeholder-text {
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.55);
+}
+.trailer-placeholder-badge {
+    position: absolute;
+    z-index: 2;
+    right: 14px;
+    bottom: 14px;
+    padding: 6px 12px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(8px);
+    border-radius: 100px;
+    letter-spacing: 0.04em;
+}
+
+/* 尊重用户的减少动态偏好 */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+        scroll-behavior: auto !important;
+    }
+    .reveal { opacity: 1 !important; transform: none !important; }
+    .loader-progress { animation: none !important; }
 }

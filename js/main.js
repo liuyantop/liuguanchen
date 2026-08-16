@@ -1,4 +1,26 @@
 /* ========================================
+   联系信息 / Contact Info（统一配置，避免多处硬编码不一致）
+   ======================================== */
+const CONTACT = {
+    email: 'liugc367@163.com',
+    phone: '15546459607'
+};
+
+/* ========================================
+   焦点管理 / Focus Management（弹窗可访问性）
+   ======================================== */
+let lastFocused = null;   // 打开弹窗前的焦点元素，关闭后归还
+let activeTrap = null;    // 当前激活的焦点陷阱容器
+function trapFocus(container, e) {
+    if (e.key !== 'Tab') return;
+    const f = container.querySelectorAll('a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])');
+    if (!f.length) return;
+    const first = f[0], last = f[f.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+}
+
+/* ========================================
    作品集数据 / Portfolio Data
    ======================================== */
 const worksData = [
@@ -21,7 +43,7 @@ const worksData = [
         icon: 'vr',
         trailer: '',
         trailerBvid: 'BV1NAbS6xEXT',
-        thumb: 'assets/covers/BV1NAbS6xEXT.jpg'
+        thumb: 'assets/covers/BV1NAbS6xEXT.webp'
     },
     {
         id: 2,
@@ -82,7 +104,7 @@ const worksData = [
         icon: 'award',
         trailer: '',
         trailerBvid: 'BV1SvbS6YEiv',
-        thumb: 'assets/covers/BV1SvbS6YEiv.jpg'
+        thumb: 'assets/covers/BV1SvbS6YEiv.webp'
     },
     /* ===== 游戏作品 ===== */
     {
@@ -102,7 +124,7 @@ const worksData = [
         durationZh: '6人团队 · 6个月开发',
         durationEn: '6-person team · 6 months dev',
         gradient: 'linear-gradient(135deg, #1a1a2e, #16213e, #0f3460)',
-        thumb: 'assets/iphi/poster.jpg',
+        thumb: 'assets/iphi/poster.webp',
         icon: 'game',
         engine: 'RPGMaker',
         platform: ['PC', 'Steam', 'itch.io'],
@@ -149,21 +171,21 @@ const worksData = [
             roomZh: '主角的房间会在三天内逐渐改变，形成有力的视觉隐喻：第一天，吉他、酒杯等个人物品占据显眼位置，代表以爱好为中心的生活；第二天，这些物品被收起，象征生活被工作取代；第三天，个人物品痕迹完全消失，空间彻底变成工作区。我们用动态变化而非静态道具，呈现"工作逐渐吞噬生活"。',
             roomEn: 'The protagonist\'s room is designed to change gradually over three days, creating a powerful visual metaphor: Day 1, personal items like guitars and wine glasses occupy prominent positions, representing a life centered on hobbies; Day 2, these items are put away, symbolizing life replaced by work; Day 3, all personal traces disappear, and the space is completely transformed into a workspace. Dynamic change shows how work gradually takes over life.',
             days: [
-                { day: 'Day 1', img: 'assets/iphi/room-day1.png', descZh: '吉他、酒杯等个人物品占据显眼位置——以爱好为中心的生活', descEn: 'Personal items prominent — a life centered on hobbies' },
-                { day: 'Day 2', img: 'assets/iphi/room-day2.png', descZh: '物品被收起——生活被工作取代', descEn: 'Items put away — life replaced by work' },
-                { day: 'Day 3', img: 'assets/iphi/room-day3.png', descZh: '个人痕迹完全消失——空间变为工作区', descEn: 'All personal traces gone — transformed into a workspace' }
+                { day: 'Day 1', img: 'assets/iphi/room-day1.webp', descZh: '吉他、酒杯等个人物品占据显眼位置——以爱好为中心的生活', descEn: 'Personal items prominent — a life centered on hobbies' },
+                { day: 'Day 2', img: 'assets/iphi/room-day2.webp', descZh: '物品被收起——生活被工作取代', descEn: 'Items put away — life replaced by work' },
+                { day: 'Day 3', img: 'assets/iphi/room-day3.webp', descZh: '个人痕迹完全消失——空间变为工作区', descEn: 'All personal traces gone — transformed into a workspace' }
             ],
-            bossImg: 'assets/iphi/char-janus.png',
+            bossImg: 'assets/iphi/char-janus.webp',
             bossZh: '这一 Boss 设计的强项在于极强的权威感与高记忆点：锐利的侧影剪影自带威慑，克制的表情与侧目像在"评估"你而非与你互动，暗含"筛选与打分"的隐喻，让人过目不忘。油头长发、黑西装配白高领的干净组合，进一步强化冷峻、难以接近的高管气质——与你"施加压力却维持专业假面"的 Boss 概念高度一致。',
             bossEn: 'The strengths of this boss design lie in its strong sense of authority and high memorability: the sharp side-profile silhouette gives an inherently intimidating presence, while the restrained expression and sideways glance feel like he is "evaluating" you rather than engaging—conveying an implicit metaphor of selection and scoring. The slicked-back long hair and the clean black suit with white high-neck further reinforce a polished, cold, unapproachable executive vibe.'
         },
         gallery: [
-            { src: 'assets/iphi/scene-room.jpeg', captionZh: '房间对话 · Themis 叫醒 Iphi', captionEn: 'Room dialogue · Themis wakes Iphi' },
-            { src: 'assets/iphi/scene-office.png', captionZh: '办公室场景 · 职场日常', captionEn: 'Office scene · daily corporate life' },
-            { src: 'assets/iphi/scene-subway.png', captionZh: '3D 地铁通勤 · 现实切片', captionEn: '3D subway commute · slice of reality' },
-            { src: 'assets/iphi/battle-dion-lock.png', captionZh: 'Boss 战 · Dion & Lock', captionEn: 'Boss battle · Dion & Lock' },
-            { src: 'assets/iphi/battle-reta.png', captionZh: 'Boss 战 · Reta', captionEn: 'Boss battle · Reta' },
-            { src: 'assets/iphi/battle-gia.png', captionZh: 'Boss 战 · Gia', captionEn: 'Boss battle · Gia' }
+            { src: 'assets/iphi/scene-room.webp', captionZh: '房间对话 · Themis 叫醒 Iphi', captionEn: 'Room dialogue · Themis wakes Iphi' },
+            { src: 'assets/iphi/scene-office.webp', captionZh: '办公室场景 · 职场日常', captionEn: 'Office scene · daily corporate life' },
+            { src: 'assets/iphi/scene-subway.webp', captionZh: '3D 地铁通勤 · 现实切片', captionEn: '3D subway commute · slice of reality' },
+            { src: 'assets/iphi/battle-dion-lock.webp', captionZh: 'Boss 战 · Dion & Lock', captionEn: 'Boss battle · Dion & Lock' },
+            { src: 'assets/iphi/battle-reta.webp', captionZh: 'Boss 战 · Reta', captionEn: 'Boss battle · Reta' },
+            { src: 'assets/iphi/battle-gia.webp', captionZh: 'Boss 战 · Gia', captionEn: 'Boss battle · Gia' }
         ],
         gameFlow: {
             titleZh: 'Demo 流程', titleEn: 'Demo Flow',
@@ -183,12 +205,12 @@ const worksData = [
             detailsEn: ['Turn-based 1v1', '300 HP / 90 MP', '4 → 6 skills', 'TP gauge & finisher', 'Bosses apply special status effects']
         },
         characters: [
-            { name: 'Iphi', img: 'assets/iphi/char-iphi.png', age: '24', roleZh: '主角 / 试用期新员工', roleEn: 'Protagonist / Probationary Employee', descZh: '24岁，性格胆小，面对不公平待遇也不敢说"不"，耐受度极高；爱好是去酒吧喝酒、弹吉他。被"更好前景"的期待驱动来到大城市，但高房租与生活成本让她一旦失去收入就无法负担房租与基本开销，被迫在"留在城市"与"牺牲个人生活"间反复抉择。名字源自希腊神话中为让船队顺利出航而被献祭的 Iphigenia——以代价换取"出航"。', descEn: '24, timid by nature, unable to say "no" to unfair treatment, highly tolerant; her hobbies are going to the bar for a drink and playing the guitar. Driven by hopes for better prospects, she moved to a major city — but high rent and living costs mean losing income would leave her unable to cover rent and basics, forcing a repeated choice between staying and sacrificing personal life. Name derived from Iphigenia — sacrificed so the fleet could sail.' },
-            { name: 'Themis', img: 'assets/iphi/char-themis.png', age: '—', roleZh: 'Iphi 的想象之友', roleEn: 'Iphi\'s Imaginary Friend', descZh: '希腊神话中"秩序、法则与正当性"的拟人化。务实、对未来过分执着但非常可靠。她是 Iphi 务实潜意识的化身，Iphi 极度依赖她——因依赖之深，她能像真人一样与 Iphi "对话"，过去帮 Iphi 做过许多决定；某种意义上，她是最被信任的朋友。她相信 Iphi 的未来前景比当下的牺牲更重要。', descEn: 'Personification of "order, law, and justice" in Greek myth. Practical, overly focused on future prospects, but very reliable. She is the personification of Iphi\'s pragmatic subconscious; Iphi depends on her so heavily that she can "speak" with Iphi as if real, and has helped Iphi make many decisions. In a sense, she is the friend Iphi trusts most. She believes future prospects matter more than present sacrifice.' },
-            { name: 'Dion & Lock', img: 'assets/iphi/char-dion.png', img2: 'assets/iphi/char-lock.png', age: '—', roleZh: '爱好之化身 / 调酒师与摇滚乐手', roleEn: 'Embodiment of Hobbies / Bartender & Rocker', descZh: 'Dion（酒神狄俄尼索斯）克制礼貌，代表一杯酒带来的片刻宁静；Lock（锁 / Rock 谐音）易怒暴躁，被锁链束缚、布满尖刺，代表音乐、激情与叛逆。当高压工作把生活挤压到窒息，他们会用劝说或怒吼把 Iphi 拉回自己；当 Iphi 为房租与生存压抑他们，爱好便以 Boss 形式反击，阻止生活彻底变成工作。', descEn: 'Dion (Dionysus) is restrained and polite, representing the calm of a drink; Lock (lock / Rock pun) is irritable and quick-tempered, chained and covered in spikes, representing music, passion, and rebellion. When pressure squeezes life to suffocation, they pull Iphi back; when Iphi suppresses them for rent and survival, her hobbies strike back as a Boss.' },
-            { name: 'Gia', img: 'assets/iphi/char-gia.png', age: '—', roleZh: '健康之化身', roleEn: 'Embodiment of Health', descZh: '源自 Hygieia（健康女神）。活泼开朗的小女孩，完美诠释 Iphi 的身体状况。她不反对 Iphi 为房租与生存工作，但坚决反对把睡眠、饮食、喝水、休息当作可无限延后的"消耗品"——因为她知道，这样做迟早会以更昂贵痛苦的方式反弹（失眠、胃痛、心悸、崩溃）。尤其反感 Themis "咬牙挺过去"的逻辑。', descEn: 'Derived from Hygieia (goddess of health). A lively, cheerful little girl who mirrors Iphi\'s physical condition. She doesn\'t oppose working for rent and survival, but firmly resists treating sleep, food, water, and rest as indefinitely postponable "consumables" — knowing it will rebound in costlier, more painful ways. She especially dislikes Themis\'s "grit your teeth" logic.' },
-            { name: 'Reta', img: 'assets/iphi/char-reta.png', age: '—', roleZh: '自尊之化身', roleEn: 'Embodiment of Self-Esteem', descZh: '源自 Areté（卓越、德性）。严肃且自尊心极强，绝不屈服于她认为是错误的事。她对 Iphi 竟选择向工作妥协、牺牲爱好与健康感到愤怒与失望，也对那个怂恿 Iphi 向压力低头的想象之友感到愤怒——正是它让 Iphi 弄丢了原本属于自己的生活。', descEn: 'Derived from Areté (excellence, virtue). Serious with strong self-respect, never yielding to what she considers wrong. She feels furious and disappointed that Iphi chooses to compromise with work and sacrifice her hobbies and health, and is enraged at the imaginary friend for egging Iphi on to bow to pressure — making her lose the life that was once her own.' },
-            { name: 'Janus', img: 'assets/iphi/char-janus.png', age: '40', roleZh: 'Iphi 的部门主管', roleEn: 'Iphi\'s Department Supervisor', descZh: '罗马神话中掌管"门、门槛与转折点"的神。40岁，Iphi 的部门直属主管，被"内卷"文化塑形的以结果为导向管理者：只要你持续高投入、保持在线、产出对公司有益的成果，他就温和有礼，甚至给予称赞；但要求始终强硬，惯用目标、优先级、截止日期与绩效、年终奖等隐性杠杆，把"自愿加班"训练成不言自明的默认规则，让主角在几乎无察觉中让出个人边界，去换取可量化的结果。', descEn: 'Roman god of "doors, thresholds, and turning points." Age 40, Iphi\'s direct supervisor — a results-driven manager shaped by "involution" culture: as long as you stay highly invested, always online, and deliver outcomes that benefit the company, he remains warm and polite, even praising you. But his demands are always firm; he uses goals, deadlines, and levers like performance ratings and year-end bonuses to train "voluntary overtime" into an unspoken default, pushing the protagonist to trade personal boundaries for measurable results.' }
+            { name: 'Iphi', img: 'assets/iphi/char-iphi.webp', age: '24', roleZh: '主角 / 试用期新员工', roleEn: 'Protagonist / Probationary Employee', descZh: '24岁，性格胆小，面对不公平待遇也不敢说"不"，耐受度极高；爱好是去酒吧喝酒、弹吉他。被"更好前景"的期待驱动来到大城市，但高房租与生活成本让她一旦失去收入就无法负担房租与基本开销，被迫在"留在城市"与"牺牲个人生活"间反复抉择。名字源自希腊神话中为让船队顺利出航而被献祭的 Iphigenia——以代价换取"出航"。', descEn: '24, timid by nature, unable to say "no" to unfair treatment, highly tolerant; her hobbies are going to the bar for a drink and playing the guitar. Driven by hopes for better prospects, she moved to a major city — but high rent and living costs mean losing income would leave her unable to cover rent and basics, forcing a repeated choice between staying and sacrificing personal life. Name derived from Iphigenia — sacrificed so the fleet could sail.' },
+            { name: 'Themis', img: 'assets/iphi/char-themis.webp', age: '—', roleZh: 'Iphi 的想象之友', roleEn: 'Iphi\'s Imaginary Friend', descZh: '希腊神话中"秩序、法则与正当性"的拟人化。务实、对未来过分执着但非常可靠。她是 Iphi 务实潜意识的化身，Iphi 极度依赖她——因依赖之深，她能像真人一样与 Iphi "对话"，过去帮 Iphi 做过许多决定；某种意义上，她是最被信任的朋友。她相信 Iphi 的未来前景比当下的牺牲更重要。', descEn: 'Personification of "order, law, and justice" in Greek myth. Practical, overly focused on future prospects, but very reliable. She is the personification of Iphi\'s pragmatic subconscious; Iphi depends on her so heavily that she can "speak" with Iphi as if real, and has helped Iphi make many decisions. In a sense, she is the friend Iphi trusts most. She believes future prospects matter more than present sacrifice.' },
+            { name: 'Dion & Lock', img: 'assets/iphi/char-dion.webp', img2: 'assets/iphi/char-lock.webp', age: '—', roleZh: '爱好之化身 / 调酒师与摇滚乐手', roleEn: 'Embodiment of Hobbies / Bartender & Rocker', descZh: 'Dion（酒神狄俄尼索斯）克制礼貌，代表一杯酒带来的片刻宁静；Lock（锁 / Rock 谐音）易怒暴躁，被锁链束缚、布满尖刺，代表音乐、激情与叛逆。当高压工作把生活挤压到窒息，他们会用劝说或怒吼把 Iphi 拉回自己；当 Iphi 为房租与生存压抑他们，爱好便以 Boss 形式反击，阻止生活彻底变成工作。', descEn: 'Dion (Dionysus) is restrained and polite, representing the calm of a drink; Lock (lock / Rock pun) is irritable and quick-tempered, chained and covered in spikes, representing music, passion, and rebellion. When pressure squeezes life to suffocation, they pull Iphi back; when Iphi suppresses them for rent and survival, her hobbies strike back as a Boss.' },
+            { name: 'Gia', img: 'assets/iphi/char-gia.webp', age: '—', roleZh: '健康之化身', roleEn: 'Embodiment of Health', descZh: '源自 Hygieia（健康女神）。活泼开朗的小女孩，完美诠释 Iphi 的身体状况。她不反对 Iphi 为房租与生存工作，但坚决反对把睡眠、饮食、喝水、休息当作可无限延后的"消耗品"——因为她知道，这样做迟早会以更昂贵痛苦的方式反弹（失眠、胃痛、心悸、崩溃）。尤其反感 Themis "咬牙挺过去"的逻辑。', descEn: 'Derived from Hygieia (goddess of health). A lively, cheerful little girl who mirrors Iphi\'s physical condition. She doesn\'t oppose working for rent and survival, but firmly resists treating sleep, food, water, and rest as indefinitely postponable "consumables" — knowing it will rebound in costlier, more painful ways. She especially dislikes Themis\'s "grit your teeth" logic.' },
+            { name: 'Reta', img: 'assets/iphi/char-reta.webp', age: '—', roleZh: '自尊之化身', roleEn: 'Embodiment of Self-Esteem', descZh: '源自 Areté（卓越、德性）。严肃且自尊心极强，绝不屈服于她认为是错误的事。她对 Iphi 竟选择向工作妥协、牺牲爱好与健康感到愤怒与失望，也对那个怂恿 Iphi 向压力低头的想象之友感到愤怒——正是它让 Iphi 弄丢了原本属于自己的生活。', descEn: 'Derived from Areté (excellence, virtue). Serious with strong self-respect, never yielding to what she considers wrong. She feels furious and disappointed that Iphi chooses to compromise with work and sacrifice her hobbies and health, and is enraged at the imaginary friend for egging Iphi on to bow to pressure — making her lose the life that was once her own.' },
+            { name: 'Janus', img: 'assets/iphi/char-janus.webp', age: '40', roleZh: 'Iphi 的部门主管', roleEn: 'Iphi\'s Department Supervisor', descZh: '罗马神话中掌管"门、门槛与转折点"的神。40岁，Iphi 的部门直属主管，被"内卷"文化塑形的以结果为导向管理者：只要你持续高投入、保持在线、产出对公司有益的成果，他就温和有礼，甚至给予称赞；但要求始终强硬，惯用目标、优先级、截止日期与绩效、年终奖等隐性杠杆，把"自愿加班"训练成不言自明的默认规则，让主角在几乎无察觉中让出个人边界，去换取可量化的结果。', descEn: 'Roman god of "doors, thresholds, and turning points." Age 40, Iphi\'s direct supervisor — a results-driven manager shaped by "involution" culture: as long as you stay highly invested, always online, and deliver outcomes that benefit the company, he remains warm and polite, even praising you. But his demands are always firm; he uses goals, deadlines, and levers like performance ratings and year-end bonuses to train "voluntary overtime" into an unspoken default, pushing the protagonist to trade personal boundaries for measurable results.' }
         ],
         team: [
             { name: '刘冠辰', roleZh: '项目主导 / 叙事设计 / 3D动画 / 海报设计', roleEn: 'Project Lead / Narrative / 3D Animation / Poster', isUser: true },
@@ -241,6 +263,16 @@ function applyLanguage(lang) {
         langInactive.textContent = '中';
     }
 
+    // 同步图标按钮 aria-label，避免英文模式下仍是中文
+    const tt = document.getElementById('themeToggle');
+    if (tt) {
+        const label = lang === 'zh' ? '切换暗黑模式' : 'Toggle dark mode';
+        tt.setAttribute('aria-label', label);
+        tt.title = label;
+    }
+    const hm = document.getElementById('hamburger');
+    if (hm) hm.setAttribute('aria-label', lang === 'zh' ? '菜单' : 'Menu');
+
     // 重新渲染作品集（更新语言）
     renderWorks();
 }
@@ -262,7 +294,7 @@ function renderWorks(filter = 'all') {
                 <div class="work-overlay">
                     <span class="work-cat">${currentLang === 'zh' ? work.catZh : work.catEn}</span>
                     <h3 class="work-title">${currentLang === 'zh' ? work.titleZh : work.titleEn}</h3>
-                    <p class="work-desc">${currentLang === 'zh' ? work.descZh.substring(0, 50) + '...' : work.descEn.substring(0, 50) + '...'}</p>
+                    <p class="work-desc">${currentLang === 'zh' ? work.descZh : work.descEn}</p>
                 </div>
             </div>
         </div>
@@ -285,7 +317,7 @@ function renderWorks(filter = 'all') {
 function buildTrailerHTML(work) {
     if (work && work.trailerBvid) {
         const bv = encodeURIComponent(work.trailerBvid);
-        return `<iframe class="iphi-trailer-iframe" src="https://player.bilibili.com/player.html?bvid=${bv}&page=1&high_quality=1&danmaku=0" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" title="IPHI Trailer on Bilibili"></iframe>`;
+        return `<iframe class="iphi-trailer-iframe" loading="lazy" src="https://player.bilibili.com/player.html?bvid=${bv}&page=1&high_quality=1&danmaku=0&autoplay=0" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" title="IPHI Trailer on Bilibili"></iframe>`;
     }
     if (work && work.trailer) {
         return `<video class="iphi-trailer-video" controls preload="metadata" poster="${work.thumb || ''}" playsinline><source src="${work.trailer}" type="video/mp4"><span>${currentLang === 'zh' ? '您的浏览器不支持视频播放。' : 'Your browser does not support the video tag.'}</span></video>`;
@@ -535,7 +567,7 @@ function openModal(id) {
                 ${work.tools.map(t => `<span class="modal-tool">${t}</span>`).join('')}
             </div>
             ${work.category === 'game' && work.playLink ? `
-                <a href="${work.playLink}" class="modal-play-btn" target="_blank">
+                <a href="${work.playLink}" class="modal-play-btn" target="_blank" rel="noopener noreferrer">
                     <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 3l10 6-10 6V3z" fill="currentColor"/></svg>
                     <span>${currentLang === 'zh' ? work.playLabelZh : work.playLabelEn}</span>
                 </a>
@@ -554,13 +586,28 @@ function openModal(id) {
     `;
 
     modal.classList.add('active');
+    modal.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
+    // 给动态生成的标题加 id，供 aria-labelledby 引用
+    const titleEl = body.querySelector('.modal-title');
+    if (titleEl) titleEl.id = 'modalTitle';
+    // 焦点管理：记录触发元素 → 焦点移入弹窗 → 启用 Tab 陷阱
+    lastFocused = document.activeElement;
+    activeTrap = modal;
+    const closeBtn = modal.querySelector('.modal-close');
+    if (closeBtn) closeBtn.focus();
 }
 
 function closeModal() {
     const modal = document.getElementById('workModal');
     modal.classList.remove('active');
+    modal.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
+    activeTrap = null;
+    if (lastFocused && typeof lastFocused.focus === 'function') {
+        lastFocused.focus();
+        lastFocused = null;
+    }
 }
 
 /* ========================================
@@ -573,13 +620,24 @@ function openLightbox(src, caption) {
     img.src = src;
     cap.textContent = caption || '';
     box.classList.add('active');
+    box.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
+    lastFocused = document.activeElement;
+    activeTrap = box;
+    const closeBtn = document.getElementById('lightboxClose');
+    if (closeBtn) closeBtn.focus();
 }
 
 function closeLightbox() {
     const box = document.getElementById('lightbox');
     box.classList.remove('active');
+    box.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
+    activeTrap = null;
+    if (lastFocused && typeof lastFocused.focus === 'function') {
+        lastFocused.focus();
+        lastFocused = null;
+    }
 }
 
 /* ========================================
@@ -640,17 +698,25 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // --- 加载画面 ---
+    // --- 加载画面：资源就绪即隐藏，最多等 1.6s（取先到者，避免慢网络白屏 / 快网络干等） ---
     const loader = document.getElementById('loader');
-    setTimeout(() => {
+    let loaderHidden = false;
+    const hideLoader = () => {
+        if (loaderHidden) return;
+        loaderHidden = true;
         loader.classList.add('hidden');
-    }, 1600);
+    };
+    setTimeout(hideLoader, 1600);
+    window.addEventListener('load', hideLoader);
 
-    // --- IPHI 预告片：精确定位 IPHI 作品（id:5），避免被其他作品的 trailerBvid 顶替 ---
+    // --- IPHI 预告片：用户点击播放按钮后才注入 iframe，避免进页自动出声（MEI 高分浏览器常见）
     const iphiWork = worksData.find(w => w.id === 5) || worksData.find(w => w.titleEn === 'IPHI');
     const trailerFrame = document.getElementById('iphiTrailerFrame');
-    if (iphiWork && trailerFrame) {
-        trailerFrame.innerHTML = buildTrailerHTML(iphiWork);
+    const trailerPlayBtn = document.getElementById('trailerPlayBtn');
+    if (iphiWork && trailerFrame && trailerPlayBtn) {
+        trailerPlayBtn.addEventListener('click', () => {
+            trailerFrame.innerHTML = buildTrailerHTML(iphiWork);
+        }, { once: true });
     }
 
     // --- 「查看完整作品」按钮：打开对应作品弹窗（作品展示）---
@@ -665,6 +731,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let ringX = 0, ringY = 0;
 
     if (window.innerWidth > 1024) {
+        document.body.classList.add('cursor-ready');
         document.addEventListener('mousemove', (e) => {
             mouseX = e.clientX;
             mouseY = e.clientY;
@@ -694,29 +761,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const navbar = document.getElementById('navbar');
     const backToTop = document.getElementById('backToTop');
 
-    window.addEventListener('scroll', () => {
+    // 滚动事件：rAF 合并写入 + passive，提升滚动性能
+    let scrollTicking = false;
+    const onScroll = () => {
         const scrollTop = window.scrollY;
-        const docHeight = document.body.scrollHeight - window.innerHeight;
-        const scrollPct = (scrollTop / docHeight) * 100;
-        scrollProgress.style.width = scrollPct + '%';
-
-        // 导航栏
-        if (scrollTop > 50) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
-        }
-
-        // 返回顶部按钮
-        if (scrollTop > 600) {
-            backToTop.classList.add('visible');
-        } else {
-            backToTop.classList.remove('visible');
-        }
-
-        // 导航高亮
+        const docHeight = document.body.scrollHeight - window.innerHeight || 1;
+        scrollProgress.style.width = (scrollTop / docHeight) * 100 + '%';
+        navbar.classList.toggle('scrolled', scrollTop > 50);
+        backToTop.classList.toggle('visible', scrollTop > 600);
         updateNavActive();
-    });
+        scrollTicking = false;
+    };
+    window.addEventListener('scroll', () => {
+        if (!scrollTicking) {
+            requestAnimationFrame(onScroll);
+            scrollTicking = true;
+        }
+    }, { passive: true });
 
     // --- 导航高亮 ---
     const sections = document.querySelectorAll('section[id]');
@@ -792,6 +853,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- 统一 Esc 关闭：优先关灯箱，其次关弹窗（避免两个监听互相干扰）---
     document.addEventListener('keydown', (e) => {
+        // 焦点陷阱：弹窗内 Tab 循环，不逸出到背景
+        if (e.key === 'Tab' && activeTrap) {
+            trapFocus(activeTrap, e);
+            return;
+        }
         if (e.key !== 'Escape') return;
         const lightbox = document.getElementById('lightbox');
         if (lightbox && lightbox.classList.contains('active')) {
@@ -801,7 +867,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
     document.body.addEventListener('click', (e) => {
-        const item = e.target.closest('.iphi-gallery-item, .modal-gallery-item');
+        const item = e.target.closest('.modal-gallery-item');
         if (item) {
             const img = item.querySelector('img');
             const caption = item.dataset[currentLang === 'zh' ? 'captionZh' : 'captionEn'] || item.dataset.caption || img.alt;
@@ -814,51 +880,75 @@ document.addEventListener('DOMContentLoaded', () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
-    // --- 表单提交 ---
+    // --- 表单提交（mailto：校验后打开邮件客户端，措辞不误报"已发送"）---
     const contactForm = document.getElementById('contactForm');
     contactForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        const inputs = contactForm.querySelectorAll('input, textarea');
-        const name = inputs[0].value;
-        const email = inputs[1].value;
-        const company = inputs[2].value;
-        const message = inputs[3].value;
+        const name = contactForm.querySelector('#cf-name').value.trim();
+        const email = contactForm.querySelector('#cf-email').value.trim();
+        const company = contactForm.querySelector('#cf-company').value.trim();
+        const message = contactForm.querySelector('#cf-message').value.trim();
+
+        if (!name || !message) return;
+        const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        if (!emailOk) {
+            const emailField = contactForm.querySelector('#cf-email');
+            emailField.classList.add('is-invalid');
+            emailField.focus();
+            emailField.reportValidity();
+            return;
+        }
+
         const subject = encodeURIComponent(`[网站留言] ${name}${company ? ' · ' + company : ''}`);
         const body = encodeURIComponent(`${message}\n\n---\n姓名: ${name}\n邮箱: ${email}${company ? '\n公司: ' + company : ''}`);
-        window.location.href = `mailto:liugc367@163.com?subject=${subject}&body=${body}`;
+        window.location.href = `mailto:${CONTACT.email}?subject=${subject}&body=${body}`;
 
         const btn = contactForm.querySelector('button[type="submit"]');
-        const originalText = btn.querySelector('span').textContent;
-        btn.querySelector('span').textContent = currentLang === 'zh' ? '已打开邮件客户端 ✓' : 'Opened mail client ✓';
-        btn.style.background = '#10b981';
+        const span = btn.querySelector('span');
+        const originalText = span.textContent;
+        span.textContent = currentLang === 'zh' ? '正在打开邮件客户端…' : 'Opening mail client…';
+        btn.disabled = true;
         setTimeout(() => {
-            btn.querySelector('span').textContent = originalText;
-            btn.style.background = '';
+            span.textContent = originalText;
+            btn.disabled = false;
             contactForm.reset();
         }, 3000);
     });
 
-    // --- 简历下载（文件不存在时提示） ---
+    // 输入时清除错误高亮
+    contactForm.querySelectorAll('input, textarea').forEach(el => {
+        el.addEventListener('input', () => el.classList.remove('is-invalid'));
+    });
+
+    // --- 简历下载：同步拦截 + 异步探测，修复异步 preventDefault 无效的 bug ---
     const resumeLink = document.getElementById('resumeLink');
     if (resumeLink) {
+        const triggerDownload = (url) => {
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = '';
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+        };
         resumeLink.addEventListener('click', (e) => {
-            // 仅靠 HTTP HEAD 探测；file:// 协议下 fetch 会直接抛错，
-            // 此时不应拦截下载，否则本地双击打开页面时永远无法下载已存在的简历。
+            e.preventDefault(); // 必须同步拦截，否则 <a download> 默认行为已触发
             fetch(resumeLink.href, { method: 'HEAD' })
                 .then((resp) => {
-                    if (resp.ok === false) {
-                        e.preventDefault();
-                        showResumeMissing();
-                    }
+                    if (resp.status === 404) showResumeMissing();
+                    else triggerDownload(resumeLink.href);
                 })
-                .catch(() => { /* file:// 或网络受限：放行，依赖浏览器原生下载 */ });
+                .catch(() => {
+                    // file:// 或网络受限：无法探测，直接尝试下载（浏览器原生处理）
+                    triggerDownload(resumeLink.href);
+                });
         });
     }
 
     function showResumeMissing() {
         alert(currentLang === 'zh'
-            ? '请先将简历 PDF 放到 assets/resume.pdf'
-            : 'Please place your CV PDF at assets/resume.pdf first.');
+            ? '未找到简历 PDF，请先将简历放到 assets/resume.pdf'
+            : 'CV PDF not found. Please place it at assets/resume.pdf first.');
     }
 
     // --- 初始渲染 ---
