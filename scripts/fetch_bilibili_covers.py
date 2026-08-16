@@ -169,6 +169,11 @@ def main():
             nl = text.find("\n", ins_pos)
             if nl == -1:
                 nl = len(text)
+            # 确保 trailerBvid 行末尾有逗号，否则插入 thumb 会导致 JS 语法错误
+            prev_line = text[ins_pos:nl]
+            if not prev_line.rstrip().endswith(","):
+                text = text[:nl] + "," + text[nl:]
+                nl += 1
             insert_text = "\n        thumb: '" + local_rel + "'"
             text = text[:nl] + insert_text + text[nl:]
             print(f"[插入] 作品 {wid}: 新增 thumb -> {local_rel}")
