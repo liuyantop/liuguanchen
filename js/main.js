@@ -1,6 +1,13 @@
 /* ========================================
    作品集数据 / Portfolio Data
    ======================================== */
+
+/* 将位图路径转为对应 WebP 路径（原图保留作回退），供 <picture> 使用 */
+function webpSrc(p) {
+    if (!p) return p;
+    return p.replace(/\.(jpe?g|png)$/i, '.webp');
+}
+
 const worksData = [
     {
         id: 1,
@@ -268,6 +275,9 @@ function applyLanguage(lang) {
         langActive.textContent = 'EN';
         langInactive.textContent = '中';
     }
+    // 同步语言切换按钮的 aria-pressed（EN 时为按下态）
+    const langToggleBtn = document.getElementById('langToggle');
+    if (langToggleBtn) langToggleBtn.setAttribute('aria-pressed', lang === 'en' ? 'true' : 'false');
 
     // 重新渲染作品集（更新语言）
     renderWorks();
@@ -287,7 +297,7 @@ function renderWorks(filter = 'all') {
     grid.innerHTML = filtered.map(work => `
         <div class="work-card${work.featured ? ' work-card-featured' : ''}" data-id="${work.id}" data-category="${work.category}">
             <div class="work-thumb">
-                ${work.thumb ? `<div class="work-thumb-bg"><img src="${work.thumb}" alt="${currentLang === 'zh' ? work.titleZh : work.titleEn}" loading="lazy" decoding="async"></div>` : `<div class="work-thumb-bg" style="background: ${work.gradient};"></div>`}
+                ${work.thumb ? `<div class="work-thumb-bg"><picture><source srcset="${webpSrc(work.thumb)}" type="image/webp"><img src="${work.thumb}" alt="${currentLang === 'zh' ? work.titleZh : work.titleEn}" loading="lazy" decoding="async"></picture></div>` : `<div class="work-thumb-bg" style="background: ${work.gradient};"></div>`}
                 ${work.thumb ? '' : `<div class="work-thumb-icon">${icons[work.icon] || icons.award}</div>`}
                 <span class="work-year">${work.year}</span>
                 ${work.featured ? '<span class="work-featured-badge">★ Featured</span>' : ''}
@@ -317,7 +327,7 @@ function renderWorks(filter = 'all') {
 function buildTrailerHTML(work) {
     if (work && work.trailerBvid) {
         const bv = encodeURIComponent(work.trailerBvid);
-        return `<iframe class="iphi-trailer-iframe" src="https://player.bilibili.com/player.html?bvid=${bv}&page=1&high_quality=1&danmaku=0" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" title="IPHI Trailer on Bilibili"></iframe>`;
+        return `<iframe class="iphi-trailer-iframe" src="https://player.bilibili.com/player.html?bvid=${bv}&page=1&high_quality=1&danmaku=0" sandbox="allow-scripts allow-same-origin allow-presentation" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" title="IPHI Trailer on Bilibili"></iframe>`;
     }
     if (work && work.trailer) {
         return `<video class="iphi-trailer-video" controls preload="metadata" poster="${work.thumb || ''}" playsinline><source src="${work.trailer}" type="video/mp4"><span>${currentLang === 'zh' ? '您的浏览器不支持视频播放。' : 'Your browser does not support the video tag.'}</span></video>`;
@@ -431,7 +441,7 @@ function openModal(id) {
                     <div class="modal-gallery-grid">
                         ${work.gallery.map(g => `
                             <div class="modal-gallery-item" data-src="${g.src}" data-caption="${currentLang === 'zh' ? g.captionZh : g.captionEn}">
-                                <img src="${g.src}" alt="${currentLang === 'zh' ? g.captionZh : g.captionEn}" loading="lazy">
+                                <picture><source srcset="${webpSrc(g.src)}" type="image/webp"><img src="${g.src}" alt="${currentLang === 'zh' ? g.captionZh : g.captionEn}" loading="lazy" decoding="async"></picture>
                             </div>
                         `).join('')}
                     </div>
@@ -493,7 +503,7 @@ function openModal(id) {
                     <div class="room-days">
                         ${work.scenes3d.days.map(d => `
                             <div class="day-item">
-                                ${d.img ? `<img src="${d.img}" alt="${d.day}" class="day-item-img" loading="lazy">` : ''}
+                                ${d.img ? `<picture><source srcset="${webpSrc(d.img)}" type="image/webp"><img src="${d.img}" alt="${d.day}" class="day-item-img" loading="lazy" decoding="async"></picture>` : ''}
                                 <span class="day-tag">${d.day}</span>
                                 <span class="day-desc">${currentLang === 'zh' ? d.descZh : d.descEn}</span>
                             </div>
@@ -501,7 +511,7 @@ function openModal(id) {
                     </div>
                     <div class="boss-note">
                         <div class="boss-note-media">
-                            ${work.scenes3d.bossImg ? `<img src="${work.scenes3d.bossImg}" alt="Janus" class="boss-note-img" loading="lazy">` : ''}
+                            ${work.scenes3d.bossImg ? `<picture><source srcset="${webpSrc(work.scenes3d.bossImg)}" type="image/webp"><img src="${work.scenes3d.bossImg}" alt="Janus" class="boss-note-img" loading="lazy" decoding="async"></picture>` : ''}
                             <div>
                                 <h4 class="boss-title">${currentLang === 'zh' ? 'Boss 设计 · Janus' : 'Boss Design · Janus'}</h4>
                                 <p class="boss-desc">${currentLang === 'zh' ? work.scenes3d.bossZh : work.scenes3d.bossEn}</p>
@@ -519,8 +529,8 @@ function openModal(id) {
                             <div class="char-card">
                                 ${c.img ? `
                                     <div class="char-card-imgs">
-                                        <img src="${c.img}" alt="${c.name}" class="char-card-img" loading="lazy">
-                                        ${c.img2 ? `<img src="${c.img2}" alt="${c.name}" class="char-card-img" loading="lazy">` : ''}
+                                        <picture><source srcset="${webpSrc(c.img)}" type="image/webp"><img src="${c.img}" alt="${c.name}" class="char-card-img" loading="lazy" decoding="async"></picture>
+                                        ${c.img2 ? `<picture><source srcset="${webpSrc(c.img2)}" type="image/webp"><img src="${c.img2}" alt="${c.name}" class="char-card-img" loading="lazy" decoding="async"></picture>` : ''}
                                     </div>
                                 ` : ''}
                                 <div class="char-card-header">
@@ -618,7 +628,7 @@ function openLightbox(src, caption) {
     const box = document.getElementById('lightbox');
     const img = document.getElementById('lightboxImg');
     const cap = document.getElementById('lightboxCaption');
-    img.src = src;
+    img.src = webpSrc(src);
     cap.textContent = caption || '';
     box.classList.add('active');
     document.body.style.overflow = 'hidden';
@@ -684,17 +694,25 @@ document.addEventListener('DOMContentLoaded', () => {
     const initialTheme = savedTheme || (prefersDark ? 'dark' : 'light');
     document.documentElement.setAttribute('data-theme', initialTheme);
 
+    // 同步切换按钮的 aria-pressed 状态（提升可访问性）
+    function syncThemePressed() {
+        themeToggle.setAttribute('aria-pressed', document.documentElement.getAttribute('data-theme') === 'dark' ? 'true' : 'false');
+    }
+    syncThemePressed();
+
     themeToggle.addEventListener('click', () => {
         const current = document.documentElement.getAttribute('data-theme');
         const next = current === 'dark' ? 'light' : 'dark';
         document.documentElement.setAttribute('data-theme', next);
         localStorage.setItem('theme', next);
+        syncThemePressed();
     });
 
     // 实时跟随系统主题变化（仅当用户未手动设置过时）
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
         if (!localStorage.getItem('theme')) {
             document.documentElement.setAttribute('data-theme', e.matches ? 'dark' : 'light');
+            syncThemePressed();
         }
     });
 

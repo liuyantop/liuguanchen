@@ -98,7 +98,7 @@
                 <li><a href="#contact" class="nav-link nav-cta" data-zh="联系我" data-en="Contact">联系我</a></li>
             </ul>
             <div class="nav-right">
-                <button class="theme-toggle" id="themeToggle" aria-label="切换暗黑模式" title="切换暗黑模式">
+                <button class="theme-toggle" id="themeToggle" aria-label="切换暗黑模式" title="切换暗黑模式" aria-pressed="false">
                     <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
                     </svg>
@@ -107,7 +107,7 @@
                         <path d="M12 2v2.5M12 19.5V22M4.22 4.22l1.77 1.77M18.01 18.01l1.77 1.77M2 12h2.5M19.5 12H22M4.22 19.78l1.77-1.77M18.01 5.99l1.77-1.77"/>
                     </svg>
                 </button>
-                <button class="lang-toggle" id="langToggle">
+                <button class="lang-toggle" id="langToggle" aria-label="切换语言 / Switch language" aria-pressed="false">
                     <span class="lang-active">中</span>
                     <span class="lang-separator">/</span>
                     <span class="lang-inactive">EN</span>
@@ -180,9 +180,12 @@
             <div class="about-grid">
                 <div class="about-photo-wrap">
                     <div class="about-photo">
-                        <img src="assets/profile.jpg" alt="刘冠辰 / Guanchen Liu" class="profile-img"
-                             width="420" height="420" loading="lazy" decoding="async"
-                             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                        <picture>
+                            <source srcset="assets/profile.webp" type="image/webp">
+                            <img src="assets/profile.jpg" alt="刘冠辰 / Guanchen Liu" class="profile-img"
+                                 width="420" height="420" loading="lazy" decoding="async"
+                                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                        </picture>
                         <div class="photo-placeholder" style="display:none">
                             <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
                                 <circle cx="32" cy="24" r="12" stroke="currentColor" stroke-width="2"/>
@@ -241,7 +244,10 @@
             </div>
             <div class="iphi-showcase">
                 <div class="iphi-visual">
-                    <img src="assets/iphi/poster.jpg" alt="IPHI poster" class="iphi-visual-img" width="800" height="450" loading="lazy" decoding="async">
+                    <picture>
+                        <source srcset="assets/iphi/poster.webp" type="image/webp">
+                        <img src="assets/iphi/poster.jpg" alt="IPHI poster" class="iphi-visual-img" width="800" height="450" loading="lazy" decoding="async">
+                    </picture>
                     <div class="iphi-visual-overlay"></div>
                     <div class="iphi-visual-content">
                         <h3 class="iphi-title">IPHI</h3>
@@ -575,16 +581,16 @@
                         <h3 data-zh="快速留言" data-en="Quick Message">快速留言</h3>
                         <form class="contact-form" id="contactForm">
                             <div class="form-row">
-                                <input type="text" placeholder="姓名 / Name" required>
+                                <input type="text" placeholder="姓名 / Name" aria-label="姓名 / Name" data-zh="姓名 / Name" data-en="Name" required>
                             </div>
                             <div class="form-row">
-                                <input type="email" placeholder="邮箱 / Email" required>
+                                <input type="email" placeholder="邮箱 / Email" aria-label="邮箱 / Email" data-zh="邮箱 / Email" data-en="Email" required>
                             </div>
                             <div class="form-row">
-                                <input type="text" placeholder="公司 / Company (可选)">
+                                <input type="text" placeholder="公司 / Company (可选)" aria-label="公司 / Company (可选)" data-zh="公司 / Company (可选)" data-en="Company (optional)">
                             </div>
                             <div class="form-row">
-                                <textarea placeholder="留言内容 / Message" rows="4" required></textarea>
+                                <textarea placeholder="留言内容 / Message" rows="4" aria-label="留言内容 / Message" data-zh="留言内容 / Message" data-en="Message" required></textarea>
                             </div>
                             <button type="submit" class="btn btn-primary btn-full">
                                 <span data-zh="发送消息" data-en="Send Message">发送消息</span>
