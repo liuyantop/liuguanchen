@@ -1,13 +1,6 @@
 /* ========================================
    作品集数据 / Portfolio Data
    ======================================== */
-
-/* 将位图路径转为对应 WebP 路径（原图保留作回退），供 <picture> 使用 */
-function webpSrc(p) {
-    if (!p) return p;
-    return p.replace(/\.(jpe?g|png)$/i, '.webp');
-}
-
 const worksData = [
     {
         id: 1,
@@ -225,38 +218,10 @@ const icons = {
 /* ========================================
    语言管理 / Language Manager
    ======================================== */
-const SAVED_LANG = (function () {
-    try { return localStorage.getItem('lang'); } catch (e) { return null; }
-})();
-let currentLang = (SAVED_LANG === 'en' || SAVED_LANG === 'zh') ? SAVED_LANG : 'zh';
-
-// 记录当前打开的作品，便于语言切换时实时重渲染
-let lastOpenedWorkId = null;
-
-// 弹窗焦点管理：保存触发元素，关闭后归还焦点
-let lastFocusedBeforeModal = null;
-
-// 弹窗键盘焦点陷阱
-function trapFocus(e) {
-    const modal = document.getElementById('workModal');
-    if (!modal.classList.contains('active')) return;
-    if (e.key !== 'Tab') return;
-    const focusable = modal.querySelectorAll('a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])');
-    if (!focusable.length) return;
-    const first = focusable[0];
-    const last = focusable[focusable.length - 1];
-    if (e.shiftKey && document.activeElement === first) {
-        e.preventDefault();
-        last.focus();
-    } else if (!e.shiftKey && document.activeElement === last) {
-        e.preventDefault();
-        first.focus();
-    }
-}
+let currentLang = 'zh';
 
 function applyLanguage(lang) {
     currentLang = lang;
-    try { localStorage.setItem('lang', lang); } catch (e) {}
     document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
     document.body.classList.toggle('lang-en', lang === 'en');
 
@@ -275,16 +240,9 @@ function applyLanguage(lang) {
         langActive.textContent = 'EN';
         langInactive.textContent = '中';
     }
-    // 同步语言切换按钮的 aria-pressed（EN 时为按下态）
-    const langToggleBtn = document.getElementById('langToggle');
-    if (langToggleBtn) langToggleBtn.setAttribute('aria-pressed', lang === 'en' ? 'true' : 'false');
 
     // 重新渲染作品集（更新语言）
     renderWorks();
-    // 若弹窗已打开，实时重渲染内容（解决切语言后弹窗不更新的问题）
-    if (document.getElementById('workModal').classList.contains('active') && lastOpenedWorkId !== null) {
-        openModal(lastOpenedWorkId, true);
-    }
 }
 
 /* ========================================
@@ -297,7 +255,7 @@ function renderWorks(filter = 'all') {
     grid.innerHTML = filtered.map(work => `
         <div class="work-card${work.featured ? ' work-card-featured' : ''}" data-id="${work.id}" data-category="${work.category}">
             <div class="work-thumb">
-                ${work.thumb ? `<div class="work-thumb-bg"><picture><source srcset="${webpSrc(work.thumb)}" type="image/webp"><img src="${work.thumb}" alt="${currentLang === 'zh' ? work.titleZh : work.titleEn}" loading="lazy" decoding="async"></picture></div>` : `<div class="work-thumb-bg" style="background: ${work.gradient};"></div>`}
+                ${work.thumb ? `<div class="work-thumb-bg" style="background-image: url('${work.thumb}'); background-size: cover; background-position: center;"></div>` : `<div class="work-thumb-bg" style="background: ${work.gradient};"></div>`}
                 ${work.thumb ? '' : `<div class="work-thumb-icon">${icons[work.icon] || icons.award}</div>`}
                 <span class="work-year">${work.year}</span>
                 ${work.featured ? '<span class="work-featured-badge">★ Featured</span>' : ''}
@@ -327,17 +285,7 @@ function renderWorks(filter = 'all') {
 function buildTrailerHTML(work) {
     if (work && work.trailerBvid) {
         const bv = encodeURIComponent(work.trailerBvid);
-        // 点击播放占位：移动端第三方 iframe 无法强制自动播放，采用点击触发加载 autoplay iframe 的最可靠方案
-        const poster = webpSrc('assets/iphi/poster.jpg');
-        return `
-            <div class="video-click-play" data-bvid="${bv}" role="button" tabindex="0"
-                 aria-label="${currentLang === 'zh' ? '点击播放 IPHI 预告片' : 'Play IPHI trailer'}">
-                <img src="${poster}" alt="" class="video-click-poster" loading="lazy" decoding="async">
-                <span class="video-play-icon" aria-hidden="true">
-                    <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M5 3.5l12 7.5-12 7.5V3.5z" fill="currentColor"/></svg>
-                </span>
-                <span class="video-click-hint">${currentLang === 'zh' ? '点击播放（B站）' : 'Tap to play (Bilibili)'}</span>
-            </div>`;
+        return `<iframe class="iphi-trailer-iframe" src="https://player.bilibili.com/player.html?bvid=${bv}&page=1&high_quality=1&danmaku=0" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" title="IPHI Trailer on Bilibili"></iframe>`;
     }
     if (work && work.trailer) {
         return `<video class="iphi-trailer-video" controls preload="metadata" poster="${work.thumb || ''}" playsinline><source src="${work.trailer}" type="video/mp4"><span>${currentLang === 'zh' ? '您的浏览器不支持视频播放。' : 'Your browser does not support the video tag.'}</span></video>`;
@@ -345,18 +293,9 @@ function buildTrailerHTML(work) {
     return '';
 }
 
-// 点击/键盘触发 B站 iframe 懒加载并自动播放（解决移动端不自动播问题）
-function loadBilibiliIframe(holder) {
-    const bv = holder.dataset.bvid;
-    if (!bv || holder.dataset.loaded === '1') return;
-    holder.dataset.loaded = '1';
-    holder.innerHTML = `<iframe class="iphi-trailer-iframe" src="https://player.bilibili.com/player.html?bvid=${bv}&page=1&high_quality=1&danmaku=0&autoplay=1" sandbox="allow-scripts allow-same-origin allow-presentation allow-autoplay" scrolling="no" border="0" frameborder="no" framespacing="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen="true" title="IPHI Trailer on Bilibili"></iframe>`;
-}
-
 function openModal(id) {
     const work = worksData.find(w => w.id === id);
     if (!work) return;
-    lastOpenedWorkId = id;
 
     const modal = document.getElementById('workModal');
     const body = document.getElementById('modalBody');
@@ -459,7 +398,7 @@ function openModal(id) {
                     <div class="modal-gallery-grid">
                         ${work.gallery.map(g => `
                             <div class="modal-gallery-item" data-src="${g.src}" data-caption="${currentLang === 'zh' ? g.captionZh : g.captionEn}">
-                                <picture><source srcset="${webpSrc(g.src)}" type="image/webp"><img src="${g.src}" alt="${currentLang === 'zh' ? g.captionZh : g.captionEn}" loading="lazy" decoding="async"></picture>
+                                <img src="${g.src}" alt="${currentLang === 'zh' ? g.captionZh : g.captionEn}" loading="lazy">
                             </div>
                         `).join('')}
                     </div>
@@ -521,7 +460,7 @@ function openModal(id) {
                     <div class="room-days">
                         ${work.scenes3d.days.map(d => `
                             <div class="day-item">
-                                ${d.img ? `<picture><source srcset="${webpSrc(d.img)}" type="image/webp"><img src="${d.img}" alt="${d.day}" class="day-item-img" loading="lazy" decoding="async"></picture>` : ''}
+                                ${d.img ? `<img src="${d.img}" alt="${d.day}" class="day-item-img" loading="lazy">` : ''}
                                 <span class="day-tag">${d.day}</span>
                                 <span class="day-desc">${currentLang === 'zh' ? d.descZh : d.descEn}</span>
                             </div>
@@ -529,7 +468,7 @@ function openModal(id) {
                     </div>
                     <div class="boss-note">
                         <div class="boss-note-media">
-                            ${work.scenes3d.bossImg ? `<picture><source srcset="${webpSrc(work.scenes3d.bossImg)}" type="image/webp"><img src="${work.scenes3d.bossImg}" alt="Janus" class="boss-note-img" loading="lazy" decoding="async"></picture>` : ''}
+                            ${work.scenes3d.bossImg ? `<img src="${work.scenes3d.bossImg}" alt="Janus" class="boss-note-img" loading="lazy">` : ''}
                             <div>
                                 <h4 class="boss-title">${currentLang === 'zh' ? 'Boss 设计 · Janus' : 'Boss Design · Janus'}</h4>
                                 <p class="boss-desc">${currentLang === 'zh' ? work.scenes3d.bossZh : work.scenes3d.bossEn}</p>
@@ -547,8 +486,8 @@ function openModal(id) {
                             <div class="char-card">
                                 ${c.img ? `
                                     <div class="char-card-imgs">
-                                        <picture><source srcset="${webpSrc(c.img)}" type="image/webp"><img src="${c.img}" alt="${c.name}" class="char-card-img" loading="lazy" decoding="async"></picture>
-                                        ${c.img2 ? `<picture><source srcset="${webpSrc(c.img2)}" type="image/webp"><img src="${c.img2}" alt="${c.name}" class="char-card-img" loading="lazy" decoding="async"></picture>` : ''}
+                                        <img src="${c.img}" alt="${c.name}" class="char-card-img" loading="lazy">
+                                        ${c.img2 ? `<img src="${c.img2}" alt="${c.name}" class="char-card-img" loading="lazy">` : ''}
                                     </div>
                                 ` : ''}
                                 <div class="char-card-header">
@@ -615,28 +554,13 @@ function openModal(id) {
     `;
 
     modal.classList.add('active');
-    modal.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
-
-    // 焦点管理与焦点陷阱（仅首次打开时记住触发元素）
-    if (!lastFocusedBeforeModal) lastFocusedBeforeModal = document.activeElement;
-    const closeBtn = document.getElementById('modalClose');
-    if (closeBtn) closeBtn.focus();
-    modal.addEventListener('keydown', trapFocus);
 }
 
 function closeModal() {
     const modal = document.getElementById('workModal');
     modal.classList.remove('active');
-    modal.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
-    modal.removeEventListener('keydown', trapFocus);
-    lastOpenedWorkId = null;
-    // 归还焦点到触发元素
-    if (lastFocusedBeforeModal && typeof lastFocusedBeforeModal.focus === 'function') {
-        lastFocusedBeforeModal.focus();
-    }
-    lastFocusedBeforeModal = null;
 }
 
 /* ========================================
@@ -646,7 +570,7 @@ function openLightbox(src, caption) {
     const box = document.getElementById('lightbox');
     const img = document.getElementById('lightboxImg');
     const cap = document.getElementById('lightboxCaption');
-    img.src = webpSrc(src);
+    img.src = src;
     cap.textContent = caption || '';
     box.classList.add('active');
     document.body.style.overflow = 'hidden';
@@ -695,16 +619,6 @@ const skillObserver = new IntersectionObserver((entries) => {
    ======================================== */
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- 邮箱防爬：运行时拼装 mailto，避免被爬虫采集 ---
-    document.querySelectorAll('[data-email-user]').forEach(el => {
-        const user = el.dataset.emailUser;
-        const domain = el.dataset.emailDomain;
-        const email = user + '@' + domain;
-        el.href = 'mailto:' + email;
-        const txt = el.querySelector('[data-email-text]');
-        if (txt) txt.textContent = email;
-    });
-
     // --- 暗黑模式：初始化（localStorage 记忆，否则跟随系统） ---
     const themeToggle = document.getElementById('themeToggle');
     const savedTheme = localStorage.getItem('theme');
@@ -712,25 +626,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const initialTheme = savedTheme || (prefersDark ? 'dark' : 'light');
     document.documentElement.setAttribute('data-theme', initialTheme);
 
-    // 同步切换按钮的 aria-pressed 状态（提升可访问性）
-    function syncThemePressed() {
-        themeToggle.setAttribute('aria-pressed', document.documentElement.getAttribute('data-theme') === 'dark' ? 'true' : 'false');
-    }
-    syncThemePressed();
-
     themeToggle.addEventListener('click', () => {
         const current = document.documentElement.getAttribute('data-theme');
         const next = current === 'dark' ? 'light' : 'dark';
         document.documentElement.setAttribute('data-theme', next);
         localStorage.setItem('theme', next);
-        syncThemePressed();
     });
 
     // 实时跟随系统主题变化（仅当用户未手动设置过时）
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
         if (!localStorage.getItem('theme')) {
             document.documentElement.setAttribute('data-theme', e.matches ? 'dark' : 'light');
-            syncThemePressed();
         }
     });
 
@@ -854,30 +760,6 @@ document.addEventListener('DOMContentLoaded', () => {
     hamburger.addEventListener('click', () => {
         hamburger.classList.toggle('active');
         navMenu.classList.toggle('active');
-    });
-
-    // 点击 B站「点击播放」占位：懒加载并自动播放 iframe（解决移动端不自动播）
-    document.addEventListener('click', (e) => {
-        const holder = e.target.closest('.video-click-play');
-        if (holder) loadBilibiliIframe(holder);
-    });
-    document.addEventListener('keydown', (e) => {
-        if (e.key !== 'Enter' && e.key !== ' ') return;
-        const holder = e.target.closest('.video-click-play');
-        if (holder) { e.preventDefault(); loadBilibiliIframe(holder); }
-    });
-
-    // 移动端：点击导航区域外（空白/主体）或主题、语言切换时收起菜单，避免菜单卡死
-    document.addEventListener('click', (e) => {
-        if (!navMenu.classList.contains('active')) return;
-        const nav = document.getElementById('navbar');
-        const clickedNav = nav.contains(e.target);
-        const isToggle = e.target.closest('#themeToggle, #langToggle, #hamburger');
-        // 点击了导航栏内的非链接控件（主题/语言按钮）也收起，点击遮罩外区域也收起
-        if (!clickedNav || isToggle) {
-            hamburger.classList.remove('active');
-            navMenu.classList.remove('active');
-        }
     });
 
     // --- 语言切换 ---

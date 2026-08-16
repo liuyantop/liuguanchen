@@ -850,15 +850,6 @@ body.lang-en .hero-title {
     transition: transform 0.6s var(--ease);
 }
 
-.work-thumb-bg img {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-}
-
 .work-card:hover .work-thumb-bg {
     transform: scale(1.08);
 }
@@ -2632,80 +2623,6 @@ a.contact-method:hover .contact-icon {
     display: block;
     border: 0;
     background: #000;
-}
-
-/* B站「点击播放」占位层：解决移动端第三方 iframe 无法自动播放的问题 */
-.video-click-play {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    background: #000;
-    overflow: hidden;
-}
-
-.video-click-poster {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0.62;
-    transition: opacity 0.3s var(--ease);
-}
-
-.video-click-play:hover .video-click-poster,
-.video-click-play:focus-visible .video-click-poster {
-    opacity: 0.5;
-}
-
-.video-play-icon {
-    position: relative;
-    z-index: 1;
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(255, 255, 255, 0.92);
-    color: #111;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-    transition: transform 0.25s var(--ease);
-}
-
-.video-click-play:hover .video-play-icon,
-.video-click-play:focus-visible .video-play-icon {
-    transform: scale(1.08);
-}
-
-.video-click-play:focus-visible {
-    outline: 2px solid var(--accent);
-    outline-offset: 3px;
-}
-
-.video-click-hint {
-    position: absolute;
-    z-index: 1;
-    bottom: 14px;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 5px 14px;
-    border-radius: 999px;
-    font-size: 0.8rem;
-    color: #fff;
-    background: rgba(0, 0, 0, 0.55);
-    white-space: nowrap;
-    pointer-events: none;
-}
-
-/* 弹窗内的视频占位同样适配 16/9 容器 */
-.modal-video .video-click-play {
-    position: absolute;
-    inset: 0;
 }
 
 /* IPHI 页面图集 */
