@@ -112,7 +112,7 @@ const worksData = [
         playLabelZh: '在线试玩 / 下载展示版',
         playLabelEn: 'Play Demo / Download',
         trailer: '',
-        trailerBvid: 'BV1CUg36vEzf',
+        trailerBvid: 'BV1eKbD6GEkL',
         targetUsersZh: '20–35岁大城市青年职场人；喜欢叙事向、隐喻与心理主题的独立游戏玩家',
         targetUsersEn: 'Urban professionals aged 20–35; fans of narrative-driven indie games with metaphor and psychological themes',
         coreLoopZh: '对话 → 调查（读取空间与物件线索）→ 战斗（面对反扑的自我）',
