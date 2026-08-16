@@ -646,8 +646,8 @@ document.addEventListener('DOMContentLoaded', () => {
         loader.classList.add('hidden');
     }, 1600);
 
-    // --- IPHI 预告片：有 B站 BV 号则嵌入，否则回退本地视频 ---
-    const iphiWork = worksData.find(w => w.trailer || w.trailerBvid);
+    // --- IPHI 预告片：精确定位 IPHI 作品（id:5），避免被其他作品的 trailerBvid 顶替 ---
+    const iphiWork = worksData.find(w => w.id === 5) || worksData.find(w => w.titleEn === 'IPHI');
     const trailerFrame = document.getElementById('iphiTrailerFrame');
     if (iphiWork && trailerFrame) {
         trailerFrame.innerHTML = buildTrailerHTML(iphiWork);
