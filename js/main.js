@@ -327,12 +327,30 @@ function renderWorks(filter = 'all') {
 function buildTrailerHTML(work) {
     if (work && work.trailerBvid) {
         const bv = encodeURIComponent(work.trailerBvid);
-        return `<iframe class="iphi-trailer-iframe" src="https://player.bilibili.com/player.html?bvid=${bv}&page=1&high_quality=1&danmaku=0" sandbox="allow-scripts allow-same-origin allow-presentation" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" title="IPHI Trailer on Bilibili"></iframe>`;
+        // 点击播放占位：移动端第三方 iframe 无法强制自动播放，采用点击触发加载 autoplay iframe 的最可靠方案
+        const poster = webpSrc('assets/iphi/poster.jpg');
+        return `
+            <div class="video-click-play" data-bvid="${bv}" role="button" tabindex="0"
+                 aria-label="${currentLang === 'zh' ? '点击播放 IPHI 预告片' : 'Play IPHI trailer'}">
+                <img src="${poster}" alt="" class="video-click-poster" loading="lazy" decoding="async">
+                <span class="video-play-icon" aria-hidden="true">
+                    <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M5 3.5l12 7.5-12 7.5V3.5z" fill="currentColor"/></svg>
+                </span>
+                <span class="video-click-hint">${currentLang === 'zh' ? '点击播放（B站）' : 'Tap to play (Bilibili)'}</span>
+            </div>`;
     }
     if (work && work.trailer) {
         return `<video class="iphi-trailer-video" controls preload="metadata" poster="${work.thumb || ''}" playsinline><source src="${work.trailer}" type="video/mp4"><span>${currentLang === 'zh' ? '您的浏览器不支持视频播放。' : 'Your browser does not support the video tag.'}</span></video>`;
     }
     return '';
+}
+
+// 点击/键盘触发 B站 iframe 懒加载并自动播放（解决移动端不自动播问题）
+function loadBilibiliIframe(holder) {
+    const bv = holder.dataset.bvid;
+    if (!bv || holder.dataset.loaded === '1') return;
+    holder.dataset.loaded = '1';
+    holder.innerHTML = `<iframe class="iphi-trailer-iframe" src="https://player.bilibili.com/player.html?bvid=${bv}&page=1&high_quality=1&danmaku=0&autoplay=1" sandbox="allow-scripts allow-same-origin allow-presentation allow-autoplay" scrolling="no" border="0" frameborder="no" framespacing="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen="true" title="IPHI Trailer on Bilibili"></iframe>`;
 }
 
 function openModal(id) {
@@ -836,6 +854,17 @@ document.addEventListener('DOMContentLoaded', () => {
     hamburger.addEventListener('click', () => {
         hamburger.classList.toggle('active');
         navMenu.classList.toggle('active');
+    });
+
+    // 点击 B站「点击播放」占位：懒加载并自动播放 iframe（解决移动端不自动播）
+    document.addEventListener('click', (e) => {
+        const holder = e.target.closest('.video-click-play');
+        if (holder) loadBilibiliIframe(holder);
+    });
+    document.addEventListener('keydown', (e) => {
+        if (e.key !== 'Enter' && e.key !== ' ') return;
+        const holder = e.target.closest('.video-click-play');
+        if (holder) { e.preventDefault(); loadBilibiliIframe(holder); }
     });
 
     // 移动端：点击导航区域外（空白/主体）或主题、语言切换时收起菜单，避免菜单卡死
