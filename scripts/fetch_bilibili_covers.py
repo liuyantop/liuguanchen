@@ -1,27 +1,33 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-方案2：在"构建时"根据作品的 B站 trailerBvid 拉取官方封面图，写回 js/main.js 的 thumb 字段。
+方案2（本地化版）：在"构建时"根据作品的 B站 trailerBvid 拉取官方封面图，
+下载到本地 assets/covers/，并把 js/main.js 的 thumb 字段写成【本地相对路径】，
+从而避免使用 B站图床远程外链、加快页面加载。
 
-- 对每个含 trailerBvid 的作品，调用 B站 API 获取官方封面 pic。
-- 若作品原本没有 thumb 字段 -> 插入 thumb: '<pic>'。
-- 若作品已有 thumb 且为本地 assets 路径（以 assets/ 或 ./assets 开头）-> 跳过，不覆盖。
-- 若作品已有 thumb 但为远程 B站 封面（http(s)://i*.hdslb.com 或 bfs）-> 更新为最新 pic。
+- 对每个含 trailerBvid 的作品，调用 B站 API 获取官方封面 pic 的远程地址。
+- 将封面下载到 assets/covers/{bvid}.jpg（已存在则跳过下载，仅更新引用）。
+- 把 thumb 写成本地相对路径 'assets/covers/{bvid}.jpg'。
+- 若作品已有 thumb 且为本地 assets 路径、且文件名不是 covers/ 下由本脚本管理的 ->
+  视为手工指定封面，跳过不覆盖（例如 IPHI 的 assets/iphi/poster.jpg）。
+- 若作品已有本脚本管理的本地封面路径（assets/covers/...）-> 幂等，不重复改动。
 
 用法（在项目根目录）：
     python scripts/fetch_bilibili_covers.py
 
-依赖：Python 3，仅使用标准库（urllib / re / json）。
-注意：该 API 需带 Referer 与 UA，否则可能被拦截。
+依赖：Python 3，仅使用标准库（urllib / re / json / os）。
+注意：B站 API 需带 Referer 与 UA，否则可能被拦截。
 """
 
 import json
 import re
 import urllib.request
+import urllib.parse
 import os
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MAIN_JS = os.path.join(ROOT, "js", "main.js")
+COVERS_DIR = os.path.join(ROOT, "assets", "covers")
 
 API_URL = "https://api.bilibili.com/x/web-interface/view?bvid={bvid}"
 HEADERS = {
@@ -29,13 +35,16 @@ HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
 }
 
-# 本地资源路径：以此开头则不覆盖
+# 本地资源路径：以此开头则不覆盖（手工指定封面）
 LOCAL_PREFIXES = ("assets/", "./assets/", "/assets/")
+# 本脚本管理的封面目录
+COVERS_PREFIX = "assets/covers/"
 # B站封面域名特征
 BILI_PATTERN = re.compile(r"https?://[a-z0-9]+\.hdslb\.com/", re.I)
 
 
 def fetch_pic(bvid: str):
+    """返回 B站官方封面的远程 URL。"""
     url = API_URL.format(bvid=urllib.parse.quote(bvid))
     req = urllib.request.Request(url, headers=HEADERS)
     with urllib.request.urlopen(req, timeout=15) as resp:
@@ -45,8 +54,25 @@ def fetch_pic(bvid: str):
     pic = data.get("data", {}).get("pic")
     if not pic:
         raise RuntimeError("未找到 pic 字段")
-    # 统一为 https
     return pic.replace("http://", "https://", 1)
+
+
+def download_cover(bvid: str, pic_url: str) -> str:
+    """下载封面到本地 assets/covers/{bvid}.jpg，返回本地相对路径。"""
+    os.makedirs(COVERS_DIR, exist_ok=True)
+    filename = f"{bvid}.jpg"
+    local_rel = f"{COVERS_PREFIX}{filename}"
+    local_abs = os.path.join(COVERS_DIR, filename)
+    if os.path.exists(local_abs):
+        print(f"        · 本地已存在，跳过下载：{local_rel}")
+        return local_rel
+    req = urllib.request.Request(pic_url, headers=HEADERS)
+    with urllib.request.urlopen(req, timeout=30) as resp:
+        data = resp.read()
+    with open(local_abs, "wb") as f:
+        f.write(data)
+    print(f"        · 已下载 {len(data)} 字节 -> {local_rel}")
+    return local_rel
 
 
 def process(text: str):
@@ -113,32 +139,39 @@ def main():
             print(f"[跳过] 作品 {wid} (BV{bvid}): {e}")
             continue
 
+        # 目标本地路径
+        target_rel = f"{COVERS_PREFIX}{bvid}.jpg"
+
         thumb_val = it["thumb_val"]
         if thumb_val is not None:
+            # 已有本脚本管理的本地封面 -> 幂等跳过
+            if thumb_val == target_rel:
+                print(f"[保留] 作品 {wid}: 已是本地封面 {target_rel}")
+                continue
             is_local = thumb_val.startswith(LOCAL_PREFIXES)
             is_bili = bool(BILI_PATTERN.match(thumb_val))
-            if is_local and not is_bili:
-                print(f"[保留] 作品 {wid}: 已有本地封面 assets，不覆盖。")
+            # 手工指定的本地封面（非 covers/ 目录）-> 不覆盖
+            if is_local and not is_bili and not thumb_val.startswith(COVERS_PREFIX):
+                print(f"[保留] 作品 {wid}: 已有本地封面 {thumb_val}，不覆盖。")
                 continue
-            # 远程 B站封面 -> 替换已有 thumb 行
+            # 其余情况（远程 B站 / 旧远程 URL）-> 下载并写本地路径
+            local_rel = download_cover(bvid, pic)
             abs_start = it["thumb_abs"]
-            # 精确行范围：从 thumb: 起，到行尾换行
             nl = text.find("\n", abs_start)
             abs_end = nl if nl != -1 else len(text)
-            new_line = f"thumb: '{pic}'"
-            text = text[:abs_start] + new_line + text[abs_end:]
-            print(f"[更新] 作品 {wid}: {thumb_val} -> {pic}")
+            text = text[:abs_start] + f"thumb: '{local_rel}'" + text[abs_end:]
+            print(f"[更新] 作品 {wid}: {thumb_val} -> {local_rel}")
             changed += 1
         else:
-            # 没有 thumb -> 在 trailerBvid 行后插入
+            # 没有 thumb -> 下载并插入
+            local_rel = download_cover(bvid, pic)
             ins_pos = it["bvid_match"].end()
-            # 确保插入在行尾（遇到换行）
             nl = text.find("\n", ins_pos)
             if nl == -1:
                 nl = len(text)
-            insert_text = "\n        thumb: '" + pic + "'"
+            insert_text = "\n        thumb: '" + local_rel + "'"
             text = text[:nl] + insert_text + text[nl:]
-            print(f"[插入] 作品 {wid}: 新增 thumb -> {pic}")
+            print(f"[插入] 作品 {wid}: 新增 thumb -> {local_rel}")
             changed += 1
 
     if changed:
@@ -150,5 +183,4 @@ def main():
 
 
 if __name__ == "__main__":
-    import urllib.parse  # 放在末尾避免顶部未使用告警
     main()
