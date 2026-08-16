@@ -20,7 +20,8 @@ const worksData = [
         gradient: 'linear-gradient(135deg, #0ea5e9, #06b6d4, #14b8a6)',
         icon: 'vr',
         trailer: '',
-        trailerBvid: ''
+        trailerBvid: 'BV1NAbS6xEXT'
+        thumb: 'https://i0.hdslb.com/bfs/archive/8f9c8371edd6a47fac7083ba84f176cb38150ef6.jpg'
     },
     {
         id: 2,
@@ -81,6 +82,7 @@ const worksData = [
         icon: 'award',
         trailer: '',
         trailerBvid: 'BV1SvbS6YEiv'
+        thumb: 'https://i0.hdslb.com/bfs/archive/9dab9c490821ebca0764685545b38f4dac93f068.jpg'
     },
     /* ===== 游戏作品 ===== */
     {
