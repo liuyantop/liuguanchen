@@ -80,7 +80,7 @@ const worksData = [
         gradient: 'linear-gradient(135deg, #f43f5e, #ec4899, #d946ef)',
         icon: 'award',
         trailer: '',
-        trailerBvid: ''
+        trailerBvid: 'BV1SvbS6YEiv'
     },
     /* ===== 游戏作品 ===== */
     {
