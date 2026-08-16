@@ -4,7 +4,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="刘冠辰 - 数字媒体艺术硕士 · VR/AR沉浸式交互 · 3D视觉设计 · 游戏设计">
+    <meta name="author" content="刘冠辰 (Guanchen Liu)">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://liuguanchen.portfolio.example/">
     <title>刘冠辰 | 数字媒体艺术 · VR/3D设计作品集</title>
+
+    <!-- 社交分享 (Open Graph / Twitter Card) -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="刘冠辰 · 数字媒体艺术作品集">
+    <meta property="og:title" content="刘冠辰 | 数字媒体艺术 · VR/3D设计作品集">
+    <meta property="og:description" content="英国南安普顿大学数字媒体艺术硕士 · VR/AR沉浸式交互 × 3D建模 × AI辅助设计 · 从概念到技术落地的全流程创作者">
+    <meta property="og:image" content="https://liuguanchen.portfolio.example/assets/iphi/poster.jpg">
+    <meta property="og:url" content="https://liuguanchen.portfolio.example/">
+    <meta property="og:locale" content="zh_CN">
+    <meta property="og:locale:alternate" content="en_US">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="刘冠辰 | 数字媒体艺术 · VR/3D设计作品集">
+    <meta name="twitter:description" content="VR/AR沉浸式交互 × 3D视觉创作 · 数字媒体艺术硕士作品集">
+    <meta name="twitter:image" content="https://liuguanchen.portfolio.example/assets/iphi/poster.jpg">
+
+    <link rel="icon" type="image/png" href="assets/profile.jpg">
+    <link rel="apple-touch-icon" href="assets/profile.jpg">
+
+    <!-- 结构化数据 (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "刘冠辰",
+        "alternateName": "Guanchen Liu",
+        "jobTitle": "数字媒体艺术设计师 / 3D视觉设计师",
+        "description": "英国南安普顿大学数字媒体艺术硕士，专注 VR/AR 沉浸式交互、3D 视觉设计与游戏设计。",
+        "alumniOf": {
+            "@type": "CollegeOrUniversity",
+            "name": "University of Southampton"
+        },
+        "url": "https://liuguanchen.portfolio.example/",
+        "image": "https://liuguanchen.portfolio.example/assets/profile.jpg",
+        "knowsAbout": ["VR/AR", "3D Modeling", "Game Design", "Digital Media Art", "Interaction Design"],
+        "sameAs": []
+    }
+    </script>
+
     <script>
         (function () {
             try {
@@ -140,6 +181,7 @@
                 <div class="about-photo-wrap">
                     <div class="about-photo">
                         <img src="assets/profile.jpg" alt="刘冠辰 / Guanchen Liu" class="profile-img"
+                             width="420" height="420" loading="lazy" decoding="async"
                              onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
                         <div class="photo-placeholder" style="display:none">
                             <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
@@ -199,7 +241,7 @@
             </div>
             <div class="iphi-showcase">
                 <div class="iphi-visual">
-                    <img src="assets/iphi/poster.jpg" alt="IPHI poster" class="iphi-visual-img">
+                    <img src="assets/iphi/poster.jpg" alt="IPHI poster" class="iphi-visual-img" width="800" height="450" loading="lazy" decoding="async">
                     <div class="iphi-visual-overlay"></div>
                     <div class="iphi-visual-content">
                         <h3 class="iphi-title">IPHI</h3>
@@ -276,7 +318,7 @@
     </section>
 
     <!-- 作品详情弹窗 -->
-    <div class="work-modal" id="workModal">
+    <div class="work-modal" id="workModal" role="dialog" aria-modal="true" aria-labelledby="modalBody" aria-hidden="true">
         <div class="modal-overlay" id="modalOverlay"></div>
         <button class="modal-back" id="modalBack" aria-label="返回">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -498,13 +540,13 @@
                         如果你正在寻找一位兼具国际视野与落地能力的3D视觉与VR/AR交互创作者，欢迎随时联系。期待在游戏、VR或数字文旅领域与优秀的团队共同打造令人难忘的沉浸式体验。
                     </p>
                     <div class="contact-methods">
-                        <a href="mailto:liugc367@163.com" class="contact-method">
+                        <a href="#" class="contact-method" data-email-user="liugc367" data-email-domain="163.com">
                             <div class="contact-icon">
                                 <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="2" y="4" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M2 6l9 7 9-7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
                             </div>
                             <div>
                                 <span class="contact-label">Email</span>
-                                <span class="contact-value">liugc367@163.com</span>
+                                <span class="contact-value" data-email-text>liugc367@163.com</span>
                             </div>
                         </a>
                         <a href="tel:15546459607" class="contact-method">

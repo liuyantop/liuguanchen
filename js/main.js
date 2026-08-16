@@ -218,10 +218,38 @@ const icons = {
 /* ========================================
    语言管理 / Language Manager
    ======================================== */
-let currentLang = 'zh';
+const SAVED_LANG = (function () {
+    try { return localStorage.getItem('lang'); } catch (e) { return null; }
+})();
+let currentLang = (SAVED_LANG === 'en' || SAVED_LANG === 'zh') ? SAVED_LANG : 'zh';
+
+// 记录当前打开的作品，便于语言切换时实时重渲染
+let lastOpenedWorkId = null;
+
+// 弹窗焦点管理：保存触发元素，关闭后归还焦点
+let lastFocusedBeforeModal = null;
+
+// 弹窗键盘焦点陷阱
+function trapFocus(e) {
+    const modal = document.getElementById('workModal');
+    if (!modal.classList.contains('active')) return;
+    if (e.key !== 'Tab') return;
+    const focusable = modal.querySelectorAll('a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])');
+    if (!focusable.length) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+    }
+}
 
 function applyLanguage(lang) {
     currentLang = lang;
+    try { localStorage.setItem('lang', lang); } catch (e) {}
     document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
     document.body.classList.toggle('lang-en', lang === 'en');
 
@@ -243,6 +271,10 @@ function applyLanguage(lang) {
 
     // 重新渲染作品集（更新语言）
     renderWorks();
+    // 若弹窗已打开，实时重渲染内容（解决切语言后弹窗不更新的问题）
+    if (document.getElementById('workModal').classList.contains('active') && lastOpenedWorkId !== null) {
+        openModal(lastOpenedWorkId, true);
+    }
 }
 
 /* ========================================
@@ -255,7 +287,7 @@ function renderWorks(filter = 'all') {
     grid.innerHTML = filtered.map(work => `
         <div class="work-card${work.featured ? ' work-card-featured' : ''}" data-id="${work.id}" data-category="${work.category}">
             <div class="work-thumb">
-                ${work.thumb ? `<div class="work-thumb-bg" style="background-image: url('${work.thumb}'); background-size: cover; background-position: center;"></div>` : `<div class="work-thumb-bg" style="background: ${work.gradient};"></div>`}
+                ${work.thumb ? `<div class="work-thumb-bg"><img src="${work.thumb}" alt="${currentLang === 'zh' ? work.titleZh : work.titleEn}" loading="lazy" decoding="async"></div>` : `<div class="work-thumb-bg" style="background: ${work.gradient};"></div>`}
                 ${work.thumb ? '' : `<div class="work-thumb-icon">${icons[work.icon] || icons.award}</div>`}
                 <span class="work-year">${work.year}</span>
                 ${work.featured ? '<span class="work-featured-badge">★ Featured</span>' : ''}
@@ -296,6 +328,7 @@ function buildTrailerHTML(work) {
 function openModal(id) {
     const work = worksData.find(w => w.id === id);
     if (!work) return;
+    lastOpenedWorkId = id;
 
     const modal = document.getElementById('workModal');
     const body = document.getElementById('modalBody');
@@ -554,13 +587,28 @@ function openModal(id) {
     `;
 
     modal.classList.add('active');
+    modal.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
+
+    // 焦点管理与焦点陷阱（仅首次打开时记住触发元素）
+    if (!lastFocusedBeforeModal) lastFocusedBeforeModal = document.activeElement;
+    const closeBtn = document.getElementById('modalClose');
+    if (closeBtn) closeBtn.focus();
+    modal.addEventListener('keydown', trapFocus);
 }
 
 function closeModal() {
     const modal = document.getElementById('workModal');
     modal.classList.remove('active');
+    modal.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
+    modal.removeEventListener('keydown', trapFocus);
+    lastOpenedWorkId = null;
+    // 归还焦点到触发元素
+    if (lastFocusedBeforeModal && typeof lastFocusedBeforeModal.focus === 'function') {
+        lastFocusedBeforeModal.focus();
+    }
+    lastFocusedBeforeModal = null;
 }
 
 /* ========================================
@@ -618,6 +666,16 @@ const skillObserver = new IntersectionObserver((entries) => {
    初始化 / Initialization
    ======================================== */
 document.addEventListener('DOMContentLoaded', () => {
+
+    // --- 邮箱防爬：运行时拼装 mailto，避免被爬虫采集 ---
+    document.querySelectorAll('[data-email-user]').forEach(el => {
+        const user = el.dataset.emailUser;
+        const domain = el.dataset.emailDomain;
+        const email = user + '@' + domain;
+        el.href = 'mailto:' + email;
+        const txt = el.querySelector('[data-email-text]');
+        if (txt) txt.textContent = email;
+    });
 
     // --- 暗黑模式：初始化（localStorage 记忆，否则跟随系统） ---
     const themeToggle = document.getElementById('themeToggle');
@@ -760,6 +818,19 @@ document.addEventListener('DOMContentLoaded', () => {
     hamburger.addEventListener('click', () => {
         hamburger.classList.toggle('active');
         navMenu.classList.toggle('active');
+    });
+
+    // 移动端：点击导航区域外（空白/主体）或主题、语言切换时收起菜单，避免菜单卡死
+    document.addEventListener('click', (e) => {
+        if (!navMenu.classList.contains('active')) return;
+        const nav = document.getElementById('navbar');
+        const clickedNav = nav.contains(e.target);
+        const isToggle = e.target.closest('#themeToggle, #langToggle, #hamburger');
+        // 点击了导航栏内的非链接控件（主题/语言按钮）也收起，点击遮罩外区域也收起
+        if (!clickedNav || isToggle) {
+            hamburger.classList.remove('active');
+            navMenu.classList.remove('active');
+        }
     });
 
     // --- 语言切换 ---
