@@ -351,80 +351,123 @@ function renderWorks(filter = 'all') {
    ======================================== */
 function bilibiliIframeSrc(bvid) {
     const bv = encodeURIComponent(bvid);
-    // 移动端使用 muted=1：静音自动播放在移动端被允许，先静音播放再通过 postMessage 取消静音
-    // PC 端不加 muted，autoplay=1 配合用户点击手势即可直接带声播放
+    // 移动端：静音自动播放策略（muted=1 + mute=1 + hash 三保险，最大化 B 站 embed 识别率）
+    // PC 端：autoplay=1 配合用户点击手势直接带声播放
     const isMobile = window.matchMedia('(pointer: coarse)').matches || /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
-    const mutedParam = isMobile ? '&muted=1' : '';
-    return `https://player.bilibili.com/player.html?bvid=${bv}&page=1&high_quality=1&danmaku=0&autoplay=1${mutedParam}`;
+    if (isMobile) {
+        return `https://player.bilibili.com/player.html?bvid=${bv}&page=1&high_quality=1&danmaku=0&autoplay=1&muted=1&mute=1#muted=1`;
+    }
+    return `https://player.bilibili.com/player.html?bvid=${bv}&page=1&high_quality=1&danmaku=0&autoplay=1`;
 }
 
-// 注入 B 站 iframe 并在加载后通过 postMessage 发送播放命令
-// 移动端策略：muted=1 静音自动播放 → postMessage 取消静音 → 显示取消静音按钮兜底
+// 向 B 站 iframe 发送多种格式的 postMessage 命令（兼容不同版本播放器）
+function sendBilibiliCmd(iframe, verb, vol) {
+    const origin = 'https://player.bilibili.com';
+    const tries = [];
+    if (verb === 'play') {
+        tries.push({ func: 'playVideo' });
+        tries.push({ cmd: 'play' });
+        tries.push({ action: 'play' });
+        tries.push({ type: 'player_action', action: 'play' });
+        tries.push({ event: 'video', method: 'play' });
+        tries.push({ verb: 'play' });
+    } else if (verb === 'pause') {
+        tries.push({ func: 'pauseVideo' });
+        tries.push({ cmd: 'pause' });
+        tries.push({ verb: 'pause' });
+    } else if (verb === 'unmute') {
+        tries.push({ func: 'unMute' });
+        tries.push({ func: 'unmute' });
+        tries.push({ func: 'setVolume', args: [1] });
+        tries.push({ cmd: 'volume', value: 1 });
+        tries.push({ cmd: 'muted', value: false });
+        tries.push({ action: 'unmute' });
+        tries.push({ verb: 'setVolume', vol: 1 });
+    } else if (verb === 'mute') {
+        tries.push({ func: 'mute' });
+        tries.push({ func: 'muted' });
+        tries.push({ func: 'setVolume', args: [0] });
+        tries.push({ cmd: 'muted', value: true });
+    } else if (verb === 'volume' && typeof vol === 'number') {
+        tries.push({ func: 'setVolume', args: [vol] });
+        tries.push({ cmd: 'volume', value: vol });
+        tries.push({ verb: 'setVolume', vol: vol });
+    }
+    tries.forEach(msg => {
+        try {
+            iframe.contentWindow.postMessage(JSON.stringify(msg), origin);
+        } catch (e) { /* ignore */ }
+    });
+}
+
+// 注入 B 站 iframe
+// 移动端完整策略：
+//  1. URL 多参数静音 + autoplay=1（请求 B 站 embed 本身静音起播）
+//  2. iframe load 后 sendBilibiliCmd 发送多版本 play + unmute 命令重试
+//  3. 取消静音悬浮按钮：用户点击在真实手势内发送 play+unmute+volume，必生效
 function injectBilibiliIframe(container, src) {
     container.innerHTML = '';
-    // 确保容器有定位上下文，供取消静音按钮使用
     container.style.position = 'relative';
 
     const iframe = document.createElement('iframe');
     iframe.className = 'iphi-trailer-iframe';
-    // 不使用 loading="lazy"，确保在用户手势窗口内立即开始加载
     iframe.setAttribute('scrolling', 'no');
     iframe.setAttribute('border', '0');
     iframe.setAttribute('frameborder', 'no');
     iframe.setAttribute('framespacing', '0');
     iframe.setAttribute('allowfullscreen', 'true');
-    iframe.setAttribute('allow', 'autoplay; fullscreen; encrypted-media');
+    iframe.setAttribute('allow', 'autoplay; fullscreen; encrypted-media; microphone; camera');
+    iframe.setAttribute('referrerpolicy', 'no-referrer-when-downgrade');
     iframe.title = 'Bilibili Trailer';
     container.appendChild(iframe);
 
     const isMobile = window.matchMedia('(pointer: coarse)').matches || /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
 
-    // 移动端：添加「取消静音」悬浮按钮（postMessage 取消静音失败时的兜底交互）
+    // 移动端：「▶ 点击播放声音」按钮（真实用户手势下必生效）
     let unmuteBtn = null;
     if (isMobile) {
         unmuteBtn = document.createElement('button');
         unmuteBtn.type = 'button';
         unmuteBtn.className = 'trailer-unmute-btn';
-        const unmuteLabel = currentLang === 'zh' ? '点击取消静音' : 'Tap to unmute';
-        unmuteBtn.setAttribute('aria-label', unmuteLabel);
+        const playLabel = currentLang === 'zh' ? '▶ 点击播放声音' : '▶ Tap to play with sound';
+        unmuteBtn.setAttribute('aria-label', playLabel);
         unmuteBtn.innerHTML = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M11 5L6 9H2v6h4l5 4V5z" fill="currentColor"/>
-            <line x1="22" y1="9" x2="16" y2="15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-            <line x1="16" y1="9" x2="22" y2="15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-        </svg><span class="trailer-unmute-text">${unmuteLabel}</span>`;
+            <path d="M8 5v14l11-7z" fill="currentColor"/>
+            <path d="M4 10v4a2 2 0 0 0 2 2h2V8H6a2 2 0 0 0-2 2z" fill="currentColor" opacity="0.6"/>
+        </svg><span class="trailer-unmute-text">${playLabel}</span>`;
         container.appendChild(unmuteBtn);
 
         unmuteBtn.addEventListener('click', function (e) {
             e.stopPropagation();
-            try {
-                iframe.contentWindow.postMessage(JSON.stringify({ verb: 'setVolume', vol: 1 }), 'https://player.bilibili.com');
-            } catch (err) { /* 忽略 */ }
+            e.preventDefault();
+            // 真实用户手势：顺序发送 play → unmute → volume=1，保障命令到达
+            sendBilibiliCmd(iframe, 'play');
+            setTimeout(function () { sendBilibiliCmd(iframe, 'unmute'); }, 60);
+            setTimeout(function () { sendBilibiliCmd(iframe, 'volume', 1); }, 160);
             unmuteBtn.classList.add('hidden');
         });
     }
 
-    // iframe load 后通过 postMessage 发送播放 + 取消静音命令（重试多次，等待播放器初始化完成）
-    let retryCount = 0;
-    const maxRetries = 8;
-    function sendPlayCommand() {
+    // 播放器初始化需要时间，循环重试发送命令
+    var retryCount = 0;
+    var maxRetries = 10;
+    function tick() {
         if (retryCount >= maxRetries) return;
         retryCount++;
-        try {
-            iframe.contentWindow.postMessage(JSON.stringify({ verb: 'play' }), 'https://player.bilibili.com');
-            if (isMobile) {
-                iframe.contentWindow.postMessage(JSON.stringify({ verb: 'setVolume', vol: 1 }), 'https://player.bilibili.com');
-            }
-        } catch (e) { /* 跨域或未就绪，忽略 */ }
-        if (retryCount < maxRetries) {
-            setTimeout(sendPlayCommand, 500);
+        sendBilibiliCmd(iframe, 'play');
+        if (isMobile) {
+            sendBilibiliCmd(iframe, 'unmute');
+            sendBilibiliCmd(iframe, 'volume', 1);
         }
+        if (retryCount < maxRetries) setTimeout(tick, 450);
     }
 
-    iframe.addEventListener('load', () => {
-        setTimeout(sendPlayCommand, 300);
+    iframe.addEventListener('load', function () {
+        sendBilibiliCmd(iframe, 'play');
+        if (isMobile) sendBilibiliCmd(iframe, 'unmute');
+        setTimeout(tick, 300);
     });
 
-    // 最后设置 src，确保 load 事件监听已绑定
     iframe.src = src;
 }
 
