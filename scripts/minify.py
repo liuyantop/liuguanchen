@@ -6,8 +6,17 @@
 import os
 import sys
 
-from csscompressor import compress as css_min
-from jsmin import jsmin
+try:
+    from csscompressor import compress as css_min
+except ImportError:
+    print('[错误] 缺少依赖 csscompressor，请执行: pip install csscompressor', file=sys.stderr)
+    sys.exit(1)
+
+try:
+    from jsmin import jsmin
+except ImportError:
+    print('[错误] 缺少依赖 jsmin，请执行: pip install jsmin', file=sys.stderr)
+    sys.exit(1)
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
