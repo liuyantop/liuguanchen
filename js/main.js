@@ -351,7 +351,81 @@ function renderWorks(filter = 'all') {
    ======================================== */
 function bilibiliIframeSrc(bvid) {
     const bv = encodeURIComponent(bvid);
-    return `https://player.bilibili.com/player.html?bvid=${bv}&page=1&high_quality=1&danmaku=0&autoplay=1`;
+    // 移动端使用 muted=1：静音自动播放在移动端被允许，先静音播放再通过 postMessage 取消静音
+    // PC 端不加 muted，autoplay=1 配合用户点击手势即可直接带声播放
+    const isMobile = window.matchMedia('(pointer: coarse)').matches || /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
+    const mutedParam = isMobile ? '&muted=1' : '';
+    return `https://player.bilibili.com/player.html?bvid=${bv}&page=1&high_quality=1&danmaku=0&autoplay=1${mutedParam}`;
+}
+
+// 注入 B 站 iframe 并在加载后通过 postMessage 发送播放命令
+// 移动端策略：muted=1 静音自动播放 → postMessage 取消静音 → 显示取消静音按钮兜底
+function injectBilibiliIframe(container, src) {
+    container.innerHTML = '';
+    // 确保容器有定位上下文，供取消静音按钮使用
+    container.style.position = 'relative';
+
+    const iframe = document.createElement('iframe');
+    iframe.className = 'iphi-trailer-iframe';
+    // 不使用 loading="lazy"，确保在用户手势窗口内立即开始加载
+    iframe.setAttribute('scrolling', 'no');
+    iframe.setAttribute('border', '0');
+    iframe.setAttribute('frameborder', 'no');
+    iframe.setAttribute('framespacing', '0');
+    iframe.setAttribute('allowfullscreen', 'true');
+    iframe.setAttribute('allow', 'autoplay; fullscreen; encrypted-media');
+    iframe.title = 'Bilibili Trailer';
+    container.appendChild(iframe);
+
+    const isMobile = window.matchMedia('(pointer: coarse)').matches || /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
+
+    // 移动端：添加「取消静音」悬浮按钮（postMessage 取消静音失败时的兜底交互）
+    let unmuteBtn = null;
+    if (isMobile) {
+        unmuteBtn = document.createElement('button');
+        unmuteBtn.type = 'button';
+        unmuteBtn.className = 'trailer-unmute-btn';
+        const unmuteLabel = currentLang === 'zh' ? '点击取消静音' : 'Tap to unmute';
+        unmuteBtn.setAttribute('aria-label', unmuteLabel);
+        unmuteBtn.innerHTML = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M11 5L6 9H2v6h4l5 4V5z" fill="currentColor"/>
+            <line x1="22" y1="9" x2="16" y2="15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <line x1="16" y1="9" x2="22" y2="15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg><span class="trailer-unmute-text">${unmuteLabel}</span>`;
+        container.appendChild(unmuteBtn);
+
+        unmuteBtn.addEventListener('click', function (e) {
+            e.stopPropagation();
+            try {
+                iframe.contentWindow.postMessage(JSON.stringify({ verb: 'setVolume', vol: 1 }), 'https://player.bilibili.com');
+            } catch (err) { /* 忽略 */ }
+            unmuteBtn.classList.add('hidden');
+        });
+    }
+
+    // iframe load 后通过 postMessage 发送播放 + 取消静音命令（重试多次，等待播放器初始化完成）
+    let retryCount = 0;
+    const maxRetries = 8;
+    function sendPlayCommand() {
+        if (retryCount >= maxRetries) return;
+        retryCount++;
+        try {
+            iframe.contentWindow.postMessage(JSON.stringify({ verb: 'play' }), 'https://player.bilibili.com');
+            if (isMobile) {
+                iframe.contentWindow.postMessage(JSON.stringify({ verb: 'setVolume', vol: 1 }), 'https://player.bilibili.com');
+            }
+        } catch (e) { /* 跨域或未就绪，忽略 */ }
+        if (retryCount < maxRetries) {
+            setTimeout(sendPlayCommand, 500);
+        }
+    }
+
+    iframe.addEventListener('load', () => {
+        setTimeout(sendPlayCommand, 300);
+    });
+
+    // 最后设置 src，确保 load 事件监听已绑定
+    iframe.src = src;
 }
 
 function buildTrailerHTML(work, embed) {
@@ -378,7 +452,7 @@ function buildTrailerHTML(work, embed) {
                 <span class="trailer-placeholder-badge" data-zh="B 站 · 高清" data-en="Bilibili · HD">B 站 · 高清</span>
             </button>`;
         }
-        return `<iframe class="iphi-trailer-iframe" loading="lazy" src="${iframeSrc}" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" title="Bilibili Trailer"></iframe>`;
+        return `<iframe class="iphi-trailer-iframe" loading="lazy" src="${iframeSrc}" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" allow="autoplay; fullscreen; encrypted-media" title="Bilibili Trailer"></iframe>`;
     }
     if (work && work.trailer) {
         return `<video class="iphi-trailer-video" controls preload="metadata" poster="${work.thumb || ''}" playsinline><source src="${work.trailer}" type="video/mp4"><span>${currentLang === 'zh' ? '您的浏览器不支持视频播放。' : 'Your browser does not support the video tag.'}</span></video>`;
@@ -665,7 +739,8 @@ function openModal(id) {
             if (!src) return;
             const wrap = btn.parentElement;
             if (!wrap) return;
-            wrap.innerHTML = `<iframe class="iphi-trailer-iframe" loading="lazy" src="${src}" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" title="Bilibili Trailer"></iframe>`;
+            // 使用 injectBilibiliIframe 注入，确保移动端一次点击即可播放
+            injectBilibiliIframe(wrap, src);
         }, { once: true });
     });
 }
@@ -802,7 +877,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const trailerPlayBtn = document.getElementById('trailerPlayBtn');
     if (iphiWork && trailerFrame && trailerPlayBtn) {
         trailerPlayBtn.addEventListener('click', () => {
-            trailerFrame.innerHTML = buildTrailerHTML(iphiWork, true);
+            if (iphiWork.trailerBvid) {
+                // 使用 injectBilibiliIframe 注入，确保移动端一次点击即可播放
+                injectBilibiliIframe(trailerFrame, bilibiliIframeSrc(iphiWork.trailerBvid));
+            } else {
+                trailerFrame.innerHTML = buildTrailerHTML(iphiWork, true);
+            }
         }, { once: true });
     }
 
