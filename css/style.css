@@ -1240,7 +1240,6 @@ body.lang-en .hero-title {
     border: 1px solid var(--border);
     background: #000;
     aspect-ratio: 16 / 9;
-    position: relative;
 }
 
 .modal-video-el {
@@ -2828,49 +2827,6 @@ a.contact-method:hover .contact-icon {
     display: block;
     border: 0;
     background: #000;
-}
-
-/* 移动端 B 站视频取消静音按钮 */
-.trailer-unmute-btn {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-    z-index: 10;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 7px 14px;
-    border: 0;
-    border-radius: 999px;
-    background: rgba(0, 0, 0, 0.65);
-    color: #fff;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-    transition: background 0.2s, transform 0.15s;
-    animation: unmoteFadeIn 0.3s ease 0.5s both;
-}
-.trailer-unmute-btn:hover {
-    background: rgba(0, 0, 0, 0.85);
-    transform: scale(1.05);
-}
-.trailer-unmute-btn:active {
-    transform: scale(0.95);
-}
-.trailer-unmute-btn.hidden {
-    opacity: 0;
-    pointer-events: none;
-    transform: scale(0.8);
-    transition: opacity 0.25s, transform 0.25s;
-}
-.trailer-unmute-text {
-    white-space: nowrap;
-}
-@keyframes unmoteFadeIn {
-    from { opacity: 0; transform: translateY(8px); }
-    to { opacity: 1; transform: translateY(0); }
 }
 
 /* IPHI 页面图集 */
