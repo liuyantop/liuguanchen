@@ -378,7 +378,7 @@ function buildTrailerHTML(work, embed) {
                 <span class="trailer-placeholder-badge" data-zh="B 站 · 高清" data-en="Bilibili · HD">B 站 · 高清</span>
             </button>`;
         }
-        return `<iframe class="iphi-trailer-iframe" loading="lazy" src="${iframeSrc}" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" title="Bilibili Trailer"></iframe>`;
+        return `<iframe class="iphi-trailer-iframe" loading="lazy" src="${iframeSrc}" scrolling="no" border="0" frameborder="no" framespacing="0" allow="autoplay; fullscreen; encrypted-media; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen="true" title="Bilibili Trailer"></iframe>`;
     }
     if (work && work.trailer) {
         return `<video class="iphi-trailer-video" controls preload="metadata" poster="${work.thumb || ''}" playsinline><source src="${work.trailer}" type="video/mp4"><span>${currentLang === 'zh' ? '您的浏览器不支持视频播放。' : 'Your browser does not support the video tag.'}</span></video>`;
@@ -665,7 +665,7 @@ function openModal(id) {
             if (!src) return;
             const wrap = btn.parentElement;
             if (!wrap) return;
-            wrap.innerHTML = `<iframe class="iphi-trailer-iframe" loading="lazy" src="${src}" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" title="Bilibili Trailer"></iframe>`;
+            wrap.innerHTML = `<iframe class="iphi-trailer-iframe" loading="lazy" src="${src}" scrolling="no" border="0" frameborder="no" framespacing="0" allow="autoplay; fullscreen; encrypted-media; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen="true" title="Bilibili Trailer"></iframe>`;
         }, { once: true });
     });
 }
