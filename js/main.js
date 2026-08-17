@@ -1,10 +1,44 @@
 /* ========================================
    联系信息 / Contact Info（统一配置，避免多处硬编码不一致）
+   HTML 中的联系方式由 syncContactInfo() 同步到此常量，确保单一数据源。
+   修改邮箱/电话只需改这里，HTML 链接、显示文本、JSON-LD 会自动同步。
    ======================================== */
 const CONTACT = {
     email: 'liugc367@163.com',
     phone: '15546459607'
 };
+
+/* 将 CONTACT 同步到 HTML：联系链接、显示文本、JSON-LD、降级提示邮箱 */
+function syncContactInfo() {
+    // 邮箱链接与显示文本
+    document.querySelectorAll('[data-contact="email-link"]').forEach(el => {
+        el.setAttribute('href', `mailto:${CONTACT.email}`);
+    });
+    document.querySelectorAll('[data-contact="email-text"]').forEach(el => {
+        el.textContent = CONTACT.email;
+    });
+    // 电话链接与显示文本
+    document.querySelectorAll('[data-contact="phone-link"]').forEach(el => {
+        el.setAttribute('href', `tel:${CONTACT.phone}`);
+    });
+    document.querySelectorAll('[data-contact="phone-text"]').forEach(el => {
+        el.textContent = CONTACT.phone;
+    });
+    // 同步 JSON-LD Person 结构化数据（Google 索引时会执行 JS）
+    const schema = document.getElementById('personSchema');
+    if (schema) {
+        try {
+            const data = JSON.parse(schema.textContent);
+            data.email = CONTACT.email;
+            // 格式化为 E.164 友好格式：+86 155 4645 9607
+            data.telephone = `+86 ${CONTACT.phone.replace(/(\d{3})(\d{4})(\d{4})/, '$1 $2 $3')}`;
+            schema.textContent = JSON.stringify(data, null, 2);
+        } catch (e) { /* JSON-LD 解析失败则保留 HTML 原值 */ }
+    }
+    // 降级提示中的邮箱
+    const fallbackEmail = document.getElementById('formFallbackEmail');
+    if (fallbackEmail) fallbackEmail.textContent = CONTACT.email;
+}
 
 /* ========================================
    焦点管理 / Focus Management（弹窗可访问性）
@@ -137,6 +171,7 @@ const worksData = [
         playLabelEn: 'Play Demo / Download',
         trailer: '',
         trailerBvid: 'BV1eKbD6GEkL',
+        trailerCover: 'assets/covers/BV1eKbD6GEkL.webp',
         targetUsersZh: '20–35岁大城市青年职场人；喜欢叙事向、隐喻与心理主题的独立游戏玩家',
         targetUsersEn: 'Urban professionals aged 20–35; fans of narrative-driven indie games with metaphor and psychological themes',
         coreLoopZh: '对话 → 调查（读取空间与物件线索）→ 战斗（面对反扑的自我）',
@@ -287,7 +322,7 @@ function renderWorks(filter = 'all') {
     grid.innerHTML = filtered.map(work => `
         <div class="work-card${work.featured ? ' work-card-featured' : ''}" data-id="${work.id}" data-category="${work.category}">
             <div class="work-thumb">
-                ${work.thumb ? `<div class="work-thumb-bg" style="background-image: url('${work.thumb}'); background-size: cover; background-position: center;"></div>` : `<div class="work-thumb-bg" style="background: ${work.gradient};"></div>`}
+                ${work.thumb ? `<picture class="work-thumb-bg"><source srcset="${work.thumb}" type="image/webp"><img src="${work.thumb.replace(/\.webp$/i, '.jpg')}" alt="${currentLang === 'zh' ? work.titleZh : work.titleEn}" loading="lazy" decoding="async"></picture>` : `<div class="work-thumb-bg" style="background: ${work.gradient};"></div>`}
                 ${work.thumb ? '' : `<div class="work-thumb-icon">${icons[work.icon] || icons.award}</div>`}
                 <span class="work-year">${work.year}</span>
                 ${work.featured ? '<span class="work-featured-badge">★ Featured</span>' : ''}
@@ -314,10 +349,36 @@ function renderWorks(filter = 'all') {
 /* ========================================
    作品弹窗 / Work Modal
    ======================================== */
-function buildTrailerHTML(work) {
+function bilibiliIframeSrc(bvid) {
+    const bv = encodeURIComponent(bvid);
+    return `https://player.bilibili.com/player.html?bvid=${bv}&page=1&high_quality=1&danmaku=0&autoplay=1`;
+}
+
+function buildTrailerHTML(work, embed) {
     if (work && work.trailerBvid) {
-        const bv = encodeURIComponent(work.trailerBvid);
-        return `<iframe class="iphi-trailer-iframe" loading="lazy" src="https://player.bilibili.com/player.html?bvid=${bv}&page=1&high_quality=1&danmaku=0&autoplay=0" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" title="IPHI Trailer on Bilibili"></iframe>`;
+        const iframeSrc = bilibiliIframeSrc(work.trailerBvid);
+        const coverWebp = work.trailerCover || work.thumb;
+        // embed=true（如 IPHI 预告片占位已由外层按钮触发）或无封面时，直接注入 iframe
+        if (!embed && coverWebp) {
+            const coverJpg = coverWebp.replace(/\.webp$/i, '.jpg');
+            const playLabel = currentLang === 'zh' ? '点击播放' : 'Click to play';
+            const coverAlt = currentLang === 'zh' ? '视频封面' : 'Video cover';
+            return `<button type="button" class="trailer-placeholder modal-trailer-placeholder" data-iframe-src="${iframeSrc}" aria-label="${playLabel}">
+                <picture>
+                    <source srcset="${coverWebp}" type="image/webp">
+                    <img src="${coverJpg}" alt="${coverAlt}" class="trailer-placeholder-img" loading="lazy" decoding="async">
+                </picture>
+                <span class="trailer-placeholder-play">
+                    <svg width="40" height="40" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+                        <circle cx="20" cy="20" r="20" fill="currentColor" opacity="0.95"/>
+                        <path d="M27 20l-12 7V13l12 7z" fill="#0a0a0c"/>
+                    </svg>
+                    <span class="trailer-placeholder-text">${playLabel}</span>
+                </span>
+                <span class="trailer-placeholder-badge" data-zh="B 站 · 高清" data-en="Bilibili · HD">B 站 · 高清</span>
+            </button>`;
+        }
+        return `<iframe class="iphi-trailer-iframe" loading="lazy" src="${iframeSrc}" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" title="Bilibili Trailer"></iframe>`;
     }
     if (work && work.trailer) {
         return `<video class="iphi-trailer-video" controls preload="metadata" poster="${work.thumb || ''}" playsinline><source src="${work.trailer}" type="video/mp4"><span>${currentLang === 'zh' ? '您的浏览器不支持视频播放。' : 'Your browser does not support the video tag.'}</span></video>`;
@@ -596,6 +657,17 @@ function openModal(id) {
     activeTrap = modal;
     const closeBtn = modal.querySelector('.modal-close');
     if (closeBtn) closeBtn.focus();
+
+    // 作品弹窗内的 B 站视频：点击播放占位后才注入 iframe（与 IPHI 预告片一致，避免打开弹窗即出声）
+    body.querySelectorAll('.modal-trailer-placeholder').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const src = btn.dataset.iframeSrc;
+            if (!src) return;
+            const wrap = btn.parentElement;
+            if (!wrap) return;
+            wrap.innerHTML = `<iframe class="iphi-trailer-iframe" loading="lazy" src="${src}" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" title="Bilibili Trailer"></iframe>`;
+        }, { once: true });
+    });
 }
 
 function closeModal() {
@@ -677,6 +749,9 @@ const skillObserver = new IntersectionObserver((entries) => {
    ======================================== */
 document.addEventListener('DOMContentLoaded', () => {
 
+    // --- 联系方式：用 CONTACT 常量同步 HTML（单一数据源） ---
+    syncContactInfo();
+
     // --- 暗黑模式：初始化（localStorage 记忆，否则跟随系统） ---
     const themeToggle = document.getElementById('themeToggle');
     const savedTheme = localStorage.getItem('theme');
@@ -684,21 +759,33 @@ document.addEventListener('DOMContentLoaded', () => {
     const initialTheme = savedTheme || (prefersDark ? 'dark' : 'light');
     document.documentElement.setAttribute('data-theme', initialTheme);
 
+    // 同步浏览器地址栏 theme-color（手动切换主题时不依赖 prefers-color-scheme media query）
+    const themeColorMeta = document.getElementById('themeColorMeta');
+    function updateThemeColor(theme) {
+        if (themeColorMeta) {
+            themeColorMeta.setAttribute('content', theme === 'dark' ? '#0f0f0f' : '#fafafa');
+        }
+    }
+    updateThemeColor(initialTheme);
+
     themeToggle.addEventListener('click', () => {
         const current = document.documentElement.getAttribute('data-theme');
         const next = current === 'dark' ? 'light' : 'dark';
         document.documentElement.setAttribute('data-theme', next);
         localStorage.setItem('theme', next);
+        updateThemeColor(next);
     });
 
     // 实时跟随系统主题变化（仅当用户未手动设置过时）
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
         if (!localStorage.getItem('theme')) {
-            document.documentElement.setAttribute('data-theme', e.matches ? 'dark' : 'light');
+            const t = e.matches ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', t);
+            updateThemeColor(t);
         }
     });
 
-    // --- 加载画面：资源就绪即隐藏，最多等 1.6s（取先到者，避免慢网络白屏 / 快网络干等） ---
+    // --- 加载画面：资源就绪即隐藏，最多等 800ms（取先到者，避免慢网络白屏 / 快网络干等） ---
     const loader = document.getElementById('loader');
     let loaderHidden = false;
     const hideLoader = () => {
@@ -706,7 +793,7 @@ document.addEventListener('DOMContentLoaded', () => {
         loaderHidden = true;
         loader.classList.add('hidden');
     };
-    setTimeout(hideLoader, 1600);
+    setTimeout(hideLoader, 800);
     window.addEventListener('load', hideLoader);
 
     // --- IPHI 预告片：用户点击播放按钮后才注入 iframe，避免进页自动出声（MEI 高分浏览器常见）
@@ -715,7 +802,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const trailerPlayBtn = document.getElementById('trailerPlayBtn');
     if (iphiWork && trailerFrame && trailerPlayBtn) {
         trailerPlayBtn.addEventListener('click', () => {
-            trailerFrame.innerHTML = buildTrailerHTML(iphiWork);
+            trailerFrame.innerHTML = buildTrailerHTML(iphiWork, true);
         }, { once: true });
     }
 
@@ -724,37 +811,60 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.addEventListener('click', () => openModal(parseInt(btn.dataset.openWork, 10)));
     });
 
-    // --- 自定义光标 ---
+    // --- 自定义光标（动态启停：窗口缩放 / 触屏设备自动关闭，避免空转 rAF） ---
     const cursorDot = document.getElementById('cursorDot');
     const cursorRing = document.getElementById('cursorRing');
     let mouseX = 0, mouseY = 0;
     let ringX = 0, ringY = 0;
+    let cursorActive = false;
+    let cursorRafId = null;
 
-    if (window.innerWidth > 1024) {
+    // 仅在宽屏 + 精确指针（鼠标）下启用，触屏设备自动跳过
+    const cursorMQ = window.matchMedia('(min-width: 1025px) and (pointer: fine)');
+
+    function onCursorMove(e) {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        cursorDot.style.left = mouseX + 'px';
+        cursorDot.style.top = mouseY + 'px';
+    }
+
+    function animateRing() {
+        if (!cursorActive) return;
+        ringX += (mouseX - ringX) * 0.18;
+        ringY += (mouseY - ringY) * 0.18;
+        cursorRing.style.left = ringX + 'px';
+        cursorRing.style.top = ringY + 'px';
+        cursorRafId = requestAnimationFrame(animateRing);
+    }
+
+    function startCursor() {
+        if (cursorActive) return;
+        cursorActive = true;
         document.body.classList.add('cursor-ready');
-        document.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-            cursorDot.style.left = mouseX + 'px';
-            cursorDot.style.top = mouseY + 'px';
-        });
-
-        // 光标环平滑跟随
-        function animateRing() {
-            ringX += (mouseX - ringX) * 0.18;
-            ringY += (mouseY - ringY) * 0.18;
-            cursorRing.style.left = ringX + 'px';
-            cursorRing.style.top = ringY + 'px';
-            requestAnimationFrame(animateRing);
-        }
+        document.addEventListener('mousemove', onCursorMove);
         animateRing();
-
         // 可交互元素光标变大
         document.querySelectorAll('a, button, .work-card, .skill-card, input, textarea').forEach(el => {
             el.addEventListener('mouseenter', () => cursorRing.classList.add('expand'));
             el.addEventListener('mouseleave', () => cursorRing.classList.remove('expand'));
         });
     }
+
+    function stopCursor() {
+        if (!cursorActive) return;
+        cursorActive = false;
+        document.body.classList.remove('cursor-ready');
+        document.removeEventListener('mousemove', onCursorMove);
+        if (cursorRafId) {
+            cancelAnimationFrame(cursorRafId);
+            cursorRafId = null;
+        }
+    }
+
+    // 初始化 + 响应窗口变化动态启停
+    if (cursorMQ.matches) startCursor();
+    cursorMQ.addEventListener('change', (e) => { e.matches ? startCursor() : stopCursor(); });
 
     // --- 滚动进度 ---
     const scrollProgress = document.getElementById('scrollProgress');
@@ -779,18 +889,33 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }, { passive: true });
 
-    // --- 导航高亮 ---
+    // --- 导航高亮（缓存 section offsetTop，避免每次滚动读取布局触发 reflow） ---
     const sections = document.querySelectorAll('section[id]');
     const navLinks = document.querySelectorAll('.nav-link');
+    let sectionTops = [];
+
+    function calcSectionTops() {
+        sectionTops = Array.from(sections).map(s => ({
+            id: s.getAttribute('id'),
+            top: s.offsetTop - 120
+        }));
+    }
+    calcSectionTops();
+
+    // 窗口尺寸变化后重新计算（防抖，避免 resize 高频触发）
+    let navResizeTimer;
+    window.addEventListener('resize', () => {
+        clearTimeout(navResizeTimer);
+        navResizeTimer = setTimeout(calcSectionTops, 150);
+    });
 
     function updateNavActive() {
+        const y = window.scrollY;
         let current = '';
-        sections.forEach(section => {
-            const top = section.offsetTop - 120;
-            if (window.scrollY >= top) {
-                current = section.getAttribute('id');
-            }
-        });
+        for (const s of sectionTops) {
+            if (y >= s.top) current = s.id;
+            else break;
+        }
         navLinks.forEach(link => {
             link.classList.toggle('active', link.getAttribute('href') === '#' + current);
         });
@@ -880,7 +1005,7 @@ document.addEventListener('DOMContentLoaded', () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
-    // --- 表单提交（mailto：校验后打开邮件客户端，措辞不误报"已发送"）---
+    // --- 表单提交（mailto：校验后打开邮件客户端；未打开时给出复制邮箱降级方案）---
     const contactForm = document.getElementById('contactForm');
     contactForm.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -908,12 +1033,55 @@ document.addEventListener('DOMContentLoaded', () => {
         const originalText = span.textContent;
         span.textContent = currentLang === 'zh' ? '正在打开邮件客户端…' : 'Opening mail client…';
         btn.disabled = true;
+
+        // 降级检测：mailto 触发后若 1.2s 内页面仍持有焦点（未发生跳转），
+        // 说明邮件客户端未打开（Webmail 用户常见），显示复制邮箱提示
+        const fallback = document.getElementById('formFallback');
+        let fallbackShown = false;
+        const fallbackTimer = setTimeout(() => {
+            if (document.hasFocus() && fallback) {
+                fallback.hidden = false;
+                fallbackShown = true;
+            }
+        }, 1200);
+
         setTimeout(() => {
             span.textContent = originalText;
             btn.disabled = false;
             contactForm.reset();
+            clearTimeout(fallbackTimer);
+            // 若降级提示已展示，保持显示以便用户复制邮箱
         }, 3000);
     });
+
+    // 降级提示：复制邮箱到剪贴板
+    const formFallbackCopy = document.getElementById('formFallbackCopy');
+    if (formFallbackCopy) {
+        formFallbackCopy.addEventListener('click', () => {
+            const email = CONTACT.email;
+            const doneLabel = currentLang === 'zh' ? '已复制' : 'Copied';
+            const resetLabel = () => formFallbackCopy.textContent = currentLang === 'zh' ? '复制' : 'Copy';
+            const copyLegacy = (text) => {
+                const ta = document.createElement('textarea');
+                ta.value = text;
+                ta.style.position = 'fixed';
+                ta.style.opacity = '0';
+                document.body.appendChild(ta);
+                ta.select();
+                try { document.execCommand('copy'); formFallbackCopy.textContent = doneLabel; } catch (e) { /* ignore */ }
+                ta.remove();
+                setTimeout(resetLabel, 2000);
+            };
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(email).then(() => {
+                    formFallbackCopy.textContent = doneLabel;
+                    setTimeout(resetLabel, 2000);
+                }).catch(() => copyLegacy(email));
+            } else {
+                copyLegacy(email);
+            }
+        });
+    }
 
     // 输入时清除错误高亮
     contactForm.querySelectorAll('input, textarea').forEach(el => {
