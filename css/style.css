@@ -517,11 +517,10 @@ body.lang-en .section-title { font-weight: 700; }
    英雄区 / Hero
    ======================================== */
 .hero {
-    min-height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 120px var(--container-pad) 60px;
+    padding: 140px var(--container-pad) 110px;
     position: relative;
     overflow: hidden;
 }
