@@ -60,15 +60,15 @@ function trapFocus(container, e) {
 const worksData = [
     {
         id: 1,
-        titleZh: '智能环境交互艺术装置',
-        titleEn: 'Smart Environmental Interactive Art Installation',
+        titleZh: 'Art Incubator · 艺术孵化器',
+        titleEn: 'Art Incubator',
         catZh: 'VR/交互装置',
         catEn: 'VR / Interaction',
         category: 'vr',
-        year: '2022',
-        descZh: '独立完成户外智能交互艺术装置的整体设计、技术选型与落地实施。运用Arduino+红外传感器+实时投影技术实现人机互动，装置落地后日均互动人次超过200，被校方列为生态科普示范项目，并作为数字艺术与环保教育融合的创新案例对外展示。',
-        descEn: 'Independently completed the full design, technology selection, and implementation of an outdoor smart interactive art installation. Used Arduino + IR sensors + real-time projection for human-computer interaction. After deployment, averaged 200+ daily interactions, designated as an ecological science demonstration project and showcased as an innovative case merging digital art with environmental education.',
-        tools: ['Arduino', '红外传感器', '实时投影', 'Blender'],
+        year: '2025',
+        descZh: '作品以中国美术联考为切口，提供一个审视应试教育的独特视角。装置直指联考导向教育的深层问题：考试压力导致的学生心理健康危机，以及以分数为中心的单一评价体系的缺陷。通过生动的隐喻，让观众直观看到个人发展受限、学习趋于功利等问题，促使人们深入反思教育的本质，并更加关注学生的心理状态与真实需求。',
+        descEn: 'This piece offers a unique perspective on examination-oriented art education in China. It directly addresses the deep problems of the Liankao-driven system: the mental health crisis caused by exam pressure, and the flaws of a score-centered, one-dimensional evaluation system. Through vivid metaphors, it helps people see the stifling of personal growth and the rise of utilitarian learning — prompting deep reflection on education and greater attention to students\' psychological state and real needs.',
+        tools: ['Arduino', '红外传感器', '实时投影', 'CAD 结构设计'],
         roleZh: '主设计师 / 技术实施',
         roleEn: 'Lead Designer / Technical Implementation',
         durationZh: '完整项目周期',
@@ -77,68 +77,163 @@ const worksData = [
         icon: 'vr',
         trailer: '',
         trailerBvid: 'BV1NAbS6xEXT',
-        thumb: 'assets/covers/BV1NAbS6xEXT.webp'
+        thumb: 'assets/covers/BV1NAbS6xEXT.webp',
+        playLink: 'https://youtu.be/i8YErN5VIh0?si=t6T9kwHhd8LN8b-q',
+        playLabelZh: '观看完整视频',
+        playLabelEn: 'Watch Full Video',
+        gallery: [
+            { src: 'assets/art-incubator/installation-main.webp', captionZh: '装置全貌 · 中央投影核心与环绕巢穴', captionEn: 'Installation overview · central projection core with ring chambers' },
+            { src: 'assets/art-incubator/installation-top.webp', captionZh: '顶部视角 · 环形结构凸显孵化隐喻', captionEn: 'Top view · ring structure echoes the incubation metaphor' },
+            { src: 'assets/art-incubator/interaction.webp', captionZh: '互动瞬间 · 红外感应触发实时投影', captionEn: 'Interaction moment · IR sensor triggers real-time projection' },
+            { src: 'assets/art-incubator/detail-coffin.webp', captionZh: '巢穴细节 · 无限镜营造的困局', captionEn: 'Chamber detail · infinity-mirror entrapment' },
+            { src: 'assets/art-incubator/detail-mechanism.webp', captionZh: '机械细节 · 批量产出与吞噬的隐喻', captionEn: 'Mechanism detail · mass production and devouring' },
+            { src: 'assets/art-incubator/design.webp', captionZh: '结构设计 · 三维尺寸方案', captionEn: 'Structural design · 3D dimension plan' },
+            { src: 'assets/art-incubator/research-studio.webp', captionZh: '田野调研 · 考前画室', captionEn: 'Field research · exam-prep studio' },
+            { src: 'assets/art-incubator/process.webp', captionZh: '制作过程 · 手工搭建', captionEn: 'Fabrication · hand-built assembly' },
+            { src: 'assets/art-incubator/exhibition.webp', captionZh: '展览现场 · 画架矩阵', captionEn: 'Exhibition · matrix of easels' }
+        ]
     },
     {
         id: 2,
-        titleZh: '胰岛素笔舒适腕带',
-        titleEn: 'Insulin Pen Comfort Wristband',
-        catZh: '产品设计',
-        catEn: 'Product Design',
-        category: 'product',
-        year: '2023',
-        descZh: '针对儿童糖尿病患者使用痛点，完成胰岛素笔舒适腕带的创新结构设计。使用Rhino+Keyshot完成三维建模与写实渲染，方案兼顾安全、舒适与美学，获项目导师及行业专家一致好评，并被推荐为校内优秀设计案例展示。',
-        descEn: 'Addressed pain points for pediatric diabetes patients by designing an innovative insulin pen wristband. Completed 3D modeling and photorealistic rendering using Rhino + Keyshot. The design balanced safety, comfort, and aesthetics, earning unanimous praise from mentors and industry experts, recommended as an outstanding design showcase.',
-        tools: ['Rhino', 'Keyshot', 'Photoshop'],
-        roleZh: '产品设计师',
-        roleEn: 'Product Designer',
-        durationZh: 'IF国际新锐设计人才项目',
-        durationEn: 'IF Emerging Design Talent Program',
-        gradient: 'linear-gradient(135deg, #8b5cf6, #6366f1, #3b82f6)',
-        icon: 'product',
+        titleZh: 'Decompression Island · 减压岛',
+        titleEn: 'Decompression Island',
+        catZh: 'VR/AR App 设计',
+        catEn: 'VR / AR App Design',
+        category: 'vr',
+        year: '2025',
+        descZh: '针对东亚高压社会下年轻人的焦虑与抑郁问题，设计了一款结合 VR 沉浸式体验与移动 App 的冥想减压应用。项目构建了奇幻紫蓝色调的虚拟冥想场景，涵盖情绪记录、AI 智能咨询、场景化冥想引导与社交分享功能。经过 5 人用户测试与多轮迭代，根据用户反馈实时调整场景与音乐，有效帮助用户缓解压力、恢复内心平静。',
+        descEn: 'A meditation and stress-relief app combining VR immersive experiences with a mobile application, designed for young people facing anxiety and depression in East Asia\'s high-pressure society. The project builds fantastical purple-blue virtual meditation scenes, covering mood tracking, AI-powered consultation, guided scene-based meditation, and social sharing. After user testing with 5 participants and multiple iterations, scenes and music were adjusted in real time based on feedback, effectively helping users alleviate stress and restore inner peace.',
+        tools: ['Blender', '3D 建模', 'UI 设计', 'VR 开发'],
+        roleZh: '独立创作者',
+        roleEn: 'Solo Creator',
+        gradient: 'linear-gradient(135deg, #6366f1, #8b5cf6, #a855f7)',
+        icon: 'vr',
         trailer: '',
-        trailerBvid: ''
-    },
-    {
-        id: 3,
-        titleZh: '毛戈平品牌视觉体系升级',
-        titleEn: 'MAOGEPING Brand Visual System Upgrade',
-        catZh: '品牌视觉',
-        catEn: 'Brand Visual',
-        category: 'brand',
-        year: '2023 — 2024',
-        descZh: '协助北京地区12家线下门店完成品牌视觉体系升级，优化陈列视觉层次与产品展示动线。改进后重点产品顾客平均停留时长提升约15%，品牌辨识度调研好评率提高22%，有效支撑门店引流与转化。',
-        descEn: 'Assisted 12 retail stores in Beijing with brand visual system upgrades, optimizing display visual hierarchy and product flow. Post-improvement: average customer dwell time increased ~15%, brand recognition approval rate rose 22%, effectively supporting store traffic and conversion.',
-        tools: ['Photoshop', 'Illustrator', 'After Effects'],
-        roleZh: '设计助理',
-        roleEn: 'Design Assistant',
-        durationZh: '3个月（北京分公司）',
-        durationEn: '3 months (Beijing)',
-        gradient: 'linear-gradient(135deg, #ff3b30, #ff9500, #fbbf24)',
-        icon: 'brand',
-        trailer: '',
-        trailerBvid: ''
+        trailerBvid: '',
+        videoNote: false,
+        thumb: 'assets/decompression-island/scene-main.webp',
+        projectOverviewZh: '在内卷与功利主义的社会语境下，越来越多年轻人出现焦虑、抑郁等心理问题，却鲜有真正有效的减压出口。减压岛将 VR 冥想与移动 App 结合，构建一座让心灵得以逃离现实的虚拟岛屿——用户记录情绪、进入奇幻紫蓝色的治愈场景、在引导下完成沉浸式冥想，并通过社交与他人分享疗愈时刻，在现实的重压之外获得喘息与平静。',
+        projectOverviewEn: 'In a society defined by involution and utilitarianism, more and more young people suffer from anxiety and depression, yet few effective outlets truly exist. Decompression Island combines VR meditation with a mobile app to build a virtual island where the mind can escape reality — users record their mood, enter fantastical purple-blue healing scenes, complete immersive guided meditation, and share healing moments with others through social features, finding respite and calm beyond the weight of reality.',
+        ideationZh: '项目从"躺平文化"与当代青年心理压力的洞察出发：面对高竞争、高压力的环境，年轻人出现焦虑、倦怠与习得性无助，倾向于"逃避与消极回应"。研究发现，中国传统文化中的"隐士"叙事——逃离喧嚣、回归自然——在当代被重新书写为一种心理上的"逃离"。由此，项目将概念转化为 App"Escape VR"：一个可以随时逃入的虚拟世界，让用户在一座属于自己的岛上，暂时离开现实的压力。',
+        ideationEn: 'The project starts from insights into the "lying flat" culture and the psychological stress of contemporary youth: facing intense competition and high pressure, young people experience anxiety, burnout, and learned helplessness, tending toward "escape and negative response." Research shows the traditional Chinese "hermit" narrative — escaping the noise and returning to nature — has been rewritten in modern times as a psychological escape. From this, the concept evolved into the app "Escape VR": a virtual world one can enter at any time, letting users stay on an island of their own, temporarily away from real-life pressure.',
+        persona: {
+            name: '李明',
+            age: '24',
+            roleZh: '程序员 · 长期高压',
+            roleEn: 'Programmer · chronic stress',
+            quoteZh: '"每天都在加班，回到家只想躺着，什么都不想干。"',
+            quoteEn: '"Working overtime every day, when I get home I just want to lie down and do nothing."',
+            bgZh: '北京互联网公司程序员，收入尚可但加班成为常态，社交圈逐渐缩小，休息也无法真正放松。',
+            bgEn: 'A programmer at a Beijing internet company; decent income but overtime has become routine, social circle shrinking, and even rest brings no real relaxation.',
+            painZh: '焦虑、失眠、工作倦怠，感到"心累"，缺乏情绪表达与疏导的渠道。',
+            painEn: 'Anxiety, insomnia, work burnout — feeling mentally exhausted, lacking channels to express and release emotions.',
+            goalZh: '找到一个能真正放下手机、安静下来、恢复内心平静的出口。',
+            goalEn: 'Finding an outlet to truly put down the phone, quiet down, and restore inner peace.',
+            expectZh: '通过短期沉浸式冥想获得即时放松，并逐步建立长期的情绪管理习惯。',
+            expectEn: 'Achieving immediate relaxation through short immersive meditation, while gradually building long-term emotional management habits.'
+        },
+        userJourney: {
+            stepsZh: ['工作压力累积，情绪低落、疲惫无力', '打开减压岛，记录当下的情绪状态', '选择符合心境的冥想场景进入', '完成场景化冥想引导，情绪得到释放', '查看情绪趋势，获得归属感与持续陪伴'],
+            stepsEn: ['Stress accumulates at work — feeling low and exhausted', 'Opens Decompression Island and records current mood', 'Chooses a meditation scene that matches the mood', 'Completes guided scene-based meditation, releasing emotions', 'Reviews mood trends, gaining a sense of belonging and ongoing companionship']
+        },
+        gameFlow: {
+            titleZh: '用户流程', titleEn: 'User Flow',
+            stepsZh: ['情绪选择（记录当前心情）', '场景选择（匹配心境的治愈场景）', 'VR 冥想引导（沉浸式体验）', '冥想结果反馈', '社交分享（好友互动与场景推荐）'],
+            stepsEn: ['Mood selection (record current feelings)', 'Scene selection (healing scene matching the mood)', 'VR meditation guidance (immersive experience)', 'Meditation result feedback', 'Social sharing (friend interaction and scene recommendations)']
+        },
+        visualDesign: {
+            summaryZh: '视觉上以紫蓝色为主调，营造宁静、梦幻、治愈的品牌气质。品牌标识为蓝紫渐变水滴，象征情绪的流淌与净化；图标以水滴为母题，将不同情绪抽象为不同色彩，直观而统一。',
+            summaryEn: 'The visual identity uses purple-blue as the dominant tone, creating a serene, dreamy, healing brand temperament. The logo is a blue-purple gradient water drop symbolizing the flow and purification of emotions; icons use the water drop motif, abstracting different emotions into different colors — intuitive and unified.',
+            logoImg: 'assets/decompression-island/logo.webp',
+            logoZh: 'Logo 以水滴为原型，蓝紫渐变填充，寓意"情绪如水，流淌过后归于平静"，呼应品牌"减压"的核心主张。',
+            logoEn: 'The logo is based on a water drop with a blue-purple gradient, meaning "emotions are like water — after flowing, calm returns," echoing the brand\'s core promise of stress relief.',
+            colors: [
+                { hex: '#81DAEE', nameZh: '宁静蓝', nameEn: 'Serene Blue' },
+                { hex: '#8DD3FF', nameZh: '湖蓝', nameEn: 'Lake Blue' },
+                { hex: '#BDC8FF', nameZh: '淡紫', nameEn: 'Lavender' },
+                { hex: '#D5C0FF', nameZh: '香芋紫', nameEn: 'Taro Purple' },
+                { hex: '#8A8A8A', nameZh: '中性灰', nameEn: 'Neutral Grey' }
+            ],
+            fonts: [
+                { name: 'Inder Regular', usageZh: '正文与界面信息，简洁现代', usageEn: 'Body text & UI info, clean and modern' },
+                { name: 'Jomhuria Regular', usageZh: '品牌标题与装饰文字，圆润亲和', usageEn: 'Brand titles & decorative text, rounded and friendly' }
+            ],
+            iconZh: '图标以水滴为母题：不同情绪对应不同颜色的水滴造型，直观又统一；后根据用户测试反馈，将图标统一调整为与场景主色调一致的紫色系，强化视觉一致性。',
+            iconEn: 'Icons use the water drop as the motif: different moods are mapped to water drops of different colors — intuitive and unified. Later, based on user testing feedback, icons were unified to a purple tone matching the main scene color for stronger visual consistency.'
+        },
+        healingScenes: [
+            { nameZh: '静谧水景 · Calm Water', nameEn: 'Calm Water', img: 'assets/decompression-island/scene-island-pink.webp', descZh: '粉蓝色水域中漂浮着治愈小岛，平静的水面与流水声引导呼吸放缓，是缓解焦虑的起点。', descEn: 'Healing islands float in pink-blue waters; the calm surface and flowing water guide the breath to slow down — a starting point for easing anxiety.', elements: ['流水声', '粉色水面', '漂浮小岛', '冥想平台'] },
+            { nameZh: '雪山幻境', nameEn: 'Snowy Wonderland', img: 'assets/decompression-island/scene-main.webp', descZh: '紫雪覆盖的雪山与星空下的冥想平台，轻盈的飘雪与冷色调营造超脱现实的宁静感。', descEn: 'Purple-snow mountains and a meditation platform beneath a starry sky; light snowfall and cool tones create a transcendent sense of peace.', elements: ['飘雪', '雪山', '星空', '冥想平台'] },
+            { nameZh: '紫雪星空 · 水晶植物', nameEn: 'Crystal Plant Wonderland', img: 'assets/decompression-island/scene-crystal.webp', descZh: '紫调星空下生长着发光的水晶植物，梦幻的光影让用户进入更深层的放松状态。', descEn: 'Glowing crystal plants grow beneath a purple starfield; dreamy light and shadow guide users into a deeper state of relaxation.', elements: ['水晶植物', '紫雪', '星光', '发光叶片'] },
+            { nameZh: '静谧之岛', nameEn: 'Serene Island', img: 'assets/decompression-island/scene-island-purple.webp', descZh: '紫调包裹的静谧小岛，色彩统一而克制，适合情绪低落时的自我疗愈。', descEn: 'A quiet island wrapped in purple tones — unified and restrained in color, ideal for self-healing during low moods.', elements: ['紫色植被', '岛屿', '平静水面', '暖色点缀'] },
+            { nameZh: '天际之境', nameEn: 'Sky Realm', img: 'assets/decompression-island/scene-sky.webp', descZh: '粉色天空倒映在水面之上，天地一体的视觉让冥想者仿佛悬浮于云端。', descEn: 'A pink sky mirrored on the water; the merging of sky and water makes the meditator feel as if floating above the clouds.', elements: ['粉色天空', '镜面水面', '云影', '开敞视野'] }
+        ],
+        uiDesign: {
+            featuresZh: ['情绪记录', 'AI 智能咨询', 'VR 日记', '宁静引导', '冥想世界', '好友社交', '历史趋势', '场景推荐'],
+            featuresEn: ['Mood Tracking', 'AI Consultation', 'VR Diary', 'Serene Guide', 'Meditation World', 'Friendship Zone', 'History Trends', 'Scene Recommendation'],
+            shots: [
+                { src: 'assets/decompression-island/app-mockup.webp', captionZh: '情绪选择 · 场景选择', captionEn: 'Mood selection · scene selection' },
+                { src: 'assets/decompression-island/ui-checkin.webp', captionZh: '情绪记录 · 今日心情', captionEn: 'Mood check-in · today\'s feeling', tall: true },
+                { src: 'assets/decompression-island/ui-history.webp', captionZh: '历史记录 · 情绪档案列表', captionEn: 'History · mood log list', tall: true },
+                { src: 'assets/decompression-island/ui-result.webp', captionZh: '冥想反馈 · 沉浸值与时长', captionEn: 'Meditation feedback · immersion value', tall: true },
+                { src: 'assets/decompression-island/ui-ai.webp', captionZh: 'AI 智能咨询 · 对话式陪伴', captionEn: 'AI consultation · chat companion', tall: true },
+                { src: 'assets/decompression-island/ui-scene.webp', captionZh: '场景推荐 · 雪湖冥想', captionEn: 'Scene recommendation · snowy lake', tall: true },
+                { src: 'assets/decompression-island/ui-guidance.webp', captionZh: '情绪引导 · 愤怒时的安抚', captionEn: 'Mood guidance · calming anger', tall: true },
+                { src: 'assets/decompression-island/ui-social.webp', captionZh: '好友社交 · 社区互动', captionEn: 'Social · community interaction', tall: true },
+                { src: 'assets/decompression-island/ui-feed.webp', captionZh: '好友动态 · 疗愈时刻分享', captionEn: 'Friend feed · sharing healing moments', tall: true },
+                { src: 'assets/decompression-island/vr-test.webp', captionZh: 'VR 沉浸式冥想测试', captionEn: 'VR immersive meditation test' }
+            ]
+        },
+        testing: [
+            { ver: 'T1', date: '原型测试', noteZh: '邀请 5 名目标用户进行 Mobile 与 VR 双端测试。反馈：冥想前缺少情绪信息提示，场景氛围不够沉浸。', noteEn: 'Invited 5 target users for dual Mobile & VR testing. Feedback: no mood info prompt before meditation; scene atmosphere not immersive enough.' },
+            { ver: 'T2', date: '第一轮迭代', noteZh: '新增情绪信息提示界面；在场景中加入流水声与动态水面，增强沉浸感。', noteEn: 'Added a mood info prompt screen; introduced flowing water sound and dynamic water surface to enhance immersion.' },
+            { ver: 'T3', date: '第二轮迭代', noteZh: '根据冥想中用户情绪实时调整场景氛围与背景音乐；图标由单一蓝色改为不同颜色对应不同情绪，最终统一为紫色系匹配主场景。', noteEn: 'Scene atmosphere and background music are now adjusted in real time based on the user\'s mood during meditation; icons changed from single blue to mood-based colors, finally unified to purple to match the main scene.' }
+        ],
+        reflectionZh: '项目通过 5 人用户测试与多轮迭代验证了有效性：用户在完成冥想后普遍感到情绪得到释放，界面与场景的调整也让体验更加沉浸。未来计划在压力最大的城市举办线下测试活动与减压工作坊，让更多年轻人体验"逃离现实、回归内心"的减压之旅，并持续优化场景与音乐库。',
+        reflectionEn: 'The project validated its effectiveness through 5-person user testing and multiple iterations: users generally felt emotionally released after meditation, and the UI and scene adjustments made the experience more immersive. Future plans include offline testing events and stress-relief workshops in the most high-pressure cities, so more young people can experience the journey of "escaping reality and returning inward," while continuously expanding the scene and music libraries.',
+        gallery: [
+            { src: 'assets/decompression-island/scene-main.webp', captionZh: '主场景 · 雪山幻境中的冥想平台', captionEn: 'Main scene · meditation platform in a snowy mountain wonderland' },
+            { src: 'assets/decompression-island/scene-crystal.webp', captionZh: '紫雪星空 · 水晶植物幻境', captionEn: 'Purple snow starfield · crystal plant wonderland' },
+            { src: 'assets/decompression-island/scene-island-pink.webp', captionZh: '粉蓝水域 · 漂浮的治愈岛屿', captionEn: 'Pink-blue waters · floating healing islands' },
+            { src: 'assets/decompression-island/scene-island-purple.webp', captionZh: '静谧之岛 · 紫调冥想空间', captionEn: 'Serene island · purple-toned meditation space' },
+            { src: 'assets/decompression-island/scene-sky.webp', captionZh: '天际之境 · 粉色天空与水面', captionEn: 'Sky realm · pink sky and reflective waters' },
+            { src: 'assets/decompression-island/vr-test.webp', captionZh: 'VR 测试 · 沉浸式体验验证', captionEn: 'VR testing · immersive experience validation' },
+            { src: 'assets/decompression-island/exhibition.webp', captionZh: '展览现场 · 蓝色幻境投影空间', captionEn: 'Exhibition · blue wonderland projection space' },
+            { src: 'assets/decompression-island/app-mockup.webp', captionZh: 'App 界面 · 情绪记录与场景选择', captionEn: 'App interface · mood tracking and scene selection' },
+            { src: 'assets/decompression-island/logo.webp', captionZh: '品牌标识 · 蓝紫渐变水滴 Logo', captionEn: 'Brand identity · blue-purple gradient water drop logo' }
+        ]
     },
     {
         id: 4,
-        titleZh: '中国高校设计优秀作品展 · 全国一等奖',
-        titleEn: 'China University Design Exhibition · National First Prize',
+        titleZh: 'Relaxing Travel · 基于情境体验的游戏场景设计研究',
+        titleEn: 'Relaxing Travel · Research on Game Scene Design',
         catZh: '3D建模/数字媒体',
         catEn: '3D / Digital Media',
         category: '3d',
-        year: '2024',
-        descZh: '作品在第八届中国高校设计优秀作品展数字媒体类别中获全国一等奖。结合3D建模、动态视觉与数字交互技术，展现出色的数字艺术创作能力与创新设计思维。同时获大学生创新创业竞赛校级一等奖（前5%）。',
-        descEn: 'Won national first prize in the Digital Media category at the 8th China University Design Exhibition. Combined 3D modeling, motion graphics, and digital interaction technology to demonstrate outstanding digital art creation and innovative design thinking. Also won first prize (top 5%) in the College Innovation & Entrepreneurship Competition.',
-        tools: ['Blender', 'After Effects', 'Unity', 'Photoshop'],
+        year: '2025',
+        descZh: '本研究聚焦于东亚高压社会环境下，职场内卷、学业压力与家庭责任交织带来的心理健康危机。通过 Blender 3D 建模与游戏场景设计，构建了六个沉浸式治愈空间：积水洞穴、花海地铁、鸟居树林、像素化草原山、雨滴幻境与云端漫步。以几何意象与视觉隐喻引导用户从焦虑走向放松，并配套海报设计与杂志《RELAXING TRAVEL》系统呈现场景元素与疗愈理念。',
+        descEn: 'Focused on the mental health crisis amid workplace involution, academic pressure, and family responsibilities in East Asia, this study builds six immersive healing spaces via Blender 3D modeling: a ponded water cave, a flower-filled subway, a torii grove, pixelated grassland mountains, a raindrop dreamscape, and a cloud walk. Geometric symbols and visual metaphors guide users from anxiety to relaxation. Derivatives include poster designs and the magazine RELAXING TRAVEL, which systematically presents scene elements and the healing philosophy.',
+        tools: ['Blender', '3D 建模', '平面设计', '海报设计'],
         roleZh: '独立创作者',
         roleEn: 'Solo Creator',
-        durationZh: '2024年',
-        durationEn: '2024',
+        durationZh: '3个月',
+        durationEn: '3 Months',
         gradient: 'linear-gradient(135deg, #f43f5e, #ec4899, #d946ef)',
-        icon: 'award',
+        icon: '3d',
         trailer: '',
         trailerBvid: 'BV1SvbS6YEiv',
-        thumb: 'assets/covers/BV1SvbS6YEiv.webp'
+        thumb: 'assets/covers/BV1SvbS6YEiv.webp',
+        gallery: [
+            { src: 'assets/relaxing-travel/scene-cave.webp', captionZh: '积水洞穴', captionEn: 'Ponded Water Cave' },
+            { src: 'assets/relaxing-travel/scene-subway.webp', captionZh: '花海地铁', captionEn: 'Flora Subway' },
+            { src: 'assets/relaxing-travel/scene-torii.webp', captionZh: '鸟居树林', captionEn: 'Torii Grove' },
+            { src: 'assets/relaxing-travel/scene-mountain.webp', captionZh: '像素化草原山', captionEn: 'Pixelated Grassland Mountains' },
+            { src: 'assets/relaxing-travel/scene-rain.webp', captionZh: '雨滴幻境', captionEn: 'Torrential Rain' },
+            { src: 'assets/relaxing-travel/scene-cloud.webp', captionZh: '云端漫步', captionEn: 'Stroll in the Clouds' },
+            { src: 'assets/relaxing-travel/poster-1.webp', captionZh: '海报 · 积水洞穴', captionEn: 'Poster · Ponded Water Cave' },
+            { src: 'assets/relaxing-travel/poster-2.webp', captionZh: '海报 · 鸟居树林', captionEn: 'Poster · Torii Grove' },
+            { src: 'assets/relaxing-travel/magazine-subway.webp', captionZh: '杂志《RELAXING TRAVEL》', captionEn: 'Magazine RELAXING TRAVEL' }
+        ]
     },
     /* ===== 游戏作品 ===== */
     {
@@ -148,7 +243,7 @@ const worksData = [
         catZh: '游戏设计',
         catEn: 'Game Design',
         category: 'game',
-        year: '2025 — 2026',
+        year: '2026',
         featured: true,
         descZh: '一款以大城市职场生存为题材的数字叙事游戏。主角 Iphi 来到大城市追求"更好的未来"，但高昂的房租与生活成本让她被迫在个人边界与短期稳定之间不断妥协。当工作带来的损耗累积到临界点，爱好、健康与自尊会以 Boss 的形式在梦境空间中反扑——它们不是反派，而是被压抑的自我。',
         descEn: 'A digital narrative game about surviving as a young professional in a big city. Protagonist Iphi moves to a metropolis for a "better future," but crushing rent and living costs force her to compromise personal boundaries for short-term stability. When the toll of overwork reaches a breaking point, her hobbies, health, and self-esteem return as Bosses in dreamlike spaces — not as enemies, but as repressed parts of herself.',
@@ -413,11 +508,25 @@ function openModal(id) {
             <div class="modal-meta">
                 <span class="modal-meta-item"><strong>${currentLang === 'zh' ? '年份' : 'Year'}:</strong> ${work.year}</span>
                 <span class="modal-meta-item"><strong>${currentLang === 'zh' ? '角色' : 'Role'}:</strong> ${role}</span>
-                <span class="modal-meta-item"><strong>${currentLang === 'zh' ? '周期' : 'Duration'}:</strong> ${duration}</span>
+                ${duration ? `<span class="modal-meta-item"><strong>${currentLang === 'zh' ? '周期' : 'Duration'}:</strong> ${duration}</span>` : ''}
                 ${work.engine ? `<span class="modal-meta-item"><strong>${currentLang === 'zh' ? '引擎' : 'Engine'}:</strong> ${work.engine}</span>` : ''}
                 ${work.genreZh ? `<span class="modal-meta-item"><strong>${currentLang === 'zh' ? '类型' : 'Genre'}:</strong> ${currentLang === 'zh' ? work.genreZh : work.genreEn}</span>` : ''}
             </div>
             <p class="modal-desc">${desc}</p>
+
+            ${work.projectOverviewZh ? `
+                <div class="modal-section">
+                    <h3 class="modal-section-title">${currentLang === 'zh' ? '项目概述' : 'Overview'}</h3>
+                    <p class="modal-synopsis">${currentLang === 'zh' ? work.projectOverviewZh : work.projectOverviewEn}</p>
+                </div>
+            ` : ''}
+
+            ${work.ideationZh ? `
+                <div class="modal-section">
+                    <h3 class="modal-section-title">${currentLang === 'zh' ? '设计构思' : 'Ideation'}</h3>
+                    <p class="modal-synopsis">${currentLang === 'zh' ? work.ideationZh : work.ideationEn}</p>
+                </div>
+            ` : ''}
 
             ${work.synopsisZh ? `
                 <div class="modal-section">
@@ -454,6 +563,40 @@ function openModal(id) {
                 </div>
             ` : ''}
 
+            ${work.persona ? `
+                <div class="modal-section">
+                    <h3 class="modal-section-title">${currentLang === 'zh' ? '用户画像 · Persona' : 'User Persona'}</h3>
+                    <div class="persona-card">
+                        <div class="persona-head">
+                            <span class="char-name">${work.persona.name}</span>
+                            ${work.persona.age ? `<span class="char-age">${work.persona.age}</span>` : ''}
+                            <span class="char-role">${currentLang === 'zh' ? work.persona.roleZh : work.persona.roleEn}</span>
+                        </div>
+                        <div class="persona-quote">${currentLang === 'zh' ? work.persona.quoteZh : work.persona.quoteEn}</div>
+                        <div class="audience-list">
+                            <div class="audience-item"><span class="audience-label">${currentLang === 'zh' ? '背景' : 'Background'}</span><span class="audience-value">${currentLang === 'zh' ? work.persona.bgZh : work.persona.bgEn}</span></div>
+                            <div class="audience-item"><span class="audience-label">${currentLang === 'zh' ? '痛点' : 'Pain Points'}</span><span class="audience-value">${currentLang === 'zh' ? work.persona.painZh : work.persona.painEn}</span></div>
+                            <div class="audience-item"><span class="audience-label">${currentLang === 'zh' ? '目标' : 'Goals'}</span><span class="audience-value">${currentLang === 'zh' ? work.persona.goalZh : work.persona.goalEn}</span></div>
+                            <div class="audience-item"><span class="audience-label">${currentLang === 'zh' ? '期望' : 'Expectation'}</span><span class="audience-value">${currentLang === 'zh' ? work.persona.expectZh : work.persona.expectEn}</span></div>
+                        </div>
+                    </div>
+                </div>
+            ` : ''}
+
+            ${work.userJourney ? `
+                <div class="modal-section">
+                    <h3 class="modal-section-title">${currentLang === 'zh' ? '用户旅程' : 'User Journey'}</h3>
+                    <div class="modal-flow">
+                        ${(currentLang === 'zh' ? work.userJourney.stepsZh : work.userJourney.stepsEn).map((step, i) => `
+                            <div class="modal-flow-item">
+                                <span class="modal-flow-num">0${i + 1}</span>
+                                <span class="modal-flow-text">${step}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            ` : ''}
+
             ${work.gameFlow ? `
                 <div class="modal-section">
                     <h3 class="modal-section-title">${currentLang === 'zh' ? work.gameFlow.titleZh : work.gameFlow.titleEn}</h3>
@@ -485,9 +628,109 @@ function openModal(id) {
                 </div>
             ` : ''}
 
+            ${work.visualDesign ? `
+                <div class="modal-section">
+                    <h3 class="modal-section-title">${currentLang === 'zh' ? '视觉设计' : 'Visual Design'}</h3>
+                    <p class="modal-synopsis">${currentLang === 'zh' ? work.visualDesign.summaryZh : work.visualDesign.summaryEn}</p>
+                    <div class="vd-block">
+                        <h4 class="vd-title">${currentLang === 'zh' ? '品牌标识 · Logo' : 'Brand Identity · Logo'}</h4>
+                        <div class="vd-logo-row">
+                            ${work.visualDesign.logoImg ? `<img src="${work.visualDesign.logoImg}" alt="Logo" class="vd-logo" loading="lazy">` : ''}
+                            <p class="vd-desc">${currentLang === 'zh' ? work.visualDesign.logoZh : work.visualDesign.logoEn}</p>
+                        </div>
+                    </div>
+                    <div class="vd-block">
+                        <h4 class="vd-title">${currentLang === 'zh' ? '配色规范' : 'Colour Specification'}</h4>
+                        <div class="vd-swatches">
+                            ${work.visualDesign.colors.map(c => `
+                                <div class="vd-swatch">
+                                    <span class="vd-swatch-color" style="background: ${c.hex};"></span>
+                                    <span class="vd-swatch-hex">${c.hex}</span>
+                                    <span class="vd-swatch-name">${currentLang === 'zh' ? c.nameZh : c.nameEn}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    <div class="vd-block">
+                        <h4 class="vd-title">${currentLang === 'zh' ? '字体规范' : 'Typeface Specification'}</h4>
+                        <div class="vd-fonts">
+                            ${work.visualDesign.fonts.map(f => `
+                                <div class="vd-font">
+                                    <span class="vd-font-name">${f.name}</span>
+                                    <span class="vd-font-usage">${currentLang === 'zh' ? f.usageZh : f.usageEn}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    <div class="vd-block">
+                        <h4 class="vd-title">${currentLang === 'zh' ? '图标概念' : 'Icon Design Concepts'}</h4>
+                        <p class="vd-desc">${currentLang === 'zh' ? work.visualDesign.iconZh : work.visualDesign.iconEn}</p>
+                    </div>
+                </div>
+            ` : ''}
+
+            ${work.healingScenes ? `
+                <div class="modal-section">
+                    <h3 class="modal-section-title">${currentLang === 'zh' ? '治愈场景设计' : 'Healing Scene Design'}</h3>
+                    <div class="scene2d-grid">
+                        ${work.healingScenes.map(s => `
+                            <div class="scene-card">
+                                ${s.img ? `<img src="${s.img}" alt="${currentLang === 'zh' ? s.nameZh : s.nameEn}" class="scene-card-img" loading="lazy">` : ''}
+                                <h4 class="scene-name">${currentLang === 'zh' ? s.nameZh : s.nameEn}</h4>
+                                <p class="scene-desc">${currentLang === 'zh' ? s.descZh : s.descEn}</p>
+                                <div class="scene-elements">
+                                    ${s.elements.map(e => `<span class="scene-el">${e}</span>`).join('')}
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            ` : ''}
+
+            ${work.uiDesign ? `
+                <div class="modal-section">
+                    <h3 class="modal-section-title">${currentLang === 'zh' ? '界面设计' : 'UI Design'}</h3>
+                    <div class="modal-battle-details">
+                        ${(currentLang === 'zh' ? work.uiDesign.featuresZh : work.uiDesign.featuresEn).map(f => `<span class="modal-battle-tag">${f}</span>`).join('')}
+                    </div>
+                    ${work.uiDesign.shots ? `
+                        <div class="ui-shots">
+                            ${work.uiDesign.shots.map(s => `
+                                <div class="ui-shot" data-src="${s.src}" data-caption="${currentLang === 'zh' ? s.captionZh : s.captionEn}">
+                                    ${s.src ? `<img src="${s.src}" alt="${currentLang === 'zh' ? s.captionZh : s.captionEn}" class="ui-shot-img${s.tall ? ' ui-shot-img-tall' : ''}" loading="lazy">` : ''}
+                                    <span class="ui-shot-caption">${currentLang === 'zh' ? s.captionZh : s.captionEn}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    ` : ''}
+                </div>
+            ` : ''}
+
+            ${work.testing ? `
+                <div class="modal-section">
+                    <h3 class="modal-section-title">${currentLang === 'zh' ? '用户测试与迭代' : 'Testing & Iteration'}</h3>
+                    <div class="version-timeline">
+                        ${work.testing.map(t => `
+                            <div class="version-item">
+                                <div class="version-ver">${t.ver}</div>
+                                <div class="version-date">${t.date}</div>
+                                <div class="version-note">${currentLang === 'zh' ? t.noteZh : t.noteEn}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            ` : ''}
+
+            ${work.reflectionZh ? `
+                <div class="modal-section">
+                    <h3 class="modal-section-title">${currentLang === 'zh' ? '反思与展望' : 'Reflection & Outlook'}</h3>
+                    <p class="modal-synopsis">${currentLang === 'zh' ? work.reflectionZh : work.reflectionEn}</p>
+                </div>
+            ` : ''}
+
             ${work.gallery ? `
                 <div class="modal-section">
-                    <h3 class="modal-section-title">${currentLang === 'zh' ? '游戏图集' : 'Game Gallery'}</h3>
+                    <h3 class="modal-section-title">${currentLang === 'zh' ? '作品图集' : 'Gallery'}</h3>
                     <div class="modal-gallery-grid">
                         ${work.gallery.map(g => `
                             <div class="modal-gallery-item" data-src="${g.src}" data-caption="${currentLang === 'zh' ? g.captionZh : g.captionEn}">
@@ -627,7 +870,7 @@ function openModal(id) {
             <div class="modal-tools">
                 ${work.tools.map(t => `<span class="modal-tool">${t}</span>`).join('')}
             </div>
-            ${work.category === 'game' && work.playLink ? `
+            ${work.playLink ? `
                 <a href="${work.playLink}" class="modal-play-btn" target="_blank" rel="noopener noreferrer">
                     <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 3l10 6-10 6V3z" fill="currentColor"/></svg>
                     <span>${currentLang === 'zh' ? work.playLabelZh : work.playLabelEn}</span>
@@ -637,7 +880,7 @@ function openModal(id) {
                 <div class="modal-video">
                     ${buildTrailerHTML(work)}
                 </div>
-            ` : `
+            ` : work.videoNote === false ? '' : `
                 <div class="modal-video-note">
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="1.5"/><path d="M8 7l5 3-5 3V7z" fill="currentColor"/></svg>
                     <span>${currentLang === 'zh' ? '可将作品视频上传至 B站后在此嵌入' : 'Upload the work video to Bilibili to embed it here'}</span>
@@ -992,7 +1235,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
     document.body.addEventListener('click', (e) => {
-        const item = e.target.closest('.modal-gallery-item');
+        const item = e.target.closest('.modal-gallery-item, .ui-shot');
         if (item) {
             const img = item.querySelector('img');
             const caption = item.dataset[currentLang === 'zh' ? 'captionZh' : 'captionEn'] || item.dataset.caption || img.alt;

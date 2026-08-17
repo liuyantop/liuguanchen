@@ -3963,3 +3963,162 @@ section:nth-of-type(even) {
     .reveal { opacity: 1 !important; transform: none !important; }
     .loader-progress { animation: none !important; }
 }
+
+/* ===== 作品弹窗：通用内容区块（Persona / 视觉设计 / 场景图 / 界面截图） ===== */
+.persona-card {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 18px;
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 14px;
+}
+.persona-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+.persona-quote {
+    font-style: italic;
+    color: var(--text);
+    border-left: 3px solid var(--accent);
+    padding-left: 12px;
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+.vd-block {
+    margin-bottom: 14px;
+    padding: 14px 16px;
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+}
+.vd-block:last-child { margin-bottom: 0; }
+.vd-title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 10px;
+}
+.vd-logo-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+.vd-logo {
+    width: 88px;
+    height: 88px;
+    object-fit: contain;
+    border-radius: 12px;
+    flex-shrink: 0;
+    background: #fff;
+}
+.vd-desc {
+    color: var(--text-secondary);
+    line-height: 1.7;
+    font-size: 0.88rem;
+    margin: 0;
+    flex: 1;
+    min-width: 200px;
+}
+.vd-swatches {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(92px, 1fr));
+    gap: 10px;
+}
+.vd-swatch {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: center;
+    padding: 10px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+}
+.vd-swatch-color {
+    width: 100%;
+    height: 44px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+}
+.vd-swatch-hex {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--text);
+}
+.vd-swatch-name {
+    font-size: 0.72rem;
+    color: var(--text-secondary);
+}
+.vd-fonts {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.vd-font {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    flex-wrap: wrap;
+}
+.vd-font-name {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text);
+}
+.vd-font-usage {
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+}
+.scene-card-img {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    display: block;
+}
+.ui-shots {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 14px;
+    margin-top: 14px;
+}
+.ui-shot {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    cursor: pointer;
+}
+.ui-shot-img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+    display: block;
+}
+.ui-shot-img:hover { transform: scale(1.02); }
+.ui-shot-img-tall {
+    aspect-ratio: 9 / 16;
+}
+.ui-shot-caption {
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+    text-align: center;
+}
+@media (max-width: 768px) {
+    .vd-swatches { grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); }
+    .ui-shots { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+    .scene-card-img { height: 110px; }
+}
