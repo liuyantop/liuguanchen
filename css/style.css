@@ -869,6 +869,13 @@ body.lang-en .hero-title {
     transform: translateY(-2px);
 }
 
+.about-resume-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px 28px;
+    margin-top: 8px;
+}
+
 .about-resume {
     display: inline-flex;
     align-items: center;

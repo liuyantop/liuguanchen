@@ -1332,21 +1332,21 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // --- 简历下载：同步拦截 + 异步探测，修复异步 preventDefault 无效的 bug ---
-    const resumeLink = document.getElementById('resumeLink');
-    if (resumeLink) {
-        const triggerDownload = (url) => {
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = '';
-            document.body.appendChild(a);
-            a.click();
-            a.remove();
-        };
+    const triggerDownload = (url) => {
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = '';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+    };
+    document.querySelectorAll('.about-resume').forEach((resumeLink) => {
         resumeLink.addEventListener('click', (e) => {
             e.preventDefault(); // 必须同步拦截，否则 <a download> 默认行为已触发
+            const fileName = resumeLink.dataset.file || 'resume.pdf';
             fetch(resumeLink.href, { method: 'HEAD' })
                 .then((resp) => {
-                    if (resp.status === 404) showResumeMissing();
+                    if (resp.status === 404) showResumeMissing(fileName);
                     else triggerDownload(resumeLink.href);
                 })
                 .catch(() => {
@@ -1354,12 +1354,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     triggerDownload(resumeLink.href);
                 });
         });
-    }
+    });
 
-    function showResumeMissing() {
+    function showResumeMissing(fileName) {
         alert(currentLang === 'zh'
-            ? '未找到简历 PDF，请先将简历放到 assets/resume.pdf'
-            : 'CV PDF not found. Please place it at assets/resume.pdf first.');
+            ? `未找到简历 PDF，请先将文件放到 assets/${fileName}`
+            : `CV PDF not found. Please place it at assets/${fileName} first.`);
     }
 
     // --- 初始渲染 ---
