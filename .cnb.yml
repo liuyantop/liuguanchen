@@ -1,0 +1,23 @@
+# CNB 流水线：静态站点发布前检查
+# 触发条件：main 分支 push，且改动涉及前端资源/页面/构建脚本时
+# 检查内容：
+#   1. scripts/minify.py —— 重新生成 .min 压缩产物并校验非空（防空文件事故）
+#   2. scripts/check_build.py —— 校验页面引用的所有本地资源存在且非空
+main:
+  push:
+    - name: build-check
+      docker:
+        image: python:3.12-slim
+      ifModify:
+        - css/**
+        - js/**
+        - scripts/**
+        - index.html
+        - 404.html
+      stages:
+        - name: minify
+          script: |
+            pip install --quiet --disable-pip-version-check csscompressor jsmin
+            python3 scripts/minify.py
+        - name: check-assets
+          script: python3 scripts/check_build.py
