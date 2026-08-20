@@ -3,6 +3,34 @@
 # 检查内容：
 #   1. scripts/minify.py —— 重新生成 .min 压缩产物并校验非空（防空文件事故）
 #   2. scripts/check_build.py —— 校验页面引用的所有本地资源存在且非空
+#
+# 云原生开发环境：使用 .ide/Dockerfile 自定义镜像（预装中文界面语言包），
+# 环境每次重建后自动带中文，不再依赖手动安装插件。
+$:
+  vscode:
+    - docker:
+        build: .ide/Dockerfile
+        image: cnbcool/default-dev-env:latest   # 构建失败时的回退镜像
+      services:
+        - vscode
+      stages:
+        - name: enable-zh-ui
+          # 将 code-server 界面语言锁定为 zh-cn（settings.json 默认漫游，可跨环境保持）
+          script: |
+            SETTINGS=/root/.local/share/code-server/User/settings.json
+            if ! grep -q '"locale"' "$SETTINGS" 2>/dev/null; then
+              # 合并写入 locale 字段，保留原有配置
+              python3 - "$SETTINGS" <<'PY'
+import json, sys, os
+p = sys.argv[1]
+d = json.load(open(p)) if os.path.exists(p) else {}
+d.setdefault("locale", "zh-cn")
+os.makedirs(os.path.dirname(p), exist_ok=True)
+with open(p, "w") as f:
+    json.dump(d, f, indent=2, ensure_ascii=False)
+PY
+            fi
+            echo "中文界面配置完成: locale=zh-cn"
 main:
   push:
     - name: build-check

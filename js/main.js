@@ -370,7 +370,8 @@ const icons = {
 /* ========================================
    语言管理 / Language Manager
    ======================================== */
-let currentLang = 'zh';
+// 语言偏好持久化：从 localStorage 恢复，默认中文（与主题 theme 记忆保持一致）
+let currentLang = localStorage.getItem('lang') || 'zh';
 
 function applyLanguage(lang) {
     currentLang = lang;
@@ -995,6 +996,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- 联系方式：用 CONTACT 常量同步 HTML（单一数据源） ---
     syncContactInfo();
 
+    // --- 语言：应用 localStorage 中保存的偏好（默认中文） ---
+    applyLanguage(currentLang);
+
     // --- 暗黑模式：初始化（localStorage 记忆，否则跟随系统） ---
     const themeToggle = document.getElementById('themeToggle');
     const savedTheme = localStorage.getItem('theme');
@@ -1191,11 +1195,12 @@ document.addEventListener('DOMContentLoaded', () => {
         navMenu.classList.toggle('active');
     });
 
-    // --- 语言切换 ---
+    // --- 语言切换：切换后写入 localStorage，刷新后保持（与暗黑模式一致） ---
     const langToggle = document.getElementById('langToggle');
     langToggle.addEventListener('click', () => {
         const newLang = currentLang === 'zh' ? 'en' : 'zh';
         applyLanguage(newLang);
+        localStorage.setItem('lang', newLang);
     });
 
     // --- 作品筛选 ---
