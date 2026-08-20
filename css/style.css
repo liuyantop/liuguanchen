@@ -825,6 +825,10 @@ body.lang-en .hero-title {
     margin-bottom: 8px;
 }
 
+.about-name-zh {
+    display: block;
+}
+
 .about-name-en {
     display: block;
     font-family: var(--font-display);
@@ -4156,14 +4160,4 @@ section:nth-of-type(even) {
     .vd-swatches { grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); }
     .ui-shots { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
     .scene-card-img { height: 110px; }
-}
-
-/* --- 无障碍：尊重系统"减弱动态效果"设置（WCAG 2.3.3） --- */
-@media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-        scroll-behavior: auto !important;
-    }
 }
