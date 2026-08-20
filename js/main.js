@@ -405,6 +405,14 @@ function applyLanguage(lang) {
     }
     const hm = document.getElementById('hamburger');
     if (hm) hm.setAttribute('aria-label', lang === 'zh' ? '菜单' : 'Menu');
+    const modalBack = document.getElementById('modalBack');
+    if (modalBack) modalBack.setAttribute('aria-label', lang === 'zh' ? '返回' : 'Back');
+    const modalClose = document.getElementById('modalClose');
+    if (modalClose) modalClose.setAttribute('aria-label', lang === 'zh' ? '关闭' : 'Close');
+    const lightboxClose = document.getElementById('lightboxClose');
+    if (lightboxClose) lightboxClose.setAttribute('aria-label', lang === 'zh' ? '关闭' : 'Close');
+    const backToTop = document.getElementById('backToTop');
+    if (backToTop) backToTop.setAttribute('aria-label', lang === 'zh' ? '回到顶部' : 'Back to top');
 
     // 重新渲染作品集（更新语言）
     renderWorks();

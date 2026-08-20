@@ -13,13 +13,15 @@
     --text-tertiary: #6b6b6b;
     --text-inverse: #fafafa;
     /* 品牌主色：活力红 */
-    --accent: #ff3b30;
-    --accent-hover: #ff5147;
-    --accent-soft: rgba(255, 59, 48, 0.08);
-    --accent-glow: rgba(255, 59, 48, 0.25);
-    --accent-gradient: linear-gradient(135deg, #ff3b30, #ff6b5a, #ff9500);
+    --accent: #d32f23;
+    --accent-hover: #e03e33;
+    --accent-soft: rgba(211, 47, 35, 0.08);
+    --accent-glow: rgba(211, 47, 35, 0.25);
+    --accent-gradient: linear-gradient(135deg, #d32f23, #e05445, #cc6b00);
     /* 第二辅助色：暖金 —— 用于装饰线、序号、次要强调 */
     --gold: #c9a227;
+    /* 金色小号文字专用（亮色下满足 WCAG AA 4.5:1） */
+    --gold-text: #8a6a12;
     --gold-soft: rgba(201, 162, 39, 0.1);
     --gold-glow: rgba(201, 162, 39, 0.25);
     /* 第三辅助色：靛蓝 —— 用于冷调光晕、信息提示 */
@@ -133,7 +135,7 @@ input, textarea { font-family: inherit; }
     font-family: var(--font-display);
     font-size: 14px;
     font-style: italic;
-    color: var(--gold);
+    color: var(--gold-text);
     letter-spacing: 2px;
     display: block;
     margin-bottom: 12px;
@@ -489,7 +491,11 @@ body.lang-en .section-title { font-weight: 700; }
     display: none;
     flex-direction: column;
     gap: 5px;
-    padding: 6px;
+    width: 44px;
+    height: 44px;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
     z-index: 1001;
 }
 
@@ -1499,7 +1505,7 @@ body.lang-en .hero-title {
     font-family: var(--font-display);
     font-size: 0.85rem;
     font-style: italic;
-    color: var(--gold);
+    color: var(--gold-text);
     font-weight: 600;
     margin-bottom: 8px;
     letter-spacing: 0.03em;
@@ -1533,7 +1539,7 @@ body.lang-en .hero-title {
     margin-bottom: 10px;
 }
 
-.timeline-content h4 {
+.timeline-content h3 {
     font-size: 1.15rem;
     font-weight: 700;
     margin-bottom: 4px;
@@ -3249,6 +3255,8 @@ a.contact-method:hover .contact-icon {
     --accent-glow: rgba(255, 77, 66, 0.35);
     --accent-gradient: linear-gradient(135deg, #ff4d42, #ff7a6e, #ff9500);
     --gold: #d4af37;
+    /* 金色文字在暗色下直接复用品牌金即可达标 */
+    --gold-text: #d4af37;
     --gold-soft: rgba(212, 175, 55, 0.12);
     --gold-glow: rgba(212, 175, 55, 0.3);
     --indigo: #818cf8;
@@ -3522,8 +3530,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 38px;
-    height: 38px;
+    width: 44px;
+    height: 44px;
     border: 1.5px solid var(--border-dark);
     border-radius: 100px;
     color: var(--text);
@@ -4148,4 +4156,14 @@ section:nth-of-type(even) {
     .vd-swatches { grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); }
     .ui-shots { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
     .scene-card-img { height: 110px; }
+}
+
+/* --- 无障碍：尊重系统"减弱动态效果"设置（WCAG 2.3.3） --- */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
 }
