@@ -1,5 +1,4 @@
 User-agent: *
 Allow: /
 
-# TODO: 部署后请将域名替换为真实域名
-Sitemap: https://liugc-portfolio.netlify.app/sitemap.xml
+Sitemap: https://liuyantop.github.io/liuguanchen/sitemap.xml

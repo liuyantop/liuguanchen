@@ -370,8 +370,10 @@ const icons = {
 /* ========================================
    语言管理 / Language Manager
    ======================================== */
-// 语言偏好持久化：从 localStorage 恢复，默认中文（与主题 theme 记忆保持一致）
-let currentLang = localStorage.getItem('lang') || 'zh';
+// 语言偏好持久化：URL 参数（?lang=en）> localStorage > 默认中文
+// 支持 hreflang 英文版 ?lang=en 直达；切换时同步回写 URL（见 langToggle）
+const urlLang = new URLSearchParams(window.location.search).get('lang');
+let currentLang = (urlLang === 'zh' || urlLang === 'en') ? urlLang : (localStorage.getItem('lang') || 'zh');
 
 function applyLanguage(lang) {
     currentLang = lang;
@@ -1201,6 +1203,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const newLang = currentLang === 'zh' ? 'en' : 'zh';
         applyLanguage(newLang);
         localStorage.setItem('lang', newLang);
+        // 同步回写 URL：en → ?lang=en；zh → 移除参数（保留 # 锚点），与 hreflang 保持一致
+        try {
+            const u = new URL(window.location.href);
+            if (newLang === 'en') u.searchParams.set('lang', 'en');
+            else u.searchParams.delete('lang');
+            history.replaceState(null, '', u.toString());
+        } catch (e) {}
     });
 
     // --- 作品筛选 ---

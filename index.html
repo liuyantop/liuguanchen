@@ -9,21 +9,25 @@
     <meta name="theme-color" id="themeColorMeta" content="#fafafa">
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231a1a1a'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='20' font-weight='700' fill='%23ff3b30' text-anchor='middle'%3EL%3C/text%3E%3C/svg%3E">
     <!-- Open Graph / 社交分享 -->
-    <!-- TODO: 部署后请将 https://liugc-portfolio.netlify.app/ 替换为真实域名
-         （社交平台爬虫不执行 JS，og:image / og:url 必须使用绝对 URL） -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://liugc-portfolio.netlify.app/">
+    <meta property="og:url" content="https://liuyantop.github.io/liuguanchen/">
     <meta property="og:title" content="刘冠辰 | 数字媒体艺术 · VR/3D设计作品集">
     <meta property="og:description" content="英国南安普顿大学数字媒体艺术硕士 · VR/AR沉浸式交互 × 3D建模 × AI辅助设计">
-    <meta property="og:image" content="https://liugc-portfolio.netlify.app/assets/iphi/poster.webp">
+    <meta property="og:image" content="https://liuyantop.github.io/liuguanchen/assets/iphi/poster.webp">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="1600">
     <meta property="og:locale" content="zh_CN">
     <meta property="og:locale:alternate" content="en_US">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="刘冠辰 | 数字媒体艺术 · VR/3D设计作品集">
     <meta name="twitter:description" content="英国南安普顿大学数字媒体艺术硕士 · VR/AR沉浸式交互 × 3D建模 × AI辅助设计">
-    <meta name="twitter:image" content="https://liugc-portfolio.netlify.app/assets/iphi/poster.webp">
+    <meta name="twitter:image" content="https://liuyantop.github.io/liuguanchen/assets/iphi/poster.webp">
     <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://liugc-portfolio.netlify.app/">
+    <link rel="canonical" href="https://liuyantop.github.io/liuguanchen/">
+    <!-- hreflang：中英双语为同一页面，英文版通过 ?lang=en 直达 -->
+    <link rel="alternate" hreflang="zh-CN" href="https://liuyantop.github.io/liuguanchen/">
+    <link rel="alternate" hreflang="en" href="https://liuyantop.github.io/liuguanchen/?lang=en">
+    <link rel="alternate" hreflang="x-default" href="https://liuyantop.github.io/liuguanchen/">
     <script>
         (function () {
             try {
@@ -42,13 +46,86 @@
     <script type="application/ld+json" id="personSchema">
     {
       "@context": "https://schema.org",
+      "@id": "https://liuyantop.github.io/liuguanchen/#person",
       "@type": "Person",
       "name": "刘冠辰",
       "alternateName": "Guanchen Liu",
       "jobTitle": "数字媒体艺术 / VR·3D 设计师",
+      "url": "https://liuyantop.github.io/liuguanchen/",
+      "image": "https://liuyantop.github.io/liuguanchen/assets/iphi/poster.webp",
       "email": "liugc367@163.com",
       "telephone": "+86 155 4645 9607",
+      "alumniOf": {
+        "@type": "CollegeOrUniversity",
+        "name": "University of Southampton",
+        "department": "Digital Media Art (MA)"
+      },
       "knowsAbout": ["VR/AR", "3D建模", "Blender", "Unity", "游戏设计", "AI辅助设计", "沉浸式交互装置"]
+    }
+    </script>
+    <script type="application/ld+json" id="websiteSchema">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "刘冠辰 | 数字媒体艺术 · VR/3D设计作品集",
+      "alternateName": "Guanchen Liu — Digital Media Art Portfolio",
+      "url": "https://liuyantop.github.io/liuguanchen/",
+      "description": "刘冠辰 — 英国南安普顿大学数字媒体艺术硕士，专注 VR/AR 沉浸式交互、3D 视觉设计与游戏设计的个人作品集。",
+      "inLanguage": ["zh-CN", "en"],
+      "publisher": { "@id": "https://liuyantop.github.io/liuguanchen/#person" }
+    }
+    </script>
+    <script type="application/ld+json" id="worksSchema">
+    {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      "name": "代表作品 / Selected Projects",
+      "itemListElement": [
+        {
+          "@type": "CreativeWork",
+          "position": 1,
+          "name": "IPHI",
+          "url": "https://liuyantop.github.io/liuguanchen/#iphi",
+          "image": "https://liuyantop.github.io/liuguanchen/assets/iphi/poster.webp",
+          "description": "一款以大城市职场生存为题材的数字叙事游戏，将过度工作的代价转化为与爱好、健康、自尊的象征性 Boss 战。",
+          "genre": "Game Design / Digital Narrative",
+          "datePublished": "2026",
+          "creator": { "@id": "https://liuyantop.github.io/liuguanchen/#person" }
+        },
+        {
+          "@type": "CreativeWork",
+          "position": 2,
+          "name": "Relaxing Travel · 基于情境体验的游戏场景设计研究",
+          "url": "https://liuyantop.github.io/liuguanchen/#works",
+          "image": "https://liuyantop.github.io/liuguanchen/assets/covers/BV1SvbS6YEiv.webp",
+          "description": "通过 Blender 3D 建模构建六个沉浸式治愈空间，以几何意象与视觉隐喻引导用户从焦虑走向放松，并配套海报与杂志设计。",
+          "genre": "3D Modeling / Digital Media",
+          "datePublished": "2025",
+          "creator": { "@id": "https://liuyantop.github.io/liuguanchen/#person" }
+        },
+        {
+          "@type": "CreativeWork",
+          "position": 3,
+          "name": "Art Incubator · 艺术孵化器",
+          "url": "https://liuyantop.github.io/liuguanchen/#works",
+          "image": "https://liuyantop.github.io/liuguanchen/assets/covers/BV1NAbS6xEXT.webp",
+          "description": "VR/交互装置：以中国美术联考为切口，通过红外感应与实时投影反思应试教育下的心理健康与单一评价体系。",
+          "genre": "VR / Interactive Installation",
+          "datePublished": "2025",
+          "creator": { "@id": "https://liuyantop.github.io/liuguanchen/#person" }
+        },
+        {
+          "@type": "CreativeWork",
+          "position": 4,
+          "name": "Decompression Island · 减压岛",
+          "url": "https://liuyantop.github.io/liuguanchen/#works",
+          "image": "https://liuyantop.github.io/liuguanchen/assets/decompression-island/scene-main.webp",
+          "description": "结合 VR 沉浸式体验与移动 App 的冥想减压应用，覆盖情绪记录、AI 咨询、场景化冥想引导与社交分享。",
+          "genre": "VR/AR App Design",
+          "datePublished": "2025",
+          "creator": { "@id": "https://liuyantop.github.io/liuguanchen/#person" }
+        }
+      ]
     }
     </script>
 </head>
@@ -691,6 +768,6 @@
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 16V4M4 10l6-6 6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </button>
 
-    <script src="js/main.js?v=20260821langfix"></script>
+    <script src="js/main.js?v=20260821seo"></script>
 </body>
 </html>
