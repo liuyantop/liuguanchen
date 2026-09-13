@@ -18,3 +18,7 @@ Thumbs.db
 
 # --- 图片优化脚本的原始文件备份目录（转换 WebP 后的原 PNG/JPG 存放处） ---
 assets/_original_backup/
+
+# --- 简历 PDF 生成产物与临时工作目录（部署不依赖，体积大） ---
+output/
+tmp/
