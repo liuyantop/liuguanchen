@@ -1,11 +1,10 @@
 /* ========================================
    联系信息 / Contact Info（统一配置，避免多处硬编码不一致）
    HTML 中的联系方式由 syncContactInfo() 同步到此常量，确保单一数据源。
-   修改邮箱/电话只需改这里，HTML 链接、显示文本、JSON-LD 会自动同步。
+   修改邮箱只需改这里，HTML 链接、显示文本、JSON-LD 会自动同步。
    ======================================== */
 const CONTACT = {
-    email: 'liugc367@163.com',
-    phone: '15546459607'
+    email: 'liugc367@163.com'
 };
 
 /* 将 CONTACT 同步到 HTML：联系链接、显示文本、JSON-LD、降级提示邮箱 */
@@ -17,21 +16,12 @@ function syncContactInfo() {
     document.querySelectorAll('[data-contact="email-text"]').forEach(el => {
         el.textContent = CONTACT.email;
     });
-    // 电话链接与显示文本
-    document.querySelectorAll('[data-contact="phone-link"]').forEach(el => {
-        el.setAttribute('href', `tel:${CONTACT.phone}`);
-    });
-    document.querySelectorAll('[data-contact="phone-text"]').forEach(el => {
-        el.textContent = CONTACT.phone;
-    });
     // 同步 JSON-LD Person 结构化数据（Google 索引时会执行 JS）
     const schema = document.getElementById('personSchema');
     if (schema) {
         try {
             const data = JSON.parse(schema.textContent);
             data.email = CONTACT.email;
-            // 格式化为 E.164 友好格式：+86 155 4645 9607
-            data.telephone = `+86 ${CONTACT.phone.replace(/(\d{3})(\d{4})(\d{4})/, '$1 $2 $3')}`;
             schema.textContent = JSON.stringify(data, null, 2);
         } catch (e) { /* JSON-LD 解析失败则保留 HTML 原值 */ }
     }
@@ -426,9 +416,9 @@ function renderWorks(filter = 'all') {
     const filtered = filter === 'all' ? worksData : worksData.filter(w => w.category === filter);
 
     grid.innerHTML = filtered.map(work => `
-        <div class="work-card${work.featured ? ' work-card-featured' : ''}" data-id="${work.id}" data-category="${work.category}">
+        <div class="work-card${work.featured ? ' work-card-featured' : ''}" data-id="${work.id}" data-category="${work.category}" role="button" tabindex="0" aria-label="${currentLang === 'zh' ? '查看作品：' + work.titleZh : 'View project: ' + work.titleEn}">
             <div class="work-thumb">
-                ${work.thumb ? `<picture class="work-thumb-bg"><source srcset="${work.thumb}" type="image/webp"><img src="${work.thumb.replace(/\.webp$/i, '.jpg')}" alt="${currentLang === 'zh' ? work.titleZh : work.titleEn}" loading="lazy" decoding="async"></picture>` : `<div class="work-thumb-bg" style="background: ${work.gradient};"></div>`}
+                ${work.thumb ? `<picture class="work-thumb-bg"><source srcset="${work.thumb}" type="image/webp"><img src="${work.thumb}" alt="${currentLang === 'zh' ? work.titleZh : work.titleEn}" loading="lazy" decoding="async"></picture>` : `<div class="work-thumb-bg" style="background: ${work.gradient};"></div>`}
                 ${work.thumb ? '' : `<div class="work-thumb-icon">${icons[work.icon] || icons.award}</div>`}
                 <span class="work-year">${work.year}</span>
                 ${work.featured ? '<span class="work-featured-badge">★ Featured</span>' : ''}
@@ -441,9 +431,16 @@ function renderWorks(filter = 'all') {
         </div>
     `).join('');
 
-    // 绑定点击事件
+    // 绑定点击与键盘事件
     grid.querySelectorAll('.work-card').forEach(card => {
-        card.addEventListener('click', () => openModal(parseInt(card.dataset.id)));
+        const openProject = () => openModal(parseInt(card.dataset.id, 10));
+        card.addEventListener('click', openProject);
+        card.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                openProject();
+            }
+        });
     });
 
     // 重新观察新卡片
@@ -466,13 +463,12 @@ function buildTrailerHTML(work, embed) {
         const coverWebp = work.trailerCover || work.thumb;
         // embed=true（如 IPHI 预告片占位已由外层按钮触发）或无封面时，直接注入 iframe
         if (!embed && coverWebp) {
-            const coverJpg = coverWebp.replace(/\.webp$/i, '.jpg');
             const playLabel = currentLang === 'zh' ? '点击播放' : 'Click to play';
             const coverAlt = currentLang === 'zh' ? '视频封面' : 'Video cover';
             return `<button type="button" class="trailer-placeholder modal-trailer-placeholder" data-iframe-src="${iframeSrc}" aria-label="${playLabel}">
                 <picture>
                     <source srcset="${coverWebp}" type="image/webp">
-                    <img src="${coverJpg}" alt="${coverAlt}" class="trailer-placeholder-img" loading="lazy" decoding="async">
+                    <img src="${coverWebp}" alt="${coverAlt}" class="trailer-placeholder-img" loading="lazy" decoding="async">
                 </picture>
                 <span class="trailer-placeholder-play">
                     <svg width="40" height="40" viewBox="0 0 40 40" fill="none" aria-hidden="true">
@@ -1190,8 +1186,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 const top = target.getBoundingClientRect().top + window.scrollY - offset;
                 window.scrollTo({ top, behavior: 'smooth' });
                 // 关闭移动端菜单
-                document.getElementById('navMenu').classList.remove('active');
-                document.getElementById('hamburger').classList.remove('active');
+                const menu = document.getElementById('navMenu');
+                const menuButton = document.getElementById('hamburger');
+                menu.classList.remove('active');
+                menuButton.classList.remove('active');
+                menuButton.setAttribute('aria-expanded', 'false');
             }
         });
     });
@@ -1201,8 +1200,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const navMenu = document.getElementById('navMenu');
 
     hamburger.addEventListener('click', () => {
-        hamburger.classList.toggle('active');
-        navMenu.classList.toggle('active');
+        const isOpen = !navMenu.classList.contains('active');
+        hamburger.classList.toggle('active', isOpen);
+        navMenu.classList.toggle('active', isOpen);
+        hamburger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
     });
 
     // --- 语言切换：切换后写入 localStorage，刷新后保持（与暗黑模式一致） ---
