@@ -1,24 +1,64 @@
 """一次性压缩：CSS/JS → .min 版本。
-依赖：csscompressor (CSS 安全)、jsmin (JS)。
-注意：main.js 大量使用 ES6 模板字符串，jsmin 对反引号字符串处理可能不完美，
-因此 JS 压缩后会做一次完整性校验（含模板字符串标记），失败则不产出 .min 并提示。
+CSS 会优先使用 csscompressor；缺少依赖时使用内置保守压缩器。
+JS 会优先使用 jsmin；缺少依赖时跳过 JS 压缩，因为 main.js 使用大量模板字符串。
 """
 import os
-import sys
+import re
 
 try:
     from csscompressor import compress as css_min
 except ImportError:
-    print('[错误] 缺少依赖 csscompressor，请执行: pip install csscompressor', file=sys.stderr)
-    sys.exit(1)
+    css_min = None
 
 try:
     from jsmin import jsmin
 except ImportError:
-    print('[错误] 缺少依赖 jsmin，请执行: pip install jsmin', file=sys.stderr)
-    sys.exit(1)
+    jsmin = None
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+
+def _strip_css_comments(css):
+    result = []
+    i = 0
+    quote = None
+    while i < len(css):
+        ch = css[i]
+        nxt = css[i + 1] if i + 1 < len(css) else ''
+        if quote:
+            result.append(ch)
+            if ch == '\\' and i + 1 < len(css):
+                result.append(css[i + 1])
+                i += 2
+                continue
+            if ch == quote:
+                quote = None
+            i += 1
+            continue
+        if ch in ('"', "'"):
+            quote = ch
+            result.append(ch)
+            i += 1
+            continue
+        if ch == '/' and nxt == '*':
+            i += 2
+            while i + 1 < len(css) and not (css[i] == '*' and css[i + 1] == '/'):
+                i += 1
+            i += 2
+            continue
+        result.append(ch)
+        i += 1
+    return ''.join(result)
+
+
+def conservative_css_min(css):
+    """保留 calc() 所需空格的基础压缩器，避免激进改写导致样式失效。"""
+    css = _strip_css_comments(css)
+    css = re.sub(r'\s+', ' ', css).strip()
+    css = re.sub(r'\s*([{}:;,>])\s*', r'\1', css)
+    css = re.sub(r';}', '}', css)
+    css = re.sub(r'\s*([~|^$*]?=)\s*', r'\1', css)
+    return css
 
 
 def minify_css():
@@ -26,13 +66,21 @@ def minify_css():
     out = os.path.join(ROOT, 'css', 'style.min.css')
     with open(src, 'r', encoding='utf-8') as f:
         data = f.read()
-    mini = css_min(data)
+    if css_min:
+        mini = css_min(data)
+        method = 'csscompressor'
+    else:
+        mini = conservative_css_min(data)
+        method = 'built-in conservative'
     with open(out, 'w', encoding='utf-8') as f:
         f.write(mini)
-    print(f'CSS: {len(data)} -> {len(mini)} bytes ({100*len(mini)/len(data):.1f}%)')
+    print(f'CSS ({method}): {len(data)} -> {len(mini)} bytes ({100*len(mini)/len(data):.1f}%)')
 
 
 def minify_js():
+    if jsmin is None:
+        print('JS: 缺少 jsmin，跳过 JS 压缩；index.html 继续引用 main.js 源文件')
+        return False
     src = os.path.join(ROOT, 'js', 'main.js')
     out = os.path.join(ROOT, 'js', 'main.min.js')
     with open(src, 'r', encoding='utf-8') as f:

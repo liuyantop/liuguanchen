@@ -245,6 +245,7 @@ body.lang-en .section-title { font-weight: 700; }
 .loader.hidden {
     opacity: 0;
     visibility: hidden;
+    pointer-events: none;
 }
 
 .loader-text {
@@ -387,6 +388,10 @@ body.lang-en .section-title { font-weight: 700; }
     font-weight: 700;
     font-size: 1rem;
     transition: opacity 0.3s;
+}
+
+.logo-text-short {
+    display: none;
 }
 
 .logo-mark {
@@ -1242,6 +1247,63 @@ body.lang-en .hero-title {
     margin-bottom: 24px;
 }
 
+.modal-recruit-summary {
+    margin: 20px 0 26px;
+    padding: 22px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: linear-gradient(135deg, var(--bg-alt), var(--surface));
+}
+
+.modal-recruit-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.modal-recruit-head span {
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: var(--text);
+}
+
+.modal-recruit-head small {
+    font-size: 0.78rem;
+    color: var(--text-tertiary);
+}
+
+.modal-recruit-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.modal-recruit-item {
+    padding: 14px;
+    border-radius: 12px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+}
+
+.modal-recruit-label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 0.76rem;
+    font-weight: 700;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.modal-recruit-value {
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.65;
+    color: var(--text-secondary);
+}
+
 .modal-tools {
     display: flex;
     flex-wrap: wrap;
@@ -1379,6 +1441,8 @@ body.lang-en .hero-title {
 .skill-info {
     display: flex;
     justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
     margin-bottom: 8px;
     font-size: 0.9rem;
     font-weight: 500;
@@ -1387,6 +1451,8 @@ body.lang-en .hero-title {
 .skill-pct {
     color: var(--text-tertiary);
     font-weight: 400;
+    flex-shrink: 0;
+    text-align: right;
 }
 
 .skill-bar {
@@ -1614,7 +1680,19 @@ a.contact-method {
     color: inherit;
 }
 
-a.contact-method:hover {
+button.contact-method {
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+}
+
+a.contact-method:hover,
+button.contact-method:hover {
     transform: translateX(6px);
 }
 
@@ -1633,7 +1711,8 @@ a.contact-method:hover {
     box-shadow: var(--shadow-sm);
 }
 
-a.contact-method:hover .contact-icon {
+a.contact-method:hover .contact-icon,
+button.contact-method:hover .contact-icon {
     background: var(--accent);
     color: #fff;
     border-color: var(--accent);
@@ -1997,6 +2076,15 @@ a.contact-method:hover .contact-icon {
         padding: 28px;
     }
 
+    .modal-recruit-head {
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .modal-recruit-grid {
+        grid-template-columns: 1fr;
+    }
+
     .contact-card {
         padding: 28px;
     }
@@ -2004,16 +2092,11 @@ a.contact-method:hover .contact-icon {
 
 @media (max-width: 480px) {
     .logo-text {
-        font-size: 0;
+        display: none;
     }
 
-    .logo-text::after {
-        content: '刘冠辰';
-        font-size: 0.95rem;
-    }
-
-    body.lang-en .logo-text::after {
-        content: 'Guanchen';
+    .logo-text-short {
+        display: inline;
     }
 
     .hero-actions {
@@ -3361,7 +3444,8 @@ a.contact-method:hover .contact-icon {
 
 /* 导航栏 logo 文字在暗黑模式下必须清晰可见 */
 [data-theme="dark"] .nav-logo,
-[data-theme="dark"] .nav-logo .logo-text {
+[data-theme="dark"] .nav-logo .logo-text,
+[data-theme="dark"] .nav-logo .logo-text-short {
     color: #ffffff !important;
 }
 

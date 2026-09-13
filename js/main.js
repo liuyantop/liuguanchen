@@ -16,6 +16,10 @@ function syncContactInfo() {
     document.querySelectorAll('[data-contact="email-text"]').forEach(el => {
         el.textContent = CONTACT.email;
     });
+    document.querySelectorAll('[data-contact="email-copy"]').forEach(el => {
+        const label = currentLang === 'en' ? 'Copy email ' : '复制邮箱 ';
+        el.setAttribute('aria-label', label + CONTACT.email);
+    });
     // 同步 JSON-LD Person 结构化数据（Google 索引时会执行 JS）
     const schema = document.getElementById('personSchema');
     if (schema) {
@@ -28,6 +32,28 @@ function syncContactInfo() {
     // 降级提示中的邮箱
     const fallbackEmail = document.getElementById('formFallbackEmail');
     if (fallbackEmail) fallbackEmail.textContent = CONTACT.email;
+}
+
+function copyTextToClipboard(text, onCopied) {
+    const copyLegacy = () => {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try {
+            document.execCommand('copy');
+            onCopied();
+        } catch (e) { /* ignore */ }
+        ta.remove();
+    };
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(onCopied).catch(copyLegacy);
+    } else {
+        copyLegacy();
+    }
 }
 
 /* ========================================
@@ -56,8 +82,20 @@ const worksData = [
         catEn: 'VR / Interaction',
         category: 'vr',
         year: '2025',
-        descZh: '作品以中国美术联考为切口，提供一个审视应试教育的独特视角。装置直指联考导向教育的深层问题：考试压力导致的学生心理健康危机，以及以分数为中心的单一评价体系的缺陷。通过生动的隐喻，让观众直观看到个人发展受限、学习趋于功利等问题，促使人们深入反思教育的本质，并更加关注学生的心理状态与真实需求。',
-        descEn: 'This piece offers a unique perspective on examination-oriented art education in China. It directly addresses the deep problems of the Liankao-driven system: the mental health crisis caused by exam pressure, and the flaws of a score-centered, one-dimensional evaluation system. Through vivid metaphors, it helps people see the stifling of personal growth and the rise of utilitarian learning — prompting deep reflection on education and greater attention to students\' psychological state and real needs.',
+        descZh: '负责概念、结构、硬件触发与展览呈现，将美术联考压力转化为可互动装置。项目完成 Arduino 红外感应、实时投影和空间叙事闭环，展示从社会议题研究到现场落地的完整交互设计能力。',
+        descEn: 'Led concept, structure, sensor trigger logic, and exhibition presentation for an interactive installation about China\'s art entrance exam pressure. Delivered an Arduino + IR sensor + real-time projection workflow, showing full-cycle ability from social research to on-site interactive experience.',
+        recruitHighlightsZh: [
+            { label: '我的职责', value: '主导概念设定、空间结构、交互逻辑、硬件触发与展览呈现。' },
+            { label: '核心产出', value: '完成可互动装置、Arduino 红外感应、实时投影、结构设计图与现场展示素材。' },
+            { label: '工作方法', value: '从考前画室调研出发，把学生压力转译为孵化、吞噬和困局等空间隐喻。' },
+            { label: '岗位价值', value: '证明能把社会议题、硬件交互、空间叙事和现场执行整合成完整体验。' }
+        ],
+        recruitHighlightsEn: [
+            { label: 'Role', value: 'Led concept, spatial structure, interaction logic, hardware triggers, and exhibition presentation.' },
+            { label: 'Deliverables', value: 'Delivered an interactive installation, Arduino IR sensing, real-time projection, structural plans, and exhibition assets.' },
+            { label: 'Process', value: 'Translated field research from exam-prep studios into spatial metaphors of incubation, pressure, and constraint.' },
+            { label: 'Hiring Value', value: 'Shows the ability to connect social research, hardware interaction, spatial narrative, and on-site execution.' }
+        ],
         tools: ['Arduino', '红外传感器', '实时投影', 'CAD 结构设计'],
         roleZh: '主设计师 / 技术实施',
         roleEn: 'Lead Designer / Technical Implementation',
@@ -91,8 +129,20 @@ const worksData = [
         catEn: 'VR / AR App Design',
         category: 'vr',
         year: '2025',
-        descZh: '针对东亚高压社会下年轻人的焦虑与抑郁问题，设计了一款结合 VR 沉浸式体验与移动 App 的冥想减压应用。项目构建了奇幻紫蓝色调的虚拟冥想场景，涵盖情绪记录、AI 智能咨询、场景化冥想引导与社交分享功能。经过 5 人用户测试与多轮迭代，根据用户反馈实时调整场景与音乐，有效帮助用户缓解压力、恢复内心平静。',
-        descEn: 'A meditation and stress-relief app combining VR immersive experiences with a mobile application, designed for young people facing anxiety and depression in East Asia\'s high-pressure society. The project builds fantastical purple-blue virtual meditation scenes, covering mood tracking, AI-powered consultation, guided scene-based meditation, and social sharing. After user testing with 5 participants and multiple iterations, scenes and music were adjusted in real time based on feedback, effectively helping users alleviate stress and restore inner peace.',
+        descZh: '独立完成 VR 冥想场景、移动端 App 流程与视觉系统设计，围绕情绪记录、AI 咨询、场景化冥想和社交分享构建完整产品体验。通过 5 人用户测试迭代场景、音乐和图标风格。',
+        descEn: 'Designed the VR meditation scenes, mobile app flow, and visual system as a solo project. Built a complete product experience around mood tracking, AI consultation, guided scene-based meditation, and social sharing, then iterated scenes, music, and icon style through 5-user testing.',
+        recruitHighlightsZh: [
+            { label: '我的职责', value: '独立负责用户洞察、信息架构、VR 场景、App UI、品牌视觉和测试迭代。' },
+            { label: '核心产出', value: '完成 5 个治愈场景、移动端界面流程、情绪记录、AI 咨询和社交分享模块。' },
+            { label: '验证方式', value: '基于 5 人用户测试调整音乐氛围、图标一致性和场景情绪匹配。' },
+            { label: '岗位价值', value: '展示从心理健康需求到 3D 场景、UI 原型和产品体验整合的能力。' }
+        ],
+        recruitHighlightsEn: [
+            { label: 'Role', value: 'Owned user insight, information architecture, VR scenes, app UI, visual identity, and testing iteration.' },
+            { label: 'Deliverables', value: 'Created 5 healing scenes, mobile user flows, mood tracking, AI consultation, and social sharing modules.' },
+            { label: 'Validation', value: 'Used 5-user testing to refine music mood, icon consistency, and scene-emotion matching.' },
+            { label: 'Hiring Value', value: 'Shows the ability to translate mental-health needs into 3D scenes, UI prototypes, and product experience.' }
+        ],
         tools: ['Blender', '3D 建模', 'UI 设计', 'VR 开发'],
         roleZh: '独立创作者',
         roleEn: 'Solo Creator',
@@ -201,8 +251,20 @@ const worksData = [
         catEn: '3D / Digital Media',
         category: '3d',
         year: '2025',
-        descZh: '本研究聚焦于东亚高压社会环境下，职场内卷、学业压力与家庭责任交织带来的心理健康危机。通过 Blender 3D 建模与游戏场景设计，构建了六个沉浸式治愈空间：积水洞穴、花海地铁、鸟居树林、像素化草原山、雨滴幻境与云端漫步。以几何意象与视觉隐喻引导用户从焦虑走向放松，并配套海报设计与杂志《RELAXING TRAVEL》系统呈现场景元素与疗愈理念。',
-        descEn: 'Focused on the mental health crisis amid workplace involution, academic pressure, and family responsibilities in East Asia, this study builds six immersive healing spaces via Blender 3D modeling: a ponded water cave, a flower-filled subway, a torii grove, pixelated grassland mountains, a raindrop dreamscape, and a cloud walk. Geometric symbols and visual metaphors guide users from anxiety to relaxation. Derivatives include poster designs and the magazine RELAXING TRAVEL, which systematically presents scene elements and the healing philosophy.',
+        descZh: '以毕业设计研究形式独立完成 6 个 Blender 治愈场景、系列海报和杂志视觉延展。项目把焦虑、通勤、学业与家庭责任等压力情境转译为空间隐喻，适配游戏场景、数字文旅和沉浸式空间视觉方向。',
+        descEn: 'Independently delivered 6 Blender healing environments, poster series, and magazine-style visual extensions as a thesis project. Translated anxiety, commuting, academic pressure, and family responsibility into spatial metaphors for game environments, digital tourism, and immersive visual design.',
+        recruitHighlightsZh: [
+            { label: '我的职责', value: '独立完成主题研究、场景概念、Blender 建模渲染、海报和杂志视觉延展。' },
+            { label: '核心产出', value: '完成 6 个沉浸式治愈空间、2 张系列海报和《RELAXING TRAVEL》视觉呈现。' },
+            { label: '设计方法', value: '将压力情境拆解为积水洞穴、花海地铁、鸟居树林等可识别空间意象。' },
+            { label: '岗位价值', value: '适合展示游戏场景设计、数字文旅视觉、3D 氛围营造和叙事空间能力。' }
+        ],
+        recruitHighlightsEn: [
+            { label: 'Role', value: 'Independently handled theme research, scene concepts, Blender modeling/rendering, posters, and magazine visuals.' },
+            { label: 'Deliverables', value: 'Delivered 6 immersive healing spaces, 2 poster designs, and RELAXING TRAVEL visual presentation.' },
+            { label: 'Method', value: 'Mapped stress scenarios into recognizable spatial motifs such as cave water, floral subway, and torii grove.' },
+            { label: 'Hiring Value', value: 'Demonstrates game environment design, digital tourism visuals, 3D mood building, and narrative space design.' }
+        ],
         tools: ['Blender', '3D 建模', '平面设计', '海报设计'],
         roleZh: '独立创作者',
         roleEn: 'Solo Creator',
@@ -235,8 +297,20 @@ const worksData = [
         category: 'game',
         year: '2026',
         featured: true,
-        descZh: '一款以大城市职场生存为题材的数字叙事游戏。主角 Iphi 来到大城市追求"更好的未来"，但高昂的房租与生活成本让她被迫在个人边界与短期稳定之间不断妥协。当工作带来的损耗累积到临界点，爱好、健康与自尊会以 Boss 的形式在梦境空间中反扑——它们不是反派，而是被压抑的自我。',
-        descEn: 'A digital narrative game about surviving as a young professional in a big city. Protagonist Iphi moves to a metropolis for a "better future," but crushing rent and living costs force her to compromise personal boundaries for short-term stability. When the toll of overwork reaches a breaking point, her hobbies, health, and self-esteem return as Bosses in dreamlike spaces — not as enemies, but as repressed parts of herself.',
+        descZh: '担任 5 人团队项目主导，负责立项、叙事框架、任务推进、3D 动画、海报和 Themis 角色立绘。5 个月交付可展示版本，包含对话、调查、小游戏、Boss 战和官网/宣发物料，完整体现游戏叙事与落地协作能力。',
+        descEn: 'Led a 5-person digital narrative game team, owning project setup, narrative structure, task coordination, 3D animation, poster design, and Themis character art. Delivered a playable showcase build in 5 months with dialogue, investigation, mini-game, Boss battles, website, and promotional assets.',
+        recruitHighlightsZh: [
+            { label: '我的职责', value: '项目主导，负责立项、叙事框架、任务拆分、3D 动画、海报和 Themis 角色立绘。' },
+            { label: '核心产出', value: '带领 5 人团队在 5 个月内完成展示版，包含对话、调查、小游戏、Boss 战和官网。' },
+            { label: '推进方式', value: '用版本里程碑管理资产合入、战斗节奏、UI 文案和可玩流程，从 v0.6 推进到 v0.9。' },
+            { label: '岗位价值', value: '集中证明团队协作、叙事设计、3D 演出、宣发物料和跨模块落地能力。' }
+        ],
+        recruitHighlightsEn: [
+            { label: 'Role', value: 'Project lead responsible for setup, narrative structure, task breakdown, 3D animation, poster, and Themis character art.' },
+            { label: 'Deliverables', value: 'Led a 5-person team to deliver a playable showcase build in 5 months with dialogue, investigation, mini-game, Boss battles, and website.' },
+            { label: 'Execution', value: 'Managed asset integration, battle pacing, UI copy, and playable flow through milestones from v0.6 to v0.9.' },
+            { label: 'Hiring Value', value: 'Proves team coordination, narrative design, 3D cinematic work, promotion assets, and cross-module execution.' }
+        ],
         tools: ['RPGMaker', 'Blender', 'Photoshop', 'After Effects'],
         roleZh: '项目主导 / 叙事设计 / 3D动画 / 海报设计',
         roleEn: 'Project Lead / Narrative Design / 3D Animation / Poster Design',
@@ -403,6 +477,13 @@ function applyLanguage(lang) {
     if (lightboxClose) lightboxClose.setAttribute('aria-label', lang === 'zh' ? '关闭' : 'Close');
     const backToTop = document.getElementById('backToTop');
     if (backToTop) backToTop.setAttribute('aria-label', lang === 'zh' ? '回到顶部' : 'Back to top');
+    document.querySelectorAll('[data-logo-label-zh][data-logo-label-en]').forEach(el => {
+        el.setAttribute('aria-label', lang === 'zh' ? el.dataset.logoLabelZh : el.dataset.logoLabelEn);
+    });
+    document.querySelectorAll('[data-contact="email-copy"]').forEach(el => {
+        const label = lang === 'zh' ? '复制邮箱 ' : 'Copy email ';
+        el.setAttribute('aria-label', label + CONTACT.email);
+    });
 
     // 重新渲染作品集（更新语言）
     renderWorks();
@@ -488,6 +569,28 @@ function buildTrailerHTML(work, embed) {
     return '';
 }
 
+function renderRecruitHighlights(work) {
+    const highlights = currentLang === 'zh' ? work.recruitHighlightsZh : work.recruitHighlightsEn;
+    if (!highlights || !highlights.length) return '';
+
+    return `
+        <div class="modal-recruit-summary">
+            <div class="modal-recruit-head">
+                <span>${currentLang === 'zh' ? '招聘快速摘要' : 'Recruiter Snapshot'}</span>
+                <small>${currentLang === 'zh' ? '先看职责、产出与岗位价值' : 'Role, output, and hiring value at a glance'}</small>
+            </div>
+            <div class="modal-recruit-grid">
+                ${highlights.map(item => `
+                    <div class="modal-recruit-item">
+                        <span class="modal-recruit-label">${item.label}</span>
+                        <p class="modal-recruit-value">${item.value}</p>
+                    </div>
+                `).join('')}
+            </div>
+        </div>
+    `;
+}
+
 function openModal(id) {
     const work = worksData.find(w => w.id === id);
     if (!work) return;
@@ -519,6 +622,7 @@ function openModal(id) {
                 ${work.engine ? `<span class="modal-meta-item"><strong>${currentLang === 'zh' ? '引擎' : 'Engine'}:</strong> ${work.engine}</span>` : ''}
                 ${work.genreZh ? `<span class="modal-meta-item"><strong>${currentLang === 'zh' ? '类型' : 'Genre'}:</strong> ${currentLang === 'zh' ? work.genreZh : work.genreEn}</span>` : ''}
             </div>
+            ${renderRecruitHighlights(work)}
             <p class="modal-desc">${desc}</p>
 
             ${work.projectOverviewZh ? `
@@ -1320,32 +1424,31 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 3000);
     });
 
+    const showEmailCopied = (target, resetText) => {
+        target.textContent = currentLang === 'zh' ? `已复制 ${CONTACT.email}` : `Copied ${CONTACT.email}`;
+        setTimeout(resetText, 2000);
+    };
+
+    // 联系卡片：直接复制邮箱到剪贴板
+    const copyEmailBtn = document.getElementById('copyEmailBtn');
+    if (copyEmailBtn) {
+        copyEmailBtn.addEventListener('click', () => {
+            const status = document.querySelector('[data-contact="email-copy-status"]');
+            if (!status) return;
+            const resetText = () => status.textContent = status.dataset[currentLang] || CONTACT.email;
+            copyTextToClipboard(CONTACT.email, () => showEmailCopied(status, resetText));
+        });
+    }
+
     // 降级提示：复制邮箱到剪贴板
     const formFallbackCopy = document.getElementById('formFallbackCopy');
     if (formFallbackCopy) {
         formFallbackCopy.addEventListener('click', () => {
-            const email = CONTACT.email;
-            const doneLabel = currentLang === 'zh' ? '已复制' : 'Copied';
             const resetLabel = () => formFallbackCopy.textContent = currentLang === 'zh' ? '复制' : 'Copy';
-            const copyLegacy = (text) => {
-                const ta = document.createElement('textarea');
-                ta.value = text;
-                ta.style.position = 'fixed';
-                ta.style.opacity = '0';
-                document.body.appendChild(ta);
-                ta.select();
-                try { document.execCommand('copy'); formFallbackCopy.textContent = doneLabel; } catch (e) { /* ignore */ }
-                ta.remove();
+            copyTextToClipboard(CONTACT.email, () => {
+                formFallbackCopy.textContent = currentLang === 'zh' ? '已复制' : 'Copied';
                 setTimeout(resetLabel, 2000);
-            };
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(email).then(() => {
-                    formFallbackCopy.textContent = doneLabel;
-                    setTimeout(resetLabel, 2000);
-                }).catch(() => copyLegacy(email));
-            } else {
-                copyLegacy(email);
-            }
+            });
         });
     }
 
